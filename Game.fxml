@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="957.0" prefWidth="1780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="war.economy.beta.GameController">
+   <children>
+      <HBox prefHeight="10.0" prefWidth="600.0">
+         <children>
+            <Label fx:id="guiFunds" text="Label" />
+            <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" />
+            <Label fx:id="guiHeat" text="Label" />
+            <Separator layoutX="38.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" />
+            <Label fx:id="guiPlayerPos" layoutX="84.0" layoutY="10.0" text="Label" />
+         </children>
+      </HBox>
+      <TabPane prefHeight="385.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <tabs>
+          <Tab text="Map">
+               <content>
+                  <ScrollPane pannable="true">
+                     <content>
+                        <Pane prefHeight="911.0" prefWidth="1780.0">
+                           <children>
+                              <ImageView fitHeight="1231.0" fitWidth="2577.0" layoutX="32.0" layoutY="24.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@ace%20-%20strangereal.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                              <MenuButton layoutX="440.0" layoutY="250.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                                <items>
+                                  <MenuItem fx:id="trvEmm" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
+                                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                                </items>
+                              </MenuButton>
+                              <MenuButton layoutX="473.0" layoutY="462.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                                 <items>
+                                    <MenuItem fx:id="trvYuk" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
+                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                 </items>
+                              </MenuButton>
+                              <MenuButton layoutX="1030.0" layoutY="523.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                                 <items>
+                                    <MenuItem fx:id="trvOsea" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
+                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                 </items>
+                              </MenuButton>
+                              <MenuButton layoutX="1153.0" layoutY="163.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                                 <items>
+                                    <MenuItem fx:id="trvWel" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
+                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                 </items>
+                              </MenuButton>
+                           </children>
+                        </Pane>
+                     </content>
+                  </ScrollPane>
+               </content>
+          </Tab>
+            <Tab text="Inventory">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Agents">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Trade Missions">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>
