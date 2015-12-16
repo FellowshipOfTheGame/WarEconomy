@@ -1,0 +1,28 @@
+hell.help = [[
+Hellfire do War Economy
+`hell` pra deixar tudo certo, `hell run` pra rodar ;] ]]
+
+local utils = hell.utils
+hell.outdir = 'build'
+
+-- nomes importantes
+pkgName = "war.economy.beta"
+mainClass = pkgName .. ".WarEconomyBeta"
+
+-- compila os java
+jstuff = java {
+	input = utils.recursiveGlob ('*.java', 'src')
+}
+
+-- e copia o resto dos trem
+copy {
+	input = utils.recursiveGlob ('*.{fxml,png,css}', 'src'),
+	prepare_output = function (o, i) return utils.makePath (pkgName:gsub ('%.', '/'), i) end,
+	multinput = true,
+	deps = {jstuff}
+}
+
+-- pra rodar
+exclusiveTarget ('run', command {
+	cmd = utils.concat {'java', '-cp', hell.outdir, mainClass}
+})

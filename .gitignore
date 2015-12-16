@@ -1,3 +1,7 @@
 # backups de texto
 *~
 *.swp
+
+# objetos
+*.class
+build/

@@ -1,0 +1,16 @@
+* {
+	-fx-background-color: black;
+	-fx-text-fill: #00FF00;
+	-fx-border-color: #00FF00;
+	-fx-border-width: #10
+	-fx-font-size: 15;
+	-fx-font-family: tandysoft;
+	
+}
+.label{
+	-fx-border-color: #000000
+}
+
+.menu-bar .container .menu:openvertically .label .text{
+	-fx-fill: #00FF00;
+}
