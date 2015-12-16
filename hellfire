@@ -8,10 +8,12 @@ hell.outdir = 'build'
 -- nomes importantes
 pkgName = "war.economy.beta"
 mainClass = pkgName .. ".WarEconomyBeta"
+jsonLib = utils.glob ('libs/*json*.jar')[1]
 
 -- compila os java
 jstuff = java {
-	input = utils.recursiveGlob ('*.java', 'src')
+	input = utils.recursiveGlob ('*.java', 'src'),
+	classpath = jsonLib
 }
 
 -- e copia o resto dos trem
@@ -24,5 +26,5 @@ copy {
 
 -- pra rodar
 exclusiveTarget ('run', command {
-	cmd = utils.concat {'java', '-cp', hell.outdir, mainClass}
+	cmd = utils.concat {'java', '-cp', '"' .. hell.outdir .. ':' .. jsonLib .. '"', mainClass}
 })

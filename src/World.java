@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public final class World {
     private ArrayList<Region> regions;
+	private WeaponDictionary weapons;
     
     /*
     Metodo para criar conexao entre 2 regioes, A e B
@@ -42,6 +43,18 @@ public final class World {
     public World() {
         
         this.regions = new ArrayList<Region>();
+		this.weapons = new WeaponDictionary ();
+		this.weapons.readJSON ("armas/fuzis.json");
+
+		// Teste dos JSON
+		for (Weapon w : weapons.getAllWeapons ()) {
+			System.out.println ("Arma: " + w.getName ()
+					+ "\n\tbasePrice = " + w.getBasePrice ()
+					+ "\n\tmargin = " + w.getMargin ()
+					+ "\n\theatInc = " + w.getHeatInc ()
+					+ "\n\tsize = " + w.getSize ()
+					+ "\n\tcombEfecBonus = " + w.getCombEfecBonus ());
+		}
         
         /*Cria e inicializa as regioes do mundo
         PlaceHolder usando o mapa de Strangereal

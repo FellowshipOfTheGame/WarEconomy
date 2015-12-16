@@ -11,6 +11,8 @@ javaSrc = $(shell ls -b src{,/javafxStuff}/*.java)
 javafxStuff = $(shell ls -b src/javafxStuff/*.{fxml,css})
 # imagens, só copia também
 images = $(shell ls -b src/images/*.png)
+# lib do json pra java
+jsonLib = $(shell ls -b libs/*json*.jar)
 
 BUILDDIR = build
 
@@ -18,7 +20,7 @@ BUILDDIR = build
 all : pasta java resto
 
 java :
-	javac -d $(BUILDDIR) $(javaSrc)
+	javac -d $(BUILDDIR) -cp $(jsonLib) $(javaSrc)
 
 resto :
 	cp $(javafxStuff) $(images) $(BUILDDIR)/$(subst .,/,$(pkgName))
@@ -28,7 +30,7 @@ pasta :
 
 # run, pra facilitar a vida
 run :
-	java -cp $(BUILDDIR) $(mainClass)
+	java -cp "$(BUILDDIR):$(jsonLib)" $(mainClass)
 
 # limpa os rolê
 clean :
