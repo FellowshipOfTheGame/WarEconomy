@@ -4,8 +4,14 @@
 # Variáveis úteis
 pkgName = war.economy.beta
 mainClass = $(pkgName).WarEconomyBeta
-javaSrc = $(wildcard src/*.java)
-soCopia = $(shell ls -b src/*.{fxml,png,css})
+
+# arquivos java mesmo
+javaSrc = $(shell ls -b src{,/javafxStuff}/*.java)
+# extras do javafx, só copia
+javafxStuff = $(shell ls -b src/javafxStuff/*.{fxml,css})
+# imagens, só copia também
+images = $(shell ls -b src/images/*.png)
+
 BUILDDIR = build
 
 # cria BUILDDIR, se não existir, compila os java e copia o resto
@@ -15,7 +21,7 @@ java :
 	javac -d $(BUILDDIR) $(javaSrc)
 
 resto :
-	cp $(soCopia) $(BUILDDIR)/$(subst .,/,$(pkgName))
+	cp $(javafxStuff) $(images) $(BUILDDIR)/$(subst .,/,$(pkgName))
 
 pasta :
 	@mkdir -p $(BUILDDIR)
