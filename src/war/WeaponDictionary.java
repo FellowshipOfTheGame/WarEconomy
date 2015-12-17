@@ -1,7 +1,7 @@
 /**
  * WeaponDictionary.java, a classe que sabe das arma tudo
  */
-package war.economy.beta;
+package war;
 
 import java.util.Map;
 import java.util.Collection;

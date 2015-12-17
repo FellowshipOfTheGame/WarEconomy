@@ -1,6 +1,7 @@
 
-package war.economy.beta;
+package javafxStuff;
 
+import javafxStuff.MainMenuController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -1,5 +1,7 @@
 
-package war.economy.beta;
+package war;
+
+import java.util.ArrayList;
 
 /**
  * FXML Controller class
@@ -13,10 +15,11 @@ package war.economy.beta;
 public class PlayerCharacter extends Character{
     private int funds;
     private int heat;
-    /*
-    private ArrayList<Warehouses> warehouses
-    private ArrayList<Transports> transports
-    */
+    
+    private ArrayList<Warehouse> warehouses;
+    private ArrayList<Agent> agents;
+    private ArrayList<Transport> transports;
+    
 
     public int getFunds() {
         return funds;
@@ -38,7 +41,7 @@ public class PlayerCharacter extends Character{
     
     
     /*
-    Construtor para new game
+    Construtor para NEW GAME
     @param string para o nome
     @param Posicao de inicio do jogador
     */
@@ -49,6 +52,20 @@ public class PlayerCharacter extends Character{
         this.barter = 0;
         this.name = name;
         this.currentPos = startingPos;
+        
+        this.warehouses = new ArrayList<Warehouse>();
+        this.agents = new ArrayList<Agent>();
+        this.transports = new ArrayList<Transport>();
+        
+        //Constroi a warehouse da regiao inicial do jogador e a inclui na lista de Warehouses
+        boolean buildWarehouse = startingPos.buildWarehouse(); 
+        System.out.println("buildWarehouse: " + buildWarehouse);
+        this.warehouses.add(startingPos.getLocalWarehouse());
+        
+        //Constroi e insere o primeiro transporte do jogador.
+        Transport t = new Transport("Truck",0,"land",1, 1, 1, startingPos);//TEMPORARIO
+        this.transports.add(t);
+        
         System.out.println("New player " + name + " character chreated at " + startingPos.getName());
     }
 

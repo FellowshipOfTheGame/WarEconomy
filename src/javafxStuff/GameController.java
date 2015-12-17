@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package war.economy.beta;
+package javafxStuff;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import war.PlayerCharacter;
+import war.World;
 
 /**
  * FXML Controller class

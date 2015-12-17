@@ -1,4 +1,4 @@
-package war.economy.beta;
+package javafxStuff;
 
 import java.io.IOException;
 import java.net.URL;
