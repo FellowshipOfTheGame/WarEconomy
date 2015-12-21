@@ -15,6 +15,12 @@ public class MarketWeapon {
         private int sellPrice;
         private int supply;
         private int demand;
+
+    public MarketWeapon(Weapon wpn, int supply, int demand) {
+        this.wpn = wpn;
+        this.supply = supply;
+        this.demand = demand;
+    }
         
         
 }

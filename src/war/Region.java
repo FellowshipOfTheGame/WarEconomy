@@ -12,11 +12,20 @@ import java.util.ArrayList;
  * @author João
  */
 public class Region {
+    
+    
     private String name;
+    /*Abstração da estabilidade política de uma região.*/
     private int geoPolStatus;
+    
     private int opRisk;
-    //private int marketStatus; vetor?
+
     private Market localMarket; 
+        
+    /* vetor de booleanos que indica se um pais é produtor(TRUE) 
+    ou consumidor(FALSE) de uma categoria de armas. Segue a ORDEM PRESENTE NO GDD e EXCLUI armas únicas*/
+    private boolean marketStatus[];
+    
     private ArrayList<Connection> adjacent;
     
     /*private ArrayList factions
@@ -37,9 +46,6 @@ public class Region {
         return opRisk;
     }
 
-    public int getMarketStatus() {
-        return marketStatus;
-    }
 
     public Warehouse getLocalWarehouse() {
         return localWarehouse;
@@ -63,18 +69,21 @@ public class Region {
     }
     
 
-    public Region(String name) {
+    public Region(String name, int geoPolStatus, int opRisk, boolean mrkStatus[], WeaponDictionary wpnDic) {
+        
+        this.name = name;
+        this.geoPolStatus = geoPolStatus;
+        this.opRisk = opRisk;
+        
         
         this.adjacent = new ArrayList<Connection>();
         this.localWarehouse = null;//Inicialmente, todas as regiões não tem warehouses
         
-        //Market m = new Market();
+        this.marketStatus = mrkStatus;
+        
+        Market m = new Market(geoPolStatus, mrkStatus, wpnDic);
         this.localMarket = m;
         
-        this.name = name;
-        this.geoPolStatus = 5;
-        //this.marketStatus = 2;
-        this.opRisk = 1;
     }
     
     

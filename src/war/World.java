@@ -59,11 +59,15 @@ public final class World {
         /*Cria e inicializa as regioes do mundo
         PlaceHolder usando o mapa de Strangereal
         */
-        Region emm = new Region("Emmeria");
-        Region wel = new Region("Wellow");
-        Region yuk = new Region("Yuktobania");
-        Region osea = new Region("Osea");
         
+                
+        boolean[] marketStatusTest = {true, false};
+         
+        
+        Region emm = new Region("Emmeria", 5, 5, marketStatusTest, this.weapons);
+        Region wel = new Region("Wellow",4, 4, marketStatusTest, this.weapons);
+        Region yuk = new Region("Yuktobania", 3, 3, marketStatusTest, this.weapons);
+        Region osea = new Region("Osea", 2, 2, marketStatusTest, this.weapons);
         /*Seta as conexoes entre as regios*/
         this.createConnection(emm, yuk, false, 1);
         this.createConnection(yuk, osea, false, 2);

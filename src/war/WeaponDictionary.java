@@ -57,8 +57,9 @@ public class WeaponDictionary {
 				int heatInc =		((Long) weaponObj.get ("heatInc")).intValue ();
 				int size =			((Long) weaponObj.get ("size")).intValue ();
 				int combEfecBonus =	((Long) weaponObj.get ("combEfecBonus")).intValue ();
+                                int category = ((Long) weaponObj.get ("category")).intValue ();
 				// e cria a Weapon
-				dictionary.put (name, new Weapon (name, basePrice, margin, heatInc, size, combEfecBonus));
+				dictionary.put (name, new Weapon (name, basePrice, margin, heatInc, size, combEfecBonus, category));
 			}
 		}
 		catch (FileNotFoundException e) {
@@ -81,4 +82,8 @@ public class WeaponDictionary {
 	public Collection<Weapon> getAllWeapons () {
 		return dictionary.values ();
 	}
+        
+        public HashMap getDictionary(){
+            return dictionary;
+        }
 }

@@ -16,13 +16,14 @@ public class Weapon {
 	/**
 	 * Ctor parametrizado: cria com tudo já ;]
 	 */
-	public Weapon (String name, int basePrice, int margin, int heatInc, int size, int combEfecBonus) {
+	public Weapon (String name, int basePrice, int margin, int heatInc, int size, int combEfecBonus, int category) {
 		this.name = name;
 		this.basePrice = basePrice;
 		this.margin = margin;
 		this.heatInc = heatInc;
 		this.size = size;
 		this.combEfecBonus = combEfecBonus;
+                this.category = category;
 	}
 	
 	/// Propriedades
@@ -32,7 +33,7 @@ public class Weapon {
     protected int heatInc;
     protected int size;
     protected int combEfecBonus;
-    
+    protected int category;//numero de 0-7 que indica em qual das categorias a arma se encaixa. Usa a ordem que esta no GDD e não inclui armas unicas.
 	/// GETTERS
 	public String getName () {
 		return name;
