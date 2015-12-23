@@ -44,7 +44,7 @@ public final class World {
         
         this.regions = new ArrayList<Region>();
 		this.weapons = new WeaponDictionary ();
-		this.weapons.readJSON ("armas/fuzis.json");
+		this.weapons.readJSON ("Rifles");
 
 		// Teste dos JSON
 		for (Weapon w : weapons.getAllWeapons ()) {
@@ -53,7 +53,8 @@ public final class World {
 					+ "\n\tmargin = " + w.getMargin ()
 					+ "\n\theatInc = " + w.getHeatInc ()
 					+ "\n\tsize = " + w.getSize ()
-					+ "\n\tcombEfecBonus = " + w.getCombEfecBonus ());
+					+ "\n\tcombEfecBonus = " + w.getCombEfecBonus ()
+                                        + "\n\tcategory = " + w.getCategory());
 		}
         
         /*Cria e inicializa as regioes do mundo

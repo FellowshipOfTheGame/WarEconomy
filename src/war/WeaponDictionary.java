@@ -29,7 +29,8 @@ public class WeaponDictionary {
 	/**
 	 * Lê armas de um arquivo JSON, as salvando no 'dictionary'
 	 */
-	public void readJSON (String filename) {
+	public void readJSON (String categoryName) {
+                String filename = "armas/"+categoryName+".json";
 		JSONParser parser = new JSONParser ();
 
 		try {
@@ -57,9 +58,9 @@ public class WeaponDictionary {
 				int heatInc =		((Long) weaponObj.get ("heatInc")).intValue ();
 				int size =			((Long) weaponObj.get ("size")).intValue ();
 				int combEfecBonus =	((Long) weaponObj.get ("combEfecBonus")).intValue ();
-                                int category = ((Long) weaponObj.get ("category")).intValue ();
+                                //int category = ((Long) weaponObj.get ("category")).intValue ();
 				// e cria a Weapon
-				dictionary.put (name, new Weapon (name, basePrice, margin, heatInc, size, combEfecBonus, category));
+				dictionary.put (name, new Weapon (name, basePrice, margin, heatInc, size, combEfecBonus, categoryName));
 			}
 		}
 		catch (FileNotFoundException e) {

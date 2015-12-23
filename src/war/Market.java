@@ -2,8 +2,11 @@
 package war;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -14,14 +17,59 @@ public class Market {
     private HashMap<String, MarketWeapon> availableWeapons;    
     
     
-    public int calculateSupply(int geoPolStatus, boolean categoryStatus){
+    /**
+     * Retorna o inteiro equivalente da categoria da arma
+     * Entre 0-7, segue a ordem do GDD
+     */
+    public int getCategoryIndex(String catName){
+        if(catName.equalsIgnoreCase("Pistols"))
+            return 0;
+        else if(catName.equalsIgnoreCase("Rifles"))
+            return 1;
+        else if(catName.equalsIgnoreCase("Explosives"))
+            return 2;
+        else if(catName.equalsIgnoreCase("Heavy Weapons"))
+            return 3;        
+        else if(catName.equalsIgnoreCase("Artillery"))
+            return 4;
+        else if(catName.equalsIgnoreCase("Ground Vehicles"))
+            return 5;
+        else if(catName.equalsIgnoreCase("Air Vehicles"))
+            return 6;
+        else if(catName.equalsIgnoreCase("WMDs"))
+            return 7;        
+        else
+            return -1;//Vai causar um erro
+    }
+    
+    private int calculateSupply(int geoPolStatus, boolean categoryStatus){
         //Logica que calcula o suprimento 
         return 1;
     }
-    public int calculateDemmand(int geoPolStatus, boolean categoryStatus){
+    private int calculateDemmand(int geoPolStatus, boolean categoryStatus){
         //Logica que calcula a demanda
         return 2;
     }
+
+    public ArrayList<Transport> getAvailableTransports() {
+        return availableTransports;
+    }
+
+    public ObservableList<MarketWeapon>getAvailableWeapons() {//Retorna uma observable list para montar a tabela
+        Iterator it = this.availableWeapons.entrySet().iterator();
+        ObservableList<MarketWeapon> obl = FXCollections.observableArrayList();
+        
+        while(it.hasNext()){
+            HashMap.Entry entry = (HashMap.Entry<String, MarketWeapon>)it.next();
+            MarketWeapon wpn = (MarketWeapon)entry.getValue();
+            obl.add(wpn);
+        }
+        
+        return obl;
+    }
+    
+    
+    
     
     public Market(int geoPolStatus, boolean mrkStatus[], WeaponDictionary wpnDic/*, TransportDictionary transpDic*/) {
         
@@ -39,11 +87,14 @@ public class Market {
         Iterator it = wMap.entrySet().iterator();
         while(it.hasNext()){
             HashMap.Entry entry = (HashMap.Entry<String, Weapon>)it.next();
+            
             String key = (String)entry.getKey();
             Weapon wpn = (Weapon)entry.getValue();
             
-            int sup = calculateSupply(geoPolStatus, mrkStatus[wpn.category]);
-            int dem = calculateDemmand(geoPolStatus, mrkStatus[wpn.category]);
+            int index = getCategoryIndex(wpn.category);
+            
+            int sup = calculateSupply(geoPolStatus, mrkStatus[index]);
+            int dem = calculateDemmand(geoPolStatus, mrkStatus[index]);
             
             MarketWeapon mrktWpn = new MarketWeapon(wpn, sup, dem);
             this.availableWeapons.put(key, mrktWpn);

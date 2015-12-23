@@ -7,6 +7,8 @@ package javafxStuff;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +16,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+import war.MarketWeapon;
 import war.PlayerCharacter;
+import war.Weapon;
 import war.World;
 
 /**
@@ -31,7 +43,29 @@ public class GameController implements Initializable {
     /*ELEMENTOS DE FXML*/
     @FXML
     Button bt;
-
+    
+    //TAB de MERCADO NEGRO
+    @FXML
+    ImageView gunImg;
+    @FXML
+    Text gunDescript;
+    @FXML
+    TableView<MarketWeapon> marketTable;
+    @FXML
+    TableColumn<MarketWeapon, String> nameColumn;
+    @FXML
+    TableColumn<MarketWeapon, String> catColumn;
+    @FXML
+    TableColumn<MarketWeapon, Integer> sellColumn;
+    @FXML
+    TableColumn<MarketWeapon, Integer> buyColumn;    
+    @FXML
+    TableColumn<MarketWeapon, Integer> supColumn;
+    @FXML
+    TableColumn<MarketWeapon, Integer> demColumn;      
+    
+    
+    //TAB do MAPA
     @FXML
     MenuItem trvEmm;
     @FXML
@@ -56,6 +90,21 @@ public class GameController implements Initializable {
 
 /*------------------------------------------------------------------------------*/    
     /*METODOS*/
+    
+    public void initializeMarketTable(TableView marketTable){
+        
+        nameColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnName"));
+        catColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnCat"));
+
+        sellColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("sellPrice"));
+        buyColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("buyPrice"));
+        supColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("supply"));
+        demColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("demand"));             
+        
+        ObservableList obl = (ObservableList) this.player.getCurrentPos().getLocalMarket().getAvailableWeapons();
+        
+        marketTable.setItems(obl);
+    }    
     
     @FXML
     /*Quando chegar a hora, monta uma trade-mission*/
@@ -90,6 +139,7 @@ public class GameController implements Initializable {
        this.world = new World();
        this.player = new PlayerCharacter("default",this.world.getRegion(0));
        this.updateEssentialInfo();
+       this.initializeMarketTable(marketTable);
     }    
     
 }

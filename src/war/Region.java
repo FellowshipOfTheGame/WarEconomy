@@ -51,6 +51,18 @@ public class Region {
         return localWarehouse;
     }
 
+    public Market getLocalMarket() {
+        return localMarket;
+    }
+
+    public boolean[] getMarketStatus() {
+        return marketStatus;
+    }
+
+    public ArrayList<Connection> getAdjacent() {
+        return adjacent;
+    }
+    
     
    
     public boolean buildWarehouse() {
@@ -76,7 +88,7 @@ public class Region {
         this.opRisk = opRisk;
         
         
-        this.adjacent = new ArrayList<Connection>();
+        this.adjacent = new ArrayList<>();
         this.localWarehouse = null;//Inicialmente, todas as regiões não tem warehouses
         
         this.marketStatus = mrkStatus;
