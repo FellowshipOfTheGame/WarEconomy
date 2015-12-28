@@ -4,20 +4,23 @@
 		"margin"	: 5,
 		"heatInc"	: 2,
 		"size"		: 1,
-		"combEfecBonus"	: 10
+		"combEfecBonus"	: 10,
+		"description" : "Description of VA-74"
 	},
 	"EZK" : {
 		"basePrice"	: 49,
 		"margin"	: 4,
 		"heatInc"	: 1,
 		"size"		: 1,
-		"combEfecBonus"	: 9
+		"combEfecBonus"	: 9,
+		"description" : "Description of EZK"		
 	},
 	"MK36" : {
 		"basePrice"	: 49,
 		"margin"	: 4,
 		"heatInc"	: 1,
 		"size"		: 1,
-		"combEfecBonus"	: 9
+		"combEfecBonus"	: 9,
+		"description" : "Description of MK36"		
 		}
 }

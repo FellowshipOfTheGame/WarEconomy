@@ -54,6 +54,7 @@ public final class World {
 					+ "\n\theatInc = " + w.getHeatInc ()
 					+ "\n\tsize = " + w.getSize ()
 					+ "\n\tcombEfecBonus = " + w.getCombEfecBonus ()
+					+ "\n\tdescription = " + w.getDescription()
                                         + "\n\tcategory = " + w.getCategory());
 		}
         

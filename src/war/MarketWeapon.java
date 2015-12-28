@@ -21,10 +21,10 @@ public class MarketWeapon {
         private int demand;
         
     public int calculateBuyPrice(){
-        return 1;
+        return wpn.getBasePrice() + 1;
     }
     public int calculateSellPrice(){
-        return 1;
+        return wpn.getBasePrice() + 1;
     }
 
     public MarketWeapon(Weapon wpn, int supply, int demand) {

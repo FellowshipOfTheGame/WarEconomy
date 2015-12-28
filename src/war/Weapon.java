@@ -10,22 +10,23 @@ package war;
  */
 public class Weapon {
 	public static String[] neededFields = new String[] {
-		"basePrice", "margin", "heatInc", "size", "combEfecBonus"
+		"basePrice", "margin", "heatInc", "size", "combEfecBonus","description"
 	};
     
 	/**
 	 * Ctor parametrizado: cria com tudo já ;]
 	 */
-	public Weapon (String name, int basePrice, int margin, int heatInc, int size, int combEfecBonus, String category) {
+	public Weapon (String name, int basePrice, int margin, int heatInc, int size, int combEfecBonus, String description, String category) {
 		this.name = name;
 		this.basePrice = basePrice;
 		this.margin = margin;
 		this.heatInc = heatInc;
 		this.size = size;
 		this.combEfecBonus = combEfecBonus;
+                this.description = description;
                 this.category = category;
 	}
-	
+
 	/// Propriedades
     protected String name;
     protected int basePrice;
@@ -33,7 +34,10 @@ public class Weapon {
     protected int heatInc;
     protected int size;
     protected int combEfecBonus;
+    protected String description; //Descricao da arma e flavor text em geral
     protected String category;//nome da categoria da arma em inglês. não inclui armas unicas.
+    
+    
 	/// GETTERS
 	public String getName () {
 		return name;
@@ -53,7 +57,9 @@ public class Weapon {
 	public int getCombEfecBonus () {
 		return combEfecBonus;
 	}
-
+        public String getDescription(){
+            return description;
+        }
         public String getCategory() {
             return category;
         }

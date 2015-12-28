@@ -21,12 +21,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 import war.MarketWeapon;
 import war.PlayerCharacter;
-import war.Weapon;
 import war.World;
 
 /**
@@ -41,55 +40,59 @@ import war.World;
 public class GameController implements Initializable {
     
     /*ELEMENTOS DE FXML*/
-    @FXML
-    Button bt;
+    @FXML Button bt;
     
     //TAB de MERCADO NEGRO
-    @FXML
-    ImageView gunImg;
-    @FXML
-    Text gunDescript;
-    @FXML
-    TableView<MarketWeapon> marketTable;
-    @FXML
-    TableColumn<MarketWeapon, String> nameColumn;
-    @FXML
-    TableColumn<MarketWeapon, String> catColumn;
-    @FXML
-    TableColumn<MarketWeapon, Integer> sellColumn;
-    @FXML
-    TableColumn<MarketWeapon, Integer> buyColumn;    
-    @FXML
-    TableColumn<MarketWeapon, Integer> supColumn;
-    @FXML
-    TableColumn<MarketWeapon, Integer> demColumn;      
+    @FXML ImageView selectedWpnImg;
+    @FXML Text selectedWpnDescr;
+    @FXML TableView<MarketWeapon> marketTable;
+    @FXML TableColumn<MarketWeapon, String> nameColumn;
+    @FXML TableColumn<MarketWeapon, String> catColumn;
+    @FXML TableColumn<MarketWeapon, Integer> sellColumn;
+    @FXML TableColumn<MarketWeapon, Integer> buyColumn;    
+    @FXML TableColumn<MarketWeapon, Integer> supColumn;
+    @FXML TableColumn<MarketWeapon, Integer> demColumn;      
     
     
     //TAB do MAPA
-    @FXML
-    MenuItem trvEmm;
-    @FXML
-    MenuItem trvOsea;
-    @FXML
-    MenuItem trvYuk;    
-    @FXML
-    MenuItem trvWel;    
+    @FXML MenuItem trvEmm;
+    @FXML MenuItem trvOsea;
+    @FXML MenuItem trvYuk;    
+    @FXML MenuItem trvWel;    
     
     
-    @FXML
-    Label guiFunds;
-    @FXML
-    Label guiHeat;
-    @FXML
-    Label guiPlayerPos;    
+    @FXML Label guiFunds;
+    @FXML Label guiHeat;
+    @FXML Label guiPlayerPos;    
     
 /*------------------------------------------------------------------------------*/    
     /*ATRIBUTOS*/
     PlayerCharacter player;
     World world;
+    
+    MarketWeapon selectedWeapon;
 
 /*------------------------------------------------------------------------------*/    
     /*METODOS*/
+    @FXML
+    public void selectMarketWeapons(){
+        if(marketTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido
+            if(this.selectedWeapon != marketTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
+                //seta a referencia à arma clicada
+                this.selectedWeapon = marketTable.getSelectionModel().getSelectedItem(); 
+                //Seta a imageview à foto da arma clicada
+                String imagePath = "/images/" + this.selectedWeapon.getWpnCat() + "/" + this.selectedWeapon.getWpnName() + ".png";
+                System.out.println("Clicou na " + this.selectedWeapon.getWpnName() + "-chan" + "\n" + imagePath);
+                Image updatedWpnImg = new Image(imagePath, false);
+                this.selectedWpnImg.setImage(updatedWpnImg);
+                //Seta o texto da descrição para a arma clicada
+                this.selectedWpnDescr.setText(this.selectedWeapon.getWpn().getDescription());
+            }
+
+        }
+    
+    }
+    
     
     public void initializeMarketTable(TableView marketTable){
         
@@ -136,10 +139,11 @@ public class GameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       this.world = new World();
-       this.player = new PlayerCharacter("default",this.world.getRegion(0));
-       this.updateEssentialInfo();
-       this.initializeMarketTable(marketTable);
+        this.selectedWeapon = null;
+        this.world = new World();
+        this.player = new PlayerCharacter("default",this.world.getRegion(0));
+        this.updateEssentialInfo();
+        this.initializeMarketTable(marketTable);
     }    
     
 }

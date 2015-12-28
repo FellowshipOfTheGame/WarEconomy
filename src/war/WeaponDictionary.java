@@ -43,7 +43,6 @@ public class WeaponDictionary {
 				JSONObject weaponObj = (JSONObject) weaponEntry.getValue ();
 
 				String name = (String) weaponEntry.getKey ();
-
 				// verifica se arma tem todos os campos necessários, senão não rola
 				for (String key : Weapon.neededFields) {
 					if (!weaponObj.containsKey (key)) {
@@ -58,9 +57,11 @@ public class WeaponDictionary {
 				int heatInc =		((Long) weaponObj.get ("heatInc")).intValue ();
 				int size =			((Long) weaponObj.get ("size")).intValue ();
 				int combEfecBonus =	((Long) weaponObj.get ("combEfecBonus")).intValue ();
+                                
+                                String description =    ((String) weaponObj.get ("description"));
                                 //int category = ((Long) weaponObj.get ("category")).intValue ();
 				// e cria a Weapon
-				dictionary.put (name, new Weapon (name, basePrice, margin, heatInc, size, combEfecBonus, categoryName));
+				dictionary.put (name, new Weapon (name, basePrice, margin, heatInc, size, combEfecBonus, description ,categoryName));
 			}
 		}
 		catch (FileNotFoundException e) {
