@@ -67,6 +67,14 @@ public class MarketWeapon {
     public String getWpnCat() {
         return wpnCat;
     }
+
+    public void setSupply(int supply) {
+        this.supply = supply;
+    }
+
+    public void setDemand(int demand) {
+        this.demand = demand;
+    }
         
     
     

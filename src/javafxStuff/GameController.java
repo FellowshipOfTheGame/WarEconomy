@@ -7,25 +7,23 @@ package javafxStuff;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import war.MarketWeapon;
 import war.PlayerCharacter;
+import war.Region;
 import war.World;
 
 /**
@@ -40,7 +38,6 @@ import war.World;
 public class GameController implements Initializable {
     
     /*ELEMENTOS DE FXML*/
-    @FXML Button bt;
     
     //TAB de MERCADO NEGRO
     @FXML ImageView selectedWpnImg;
@@ -52,6 +49,10 @@ public class GameController implements Initializable {
     @FXML TableColumn<MarketWeapon, Integer> buyColumn;    
     @FXML TableColumn<MarketWeapon, Integer> supColumn;
     @FXML TableColumn<MarketWeapon, Integer> demColumn;      
+    @FXML Label marketName;
+    @FXML Button buyButton;
+    @FXML Button sellButton;
+    @FXML TextField qtyField;
     
     
     //TAB do MAPA
@@ -93,9 +94,26 @@ public class GameController implements Initializable {
     
     }
     
-    
-    public void initializeMarketTable(TableView marketTable){
+    @FXML
+    public void buy(){
         
+        if(this.selectedWeapon != null && this.qtyValidation(qtyField)){//Algo selecionado e qty é Integer positivo
+            int qty = Integer.parseInt(this.qtyField.getText());//quantidade a ser comprada
+            int supply = this.selectedWeapon.getSupply();
+            if(supply >= qty){ //Mercado tem oferta suficiente
+                
+                if(this.player.getFunds() >= (this.selectedWeapon.getBuyPrice() * qty)){//Jogador tem fundos suficientes
+                    this.selectedWeapon.setSupply(supply-qty);//Seta nova oferta do mercado
+                    this.marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
+                    this.marketTable.getColumns().get(0).setVisible(true);
+                    this.qtyField.setText("");
+                }                
+            }
+        }
+    
+    }
+    
+    private void initializeMarketTable(TableView marketTable, Region region){
         nameColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnName"));
         catColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnCat"));
 
@@ -104,15 +122,30 @@ public class GameController implements Initializable {
         supColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("supply"));
         demColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("demand"));             
         
-        ObservableList obl = (ObservableList) this.player.getCurrentPos().getLocalMarket().getAvailableWeapons();
-        
+        ObservableList obl = (ObservableList) region.getLocalMarket().getAvailableWeapons();
+        this.marketName.setText(this.player.getCurrentPos().getName()+"'s Black Market");
         marketTable.setItems(obl);
     }    
+    
+    private boolean qtyValidation (TextField input){
+        try{
+            int qty = Integer.parseInt(input.getText());
+            if(qty > 0)
+                return true;
+            else
+                return false;
+        }catch(NumberFormatException e){
+            System.out.println("Invalid input");
+            return false;
+        }
+    }
+    
+    
+    
     
     @FXML
     /*Quando chegar a hora, monta uma trade-mission*/
     public void playerTravel(ActionEvent e){
-       
         
         if(e.getSource() == trvEmm)
             player.setCurrentPos(this.world.getRegion(0));
@@ -121,8 +154,12 @@ public class GameController implements Initializable {
         else if(e.getSource()==trvYuk)
             player.setCurrentPos(this.world.getRegion(2));
         else if(e.getSource()==trvOsea)
-            player.setCurrentPos(this.world.getRegion(3));      
+            player.setCurrentPos(this.world.getRegion(3));  
+        
         this.updateEssentialInfo();
+        this.selectedWeapon = null;
+        this.initializeMarketTable(marketTable, player.getCurrentPos());
+   
     }
     
     /*Atualiza info no HUD*/
@@ -140,10 +177,12 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.selectedWeapon = null;
+        
         this.world = new World();
         this.player = new PlayerCharacter("default",this.world.getRegion(0));
+        
         this.updateEssentialInfo();
-        this.initializeMarketTable(marketTable);
+        this.initializeMarketTable(marketTable, player.getCurrentPos());
     }    
     
 }

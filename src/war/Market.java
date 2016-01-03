@@ -97,9 +97,9 @@ public class Market {
             int dem = calculateDemmand(geoPolStatus, mrkStatus[index]);
             
             MarketWeapon mrktWpn = new MarketWeapon(wpn, sup, dem);
+            System.out.println("New Weapon " + mrktWpn.getWpnName());
             this.availableWeapons.put(key, mrktWpn);
             
-            it.remove();
         }
         
         System.out.println("Market Created");
