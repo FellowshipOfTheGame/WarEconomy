@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * @author João
  */
-public class Transport {
+public class Transport implements Storable{
     private String name;
     private int price;
     private String type;//air, land, sea
@@ -26,6 +26,11 @@ public class Transport {
         this.upkeep = upkeep;
         this.currentPos = currentPos;
         this.cargo = new ArrayList<>();
+    }
+
+    @Override
+    public void store(Weapon wpn, int qty) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 

@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -24,6 +25,8 @@ import javafx.scene.text.Text;
 import war.MarketWeapon;
 import war.PlayerCharacter;
 import war.Region;
+import war.Storable;
+import war.Warehouse;
 import war.World;
 
 /**
@@ -49,10 +52,13 @@ public class GameController implements Initializable {
     @FXML TableColumn<MarketWeapon, Integer> buyColumn;    
     @FXML TableColumn<MarketWeapon, Integer> supColumn;
     @FXML TableColumn<MarketWeapon, Integer> demColumn;      
+    @FXML Label totalBuyPrice;
+    @FXML Label totalCargoSpace;
     @FXML Label marketName;
     @FXML Button buyButton;
     @FXML Button sellButton;
     @FXML TextField qtyField;
+    @FXML ChoiceBox<Storable> purchaseDestination;
     
     
     //TAB do MAPA
@@ -83,7 +89,7 @@ public class GameController implements Initializable {
                 this.selectedWeapon = marketTable.getSelectionModel().getSelectedItem(); 
                 //Seta a imageview à foto da arma clicada
                 String imagePath = "/images/" + this.selectedWeapon.getWpnCat() + "/" + this.selectedWeapon.getWpnName() + ".png";
-                System.out.println("Clicou na " + this.selectedWeapon.getWpnName() + "-chan" + "\n" + imagePath);
+                //System.out.println("Clicou na " + this.selectedWeapon.getWpnName() + "-chan" + "\n" + imagePath);//DEBUG
                 Image updatedWpnImg = new Image(imagePath, false);
                 this.selectedWpnImg.setImage(updatedWpnImg);
                 //Seta o texto da descrição para a arma clicada
@@ -93,25 +99,8 @@ public class GameController implements Initializable {
         }
     
     }
+
     
-    @FXML
-    public void buy(){
-        
-        if(this.selectedWeapon != null && this.qtyValidation(qtyField)){//Algo selecionado e qty é Integer positivo
-            int qty = Integer.parseInt(this.qtyField.getText());//quantidade a ser comprada
-            int supply = this.selectedWeapon.getSupply();
-            if(supply >= qty){ //Mercado tem oferta suficiente
-                
-                if(this.player.getFunds() >= (this.selectedWeapon.getBuyPrice() * qty)){//Jogador tem fundos suficientes
-                    this.selectedWeapon.setSupply(supply-qty);//Seta nova oferta do mercado
-                    this.marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
-                    this.marketTable.getColumns().get(0).setVisible(true);
-                    this.qtyField.setText("");
-                }                
-            }
-        }
-    
-    }
     
     private void initializeMarketTable(TableView marketTable, Region region){
         nameColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnName"));
@@ -126,7 +115,35 @@ public class GameController implements Initializable {
         this.marketName.setText(this.player.getCurrentPos().getName()+"'s Black Market");
         marketTable.setItems(obl);
     }    
+        
     
+    
+    @FXML
+    public void buy(){
+        
+        if(this.selectedWeapon != null && this.qtyValidation(qtyField)){//Algo selecionado e qty é Integer positivo
+            int qty = Integer.parseInt(this.qtyField.getText());//quantidade a ser comprada
+            int supply = this.selectedWeapon.getSupply();
+            if(supply >= qty){ //Mercado tem oferta suficiente
+                if(this.player.getFunds() >= (this.selectedWeapon.getBuyPrice() * qty)){//Jogador tem fundos suficientes
+                    
+                    Warehouse warehouse = this.player.getCurrentPos().getLocalWarehouse();
+                    //Verifica se tem espaço suficiente no armazém/veículo
+                    if(qty * this.selectedWeapon.getWpn().getSize() + warehouse.getUsedCapacity() <= warehouse.getTotalCapacity()){
+                        this.selectedWeapon.setSupply(supply-qty);//Seta nova oferta do mercado
+                        this.marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
+                        this.marketTable.getColumns().get(0).setVisible(true);
+                        this.qtyField.setText("");
+
+                        warehouse.store(this.selectedWeapon.getWpn(), qty);
+                        this.player.subtractFunds(qty * this.selectedWeapon.getBuyPrice());
+                        this.updateEssentialInfo();
+                    }
+                }                
+            }
+        }
+    }
+
     private boolean qtyValidation (TextField input){
         try{
             int qty = Integer.parseInt(input.getText());
@@ -135,12 +152,25 @@ public class GameController implements Initializable {
             else
                 return false;
         }catch(NumberFormatException e){
-            System.out.println("Invalid input");
+            //input.setText("invalid input");
+            //System.out.println("Invalid input");
             return false;
         }
     }
     
-    
+    @FXML
+    //
+    public void updateBuyInfo(){
+        if(this.selectedWeapon != null && this.qtyValidation(qtyField)){
+            int qty = Integer.parseInt(this.qtyField.getText());//quantidade a ser comprada
+            this.totalBuyPrice.setText("Total Price: " + qty*this.selectedWeapon.getBuyPrice());
+            this.totalCargoSpace.setText("Total Cargo Space: " + qty*this.selectedWeapon.getWpn().getSize());
+        }
+        else{
+            this.totalBuyPrice.setText("Total Price: ");
+            this.totalCargoSpace.setText("Total Cargo Space: ");
+        }
+    }
     
     
     @FXML

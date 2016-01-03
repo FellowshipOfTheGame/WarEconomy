@@ -29,10 +29,17 @@ public class PlayerCharacter extends Character{
         return heat;
     }
 
-    public void setFunds(int funds) {
+    public void subtractFunds(int value) {
+        int funds = this.getFunds() - value;
+        this.funds = funds;
+        System.out.println("New funds:" + this.funds);
+    }
+    
+    public void addFunds(int value) {
+        int funds = this.getFunds() + value;
         this.funds = funds;
     }
-
+    
     public void setHeat(int heat) {
         this.heat = heat;
     }

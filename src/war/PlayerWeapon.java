@@ -15,6 +15,27 @@ public class PlayerWeapon {
         this.totalsize = totalsize;
         this.qty = qty;
     }
+
+    public Weapon getWpn() {
+        return wpn;
+    }
+
+    public int getTotalsize() {
+        return totalsize;
+    }
+
+    public void setTotalsize(int totalsize) {
+        this.totalsize = totalsize;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+    
     
     
 }
