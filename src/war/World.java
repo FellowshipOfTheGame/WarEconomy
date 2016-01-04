@@ -61,8 +61,10 @@ public final class World {
         /*Cria e inicializa as regioes do mundo
         PlaceHolder usando o mapa de Strangereal
         */
+        
                 
         boolean[] marketStatusTest = {true, false};
+         
         
         Region emm = new Region("Emmeria", 5, 5, marketStatusTest, this.weapons);
         Region wel = new Region("Wellow",4, 4, marketStatusTest, this.weapons);
@@ -83,3 +85,4 @@ public final class World {
     
     
 }
+
