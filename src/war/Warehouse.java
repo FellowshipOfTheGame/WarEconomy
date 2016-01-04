@@ -20,6 +20,7 @@ public class Warehouse implements Storable{
         return security;
     }
 
+    @Override
     public int getTotalCapacity() {
         return totalCapacity;
     }
@@ -29,14 +30,20 @@ public class Warehouse implements Storable{
         this.totalCapacity = this.totalCapacity + 5;
     }
 
+    @Override
     public int getUsedCapacity() {
         return usedCapacity;
     }
 
+    @Override
     public void setUsedCapacity(int usedCapacity) {
         this.usedCapacity = usedCapacity;
     }
     
+    @Override
+    public String toString() {
+        return "Local Warehouse (" + this.usedCapacity + "/" + this.totalCapacity + " space used)";
+    }
     
     @Override
     public void store(Weapon wpn, int qty) {
