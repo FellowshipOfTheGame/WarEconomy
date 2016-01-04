@@ -44,7 +44,24 @@ public class PlayerCharacter extends Character{
         this.heat = heat;
     }
 
-    
+    public ArrayList<Transport> getTransports() {
+        return transports;
+    }
+    /**
+     * Retorna apenas os transportes localizados em uma determinada região.
+     * @param region //Região em questão para procurar
+     * @return 
+     */
+    public ArrayList<Transport> getTransports(Region region) {
+        ArrayList<Transport> compatibleTransports = new ArrayList<>();
+        for (Transport transport : transports) {
+            if(transport.getCurrentPos() == region){
+                compatibleTransports.add(transport);
+            }
+        }
+        return compatibleTransports;
+    }
+
     
     
     /*
@@ -70,7 +87,7 @@ public class PlayerCharacter extends Character{
         this.warehouses.add(startingPos.getLocalWarehouse());
         
         //Constroi e insere o primeiro transporte do jogador.
-        Transport t = new Transport("Truck",0,"land",1, 1, 1, startingPos);//TEMPORARIO
+        Transport t = new Transport("Truck",0,"land",1, 1, 1, startingPos, 1);//TEMPORARIO
         this.transports.add(t);
         
         System.out.println("New player " + name + " character chreated at " + startingPos.getName());

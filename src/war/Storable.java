@@ -19,4 +19,11 @@ public interface Storable {
      */
     
     public void store(Weapon wpn, int qty);
+    
+    public int getTotalCapacity();
+
+    public int getUsedCapacity();
+
+    public void setUsedCapacity(int usedCapacity);
+    
 }

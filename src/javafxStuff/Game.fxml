@@ -98,18 +98,22 @@
                                     <Text fx:id="selectedWpnDescr" layoutX="411.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="730.13671875" />
                                  </children>
                               </VBox>
-                              <VBox layoutX="85.0" layoutY="725.0" prefHeight="50.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="85.0">
+                              <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
                                  <children>
                                     <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" promptText="Type in the quantity - Press enter to " />
                                     <Label fx:id="totalCargoSpace" text="Total Cargo Space:" />
                                     <Label fx:id="totalBuyPrice" text="Total Price:" />
-                                    <ChoiceBox fx:id="purchaseDestination" prefHeight="25.0" prefWidth="324.0" />
+                                    <ComboBox fx:id="purchaseDestination" prefHeight="38.0" prefWidth="232.0" promptText="Select purchase destination" />
                                     <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
                                  </children>
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
                               </VBox>
+                              <Label fx:id="transactionOutput" layoutX="439.0" layoutY="766.0" AnchorPane.bottomAnchor="128.0" AnchorPane.leftAnchor="439.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Label>
                            </children>
                         </AnchorPane>
                     </items>
