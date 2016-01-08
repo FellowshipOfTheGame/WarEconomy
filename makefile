@@ -2,11 +2,12 @@
 # `make` pra deixar tudo certo, `make run` pra rodar ;]
 
 # Variáveis úteis
-pkgName = war.economy.beta
-mainClass = $(pkgName).WarEconomyBeta
+warPkg = war
+mainClass = $(warPkg).WarEconomyBeta
+javafxPkg = javafxStuff
 
 # arquivos java mesmo
-javaSrc = $(shell ls -b src{,/javafxStuff}/*.java)
+javaSrc = $(shell ls -b src/{$(warPkg),$(javafxPkg)}/*.java)
 # extras do javafx, só copia
 javafxStuff = $(shell ls -b src/javafxStuff/*.{fxml,css})
 # imagens, só copia também
@@ -23,7 +24,8 @@ java :
 	javac -d $(BUILDDIR) -cp $(jsonLib) $(javaSrc)
 
 resto :
-	cp $(javafxStuff) $(images) $(BUILDDIR)/$(subst .,/,$(pkgName))
+	cp $(javafxStuff) $(BUILDDIR)/$(subst .,/,$(javafxPkg))
+	cp -r src/images $(BUILDDIR)
 
 pasta :
 	@mkdir -p $(BUILDDIR)

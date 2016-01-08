@@ -1,27 +1,37 @@
 hell.help = [[
 Hellfire do War Economy
-`hell` pra deixar tudo certo, `hell run` pra rodar ;] ]]
+`hell` pra deixar tudo certo, `hell run` pra rodar ;]
+Variável 'unchecked' cuida de compilar os java com "-Xlint:unchecked" ]]
 
 local utils = hell.utils
 hell.outdir = 'build'
 
 -- nomes importantes
-pkgName = "war.economy.beta"
-mainClass = pkgName .. ".WarEconomyBeta"
+warPkg = "war"
+mainClass = warPkg .. ".WarEconomyBeta"
+javafxPkg = "javafxStuff"
 jsonLib = utils.glob ('libs/*json*.jar')[1]
 
 -- compila os java
 jstuff = java {
 	input = utils.recursiveGlob ('*.java', 'src'),
+	flags = unchecked and '&-Xlint:unchecked',
 	classpath = jsonLib
 }
 
--- e copia o resto dos trem
+-- coisas do javaFX
 copy {
-	input = utils.recursiveGlob ('*.{fxml,png,css}', 'src'),
-	prepare_output = function (o, i) return utils.makePath (pkgName:gsub ('%.', '/'), i) end,
+	input = utils.recursiveGlob ('*.{fxml,css}', 'src'),
+	prepare_output = function (o, i)
+		return utils.makePath (javafxPkg:gsub ('%.', '/'), i)
+	end,
 	multinput = true,
 	deps = {jstuff}
+}
+
+-- imagens
+copy {
+	input = "src/images"
 }
 
 -- pra rodar
