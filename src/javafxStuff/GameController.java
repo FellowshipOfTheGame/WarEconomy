@@ -54,13 +54,19 @@ public class GameController implements Initializable {
     @FXML TableColumn<MarketWeapon, Integer> supColumn;
     @FXML TableColumn<MarketWeapon, Integer> demColumn;      
     @FXML Label totalBuyPrice;
-    @FXML Label totalCargoSpace;
+    @FXML Label ReqCargoSpace;
     @FXML Label marketName;
     @FXML Label transactionOutput;
+    @FXML Label usedCargoSpace;
+    @FXML Label qtyStored;
+    @FXML Label totalSellPrice;    
     @FXML Button buyButton;
     @FXML Button sellButton;
-    @FXML TextField qtyField;
+    @FXML TextField qtyField; //Compra
+    @FXML TextField qtyField1; //Venda
     @FXML ComboBox<Storable> purchaseDestination;
+    @FXML ComboBox<Storable> saleSource; //Armazém ou transportes que armazenam as armas
+    //@FXML ComboBox<Faction> saleDestination;
     
     
     //TAB do MAPA
@@ -121,17 +127,65 @@ public class GameController implements Initializable {
         
         
         //Inicializa os destinos de compra. Devem incluir Warehouse local e qualquer veículo do jogador que esta na região
-        ObservableList<Storable> comboObl = FXCollections.observableArrayList();
+        ObservableList<Storable> storableObl = FXCollections.observableArrayList();
         if(region.getLocalWarehouse() != null){
-            comboObl.add(region.getLocalWarehouse());
+            storableObl.add(region.getLocalWarehouse());
         }
-        comboObl.addAll(this.player.getTransports(region));//Adiciona todos os transportes presentes na região em questão
-        purchaseDestination.setItems(comboObl);
+        storableObl.addAll(this.player.getTransports(region));//Adiciona todos os transportes presentes na região em questão
+        purchaseDestination.setItems(storableObl);
+        saleSource.setItems(storableObl);
     }    
+    
+    
+    @FXML
+    /**
+     * Método para vender itens no mercado
+     */
+    public void sell(){
         
-    private void updateComboBox(ComboBox cb){
-        ObservableList<Storable> comboObl = cb.getItems();
-        cb.setItems(comboObl);
+        Storable source = saleSource.getValue();
+        //Faction destination = saleDestination.getValue();
+        int demmand = selectedWeapon.getDemand();
+        
+        if(selectedWeapon != null){
+            if(qtyValidation(qtyField1)){ //Item, quantidade, fonte válidos
+                if(source != null){
+                    int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser vendida
+                    int availableQty = source.getWeaponQuantity(selectedWeapon.getWpnName());//Retorna -1 se a arma não existe. 
+
+                    if(qty <= availableQty){//Quantidade a ser vendida é menor ou igual à quantidade disponível na fonte. Se a arma não existe, o -1 impede a entrada nesse if (qty é sempre >= 0)
+
+                        if(qty <= demmand){//Quantidade menor ou igual á demanda do mercado
+                            selectedWeapon.setDemand(demmand-qty);
+
+                            marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
+                            marketTable.getColumns().get(0).setVisible(true);
+
+
+                            source.remove(selectedWeapon.getWpnName(), qty);
+                            player.addFunds(qty * selectedWeapon.getSellPrice());
+                            
+                            qtyField1.setText("");                            
+                            saleSource.setValue(null);
+                            
+                            transactionOutput.setText("");
+                            
+                            updateSellInfo();
+                            updateEssentialInfo();
+                        }
+                        else
+                            transactionOutput.setText("Insufficient Demmand");
+                    }else
+                        transactionOutput.setText("Insufficient Wares");
+                }  
+                else
+                    transactionOutput.setText("Invalid destination");
+            }
+            else
+                transactionOutput.setText("Invalid quantity");
+        }
+        else
+            transactionOutput.setText("Invalid weapon");
     }
     
     @FXML
@@ -154,16 +208,16 @@ public class GameController implements Initializable {
                         selectedWeapon.setSupply(supply-qty);//Seta nova oferta do mercado
                         marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
                         marketTable.getColumns().get(0).setVisible(true);
-                        this.updateComboBox(purchaseDestination);
                         qtyField.setText("");
-                        
-                        totalBuyPrice.setText("Total Price:");
-                        totalCargoSpace.setText("Total Cargo Space: ");
-                        transactionOutput.setText("");
                         
                         destination.store(selectedWeapon.getWpn(), qty);
                         player.subtractFunds(qty * selectedWeapon.getBuyPrice());
+                        
+                        transactionOutput.setText("");
+                        purchaseDestination.setValue(null);
                         updateEssentialInfo();
+                        updateBuyInfo();
+
                     }
                     else
                         transactionOutput.setText("Insufficient Space");
@@ -199,17 +253,47 @@ public class GameController implements Initializable {
     }
     
     
+    
+    @FXML
+    //
+    public void updateSellInfo(){
+        
+        if(selectedWeapon != null && qtyValidation(qtyField1)){
+            int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser comprada
+            totalSellPrice.setText("Total Price: " + qty*selectedWeapon.getSellPrice());
+        }
+        else{
+            totalSellPrice.setText("Total Price: ");
+        }
+        
+        if(saleSource.getValue() != null){
+            qtyStored.setText("Quantity Stored: " + saleSource.getValue().getWeaponQuantity(selectedWeapon.getWpnName()));
+        }
+        else{
+            qtyStored.setText("Quantity Stored: "); 
+        }
+    }
+    
+    
     @FXML
     //
     public void updateBuyInfo(){
-        if(this.selectedWeapon != null && this.qtyValidation(qtyField)){
-            int qty = Integer.parseInt(this.qtyField.getText());//quantidade a ser comprada
-            this.totalBuyPrice.setText("Total Price: " + qty*this.selectedWeapon.getBuyPrice());
-            this.totalCargoSpace.setText("Total Cargo Space: " + qty*this.selectedWeapon.getWpn().getSize());
+        if(selectedWeapon != null && qtyValidation(qtyField)){
+            int qty = Integer.parseInt(qtyField.getText());//quantidade a ser comprada
+            totalBuyPrice.setText("Total Price: " + qty*selectedWeapon.getBuyPrice());
+            ReqCargoSpace.setText("Required Cargo Space: " + qty*selectedWeapon.getWpn().getSize());
         }
         else{
-            this.totalBuyPrice.setText("Total Price: ");
-            this.totalCargoSpace.setText("Total Cargo Space: ");
+            totalBuyPrice.setText("Total Price: ");
+            ReqCargoSpace.setText("Required Cargo Space: ");
+        }
+        
+        if(purchaseDestination.getValue() != null){
+            Storable dest = purchaseDestination.getValue();
+            usedCargoSpace.setText("Used Cargo Space: " + dest.getUsedCapacity() +"/ " + dest.getTotalCapacity() );
+        }
+        else{
+            usedCargoSpace.setText("Used Cargo Space: ");
         }
     }
     

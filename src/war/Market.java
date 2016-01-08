@@ -44,7 +44,7 @@ public class Market {
     
     private int calculateSupply(int geoPolStatus, boolean categoryStatus){
         //Logica que calcula o suprimento 
-        return 1;
+        return 2;
     }
     private int calculateDemmand(int geoPolStatus, boolean categoryStatus){
         //Logica que calcula a demanda

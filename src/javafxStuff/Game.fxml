@@ -90,7 +90,7 @@
                               </TableView>
                            </children>
                         </VBox>
-                      <AnchorPane minHeight="-Infinity" minWidth="400.0" prefHeight="160.0" prefWidth="100.0">
+                      <AnchorPane minWidth="-Infinity" prefHeight="160.0" prefWidth="370.0">
                            <children>
                               <VBox layoutX="85.0" layoutY="103.0" spacing="20.0" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="103.0">
                                  <children>
@@ -100,10 +100,11 @@
                               </VBox>
                               <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
                                  <children>
-                                    <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" promptText="Type in the quantity - Press enter to " />
-                                    <Label fx:id="totalCargoSpace" text="Total Cargo Space:" />
+                                    <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" promptText="Type in the quantity to buy" />
+                                    <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
                                     <Label fx:id="totalBuyPrice" text="Total Price:" />
-                                    <ComboBox fx:id="purchaseDestination" prefHeight="38.0" prefWidth="232.0" promptText="Select purchase destination" />
+                                    <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select purchase destination" />
+                                    <Label fx:id="usedCargoSpace" text="Used Cargo Space" />
                                     <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
                                  </children>
                                  <padding>
@@ -114,6 +115,19 @@
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
+                              <VBox layoutX="596.0" layoutY="683.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="59.0">
+                                 <children>
+                                    <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" onAction="#updateSellInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
+                                    <Label fx:id="qtyStored" text="Quantity Stored:" />
+                                    <TextField fx:id="qtyField1" onKeyPressed="#updateSellInfo" onKeyReleased="#updateSellInfo" promptText="Type in the quantity to sell" />
+                                    <Label fx:id="totalSellPrice" text="Total Price:" />
+                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
+                                    <Button fx:id="sellButton" mnemonicParsing="false" onAction="#sell" prefHeight="25.0" prefWidth="792.0" text="SELL" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </VBox>
                            </children>
                         </AnchorPane>
                     </items>

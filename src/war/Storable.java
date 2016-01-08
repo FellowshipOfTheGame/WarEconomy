@@ -20,10 +20,13 @@ public interface Storable {
     
     public void store(Weapon wpn, int qty);
     
+    public void remove(String wpnName, int qty);//Remove armas do estoque
+    
     public int getTotalCapacity();
 
     public int getUsedCapacity();
 
     public void setUsedCapacity(int usedCapacity);
     
+    public int getWeaponQuantity(String wpnName);
 }

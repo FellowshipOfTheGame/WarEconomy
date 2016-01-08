@@ -42,8 +42,22 @@ public class Warehouse implements Storable{
     
     @Override
     public String toString() {
-        return "Local Warehouse (" + this.usedCapacity + "/" + this.totalCapacity + " space used)";
+        return "Local Warehouse";
     }
+    
+    
+    @Override
+    public int getWeaponQuantity(String wpnName) {
+        //Pesquisa no HashMap pela arma
+        PlayerWeapon wpn = this.wares.get(wpnName);
+        if(wpn ==null){
+            return -1;
+        }
+        else{
+            return wpn.getQty();
+        }
+    }
+    
     
     @Override
     public void store(Weapon wpn, int qty) {
@@ -65,6 +79,20 @@ public class Warehouse implements Storable{
         }    
     }
 
+    @Override
+    public void remove(String wpnName, int qty) {
+        
+        PlayerWeapon pwpn = this.wares.get(wpnName);
+        this.usedCapacity -= pwpn.getWpn().getSize()*qty;//Libera Espaço
+        
+        if(pwpn.getQty() - qty == 0){ //Não haverá mais dessas armas no estoque
+            this.wares.remove(wpnName); //Remove do Map
+            
+            System.out.println("Removendo " + wpnName +  " do Map");
+        }
+        else
+            pwpn.setQty(pwpn.getQty() - qty);
+    }
     
     public Warehouse() {
         this.wares = new HashMap<String, PlayerWeapon>();
@@ -72,7 +100,4 @@ public class Warehouse implements Storable{
         this.usedCapacity = 0;
         this.security = 5;
     }
-
-
-    
 }

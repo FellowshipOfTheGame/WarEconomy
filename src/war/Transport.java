@@ -41,6 +41,22 @@ public class Transport implements Storable{
         }    
     }
 
+    @Override
+    public void remove(String wpnName, int qty) {
+        
+        PlayerWeapon pwpn = this.cargo.get(wpnName);
+        
+        this.usedCapacity -= pwpn.getWpn().getSize()*qty;//Libera Espaço        
+        
+        if(pwpn.getQty() - qty == 0){ //Não haverá mais dessas armas no estoque
+            this.cargo.remove(wpnName); //Remove do Map
+            System.out.println("Removendo " + wpnName +  " do Map");
+        }
+        else
+            pwpn.setQty(pwpn.getQty() - qty);
+
+    }
+    
 @Override
     public int getTotalCapacity() {
         return totalCapacity;
@@ -60,13 +76,22 @@ public class Transport implements Storable{
         return currentPos;
     }
 
-    
-    
+    @Override
+    public int getWeaponQuantity(String wpnName) {
+        //Pesquisa no HashMap pela arma
+        PlayerWeapon wpn = this.cargo.get(wpnName);
+        if(wpn ==null){
+            return -1;
+        }
+        else{
+            return wpn.getQty();
+        }
+    }
     
     
     @Override
     public String toString() {
-        return this.name + " (" + this.usedCapacity + "/" + this.totalCapacity + " space used)";
+        return this.name;
     }
     
         public Transport(String name, int price, String type, int speed, int noise, int upkeep, Region currentPos, int totalCapacity){

@@ -70,7 +70,7 @@ public class PlayerCharacter extends Character{
     @param Posicao de inicio do jogador
     */
     public PlayerCharacter(String name, Region startingPos) {
-        this.funds = 100;
+        this.funds = 1000;
         this.heat = 0;
         this.intrigue = 0;
         this.barter = 0;
