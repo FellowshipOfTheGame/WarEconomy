@@ -3,6 +3,9 @@ package war;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 /**
@@ -12,14 +15,16 @@ import java.util.HashMap;
 public class Warehouse implements Storable{
 
     private int security;
+    private int upkeep;
     private int totalCapacity;
     private int usedCapacity;//Capacidade sendo utilizada pelas armas.
     private HashMap<String, PlayerWeapon> wares;     //Lista das armas do jogador armazenadas nesse armazem
+    private final Region region; //Final, imutável. Variável usada para a tab de inventário.
 
     public int getSecurity() {
         return security;
     }
-
+    
     @Override
     public int getTotalCapacity() {
         return totalCapacity;
@@ -28,6 +33,7 @@ public class Warehouse implements Storable{
     public void upgradeCapacity(){
         //Melhoria da capacidade, temporariamente em incrementos de 5. Sujeito a mudanca
         this.totalCapacity = this.totalCapacity + 5;
+        this.upkeep = this.upkeep + 5;
     }
 
     @Override
@@ -38,6 +44,10 @@ public class Warehouse implements Storable{
     @Override
     public void setUsedCapacity(int usedCapacity) {
         this.usedCapacity = usedCapacity;
+    }
+
+    public int getUpkeep() {
+        return upkeep;
     }
     
     @Override
@@ -58,6 +68,15 @@ public class Warehouse implements Storable{
         }
     }
     
+    @Override
+    public Region getCurrentPos() {
+        return region;
+    }
+    
+    @Override
+    public String getName(){
+        return "Local Warehouse";
+    }
     
     @Override
     public void store(Weapon wpn, int qty) {
@@ -94,10 +113,30 @@ public class Warehouse implements Storable{
             pwpn.setQty(pwpn.getQty() - qty);
     }
     
-    public Warehouse() {
+    
+    @Override
+    public ObservableList<PlayerWeapon> getWeapons() {
+        Iterator it = this.wares.entrySet().iterator();
+        ObservableList<PlayerWeapon> obl = FXCollections.observableArrayList();
+        
+        while(it.hasNext()){
+            HashMap.Entry entry = (HashMap.Entry<String, PlayerWeapon>)it.next();
+            PlayerWeapon wpn = (PlayerWeapon)entry.getValue();
+            obl.add(wpn);
+        }
+        
+        return obl;
+    }
+    
+    
+    public Warehouse(Region region) {
         this.wares = new HashMap<String, PlayerWeapon>();
         this.totalCapacity = 5;
         this.usedCapacity = 0;
+        this.upkeep = 5;
         this.security = 5;
+        this.region = region;
     }
+
+
 }

@@ -5,6 +5,11 @@
  */
 package war;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author João
@@ -29,4 +34,10 @@ public interface Storable {
     public void setUsedCapacity(int usedCapacity);
     
     public int getWeaponQuantity(String wpnName);
+    
+    public ObservableList<PlayerWeapon> getWeapons();
+    
+    //Ambos métodos abaixo são necessários para a tab de inventário
+    public String getName();
+    public Region getCurrentPos();
 }

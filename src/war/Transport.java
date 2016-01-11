@@ -3,6 +3,9 @@ package war;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -57,7 +60,7 @@ public class Transport implements Storable{
 
     }
     
-@Override
+    @Override
     public int getTotalCapacity() {
         return totalCapacity;
     }
@@ -72,6 +75,7 @@ public class Transport implements Storable{
         this.usedCapacity = usedCapacity;
     }
 
+    @Override
     public Region getCurrentPos() {
         return currentPos;
     }
@@ -80,13 +84,39 @@ public class Transport implements Storable{
     public int getWeaponQuantity(String wpnName) {
         //Pesquisa no HashMap pela arma
         PlayerWeapon wpn = this.cargo.get(wpnName);
-        if(wpn ==null){
-            return -1;
+        if(wpn == null){
+            return 0;
         }
         else{
             return wpn.getQty();
         }
     }
+
+    public int getUpkeep() {
+        return upkeep;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+    
+    
+
+    @Override
+    public ObservableList<PlayerWeapon> getWeapons() {
+        Iterator it = this.cargo.entrySet().iterator();
+        ObservableList<PlayerWeapon> obl = FXCollections.observableArrayList();
+        
+        while(it.hasNext()){
+            HashMap.Entry entry = (HashMap.Entry<String, PlayerWeapon>)it.next();
+            PlayerWeapon wpn = (PlayerWeapon)entry.getValue();
+            obl.add(wpn);
+        }
+        
+        return obl;
+    }
+
     
     
     @Override
@@ -107,4 +137,5 @@ public class Transport implements Storable{
         this.cargo = new HashMap<>();
 
     }
+
 }

@@ -12,13 +12,17 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="957.0" prefWidth="1780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.GameController">
    <children>
-      <HBox prefHeight="10.0" prefWidth="600.0">
+      <HBox prefHeight="26.0" prefWidth="1780.0">
          <children>
-            <Label fx:id="guiFunds" text="Label" />
+            <Label fx:id="guiFunds" text="Funds" />
             <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" />
-            <Label fx:id="guiHeat" text="Label" />
+            <Label fx:id="guiHeat" text="Heat" />
             <Separator layoutX="38.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" />
-            <Label fx:id="guiPlayerPos" layoutX="84.0" layoutY="10.0" text="Label" />
+            <Label fx:id="guiPlayerPos" layoutX="84.0" layoutY="10.0" text="Current Pos" />
+            <Separator layoutX="112.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" />
+            <Label fx:id="guiCurrentTurn" layoutX="158.0" layoutY="10.0" text="Turn:" />
+            <Separator layoutX="186.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" />
+            <Button fx:id="endTurnBtn" mnemonicParsing="false" onAction="#endTurn" text="End Turn" />
          </children>
       </HBox>
       <TabPane prefHeight="385.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
@@ -69,28 +73,28 @@
           </Tab>
             <Tab text="Local Black Market">
                <content>
-                  <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0">
-                    <items>
-                        <VBox>
+                  <HBox>
+                     <children>
+                        <VBox prefHeight="902.0" prefWidth="563.0">
                            <children>
                               <Label fx:id="marketName" prefHeight="45.0" prefWidth="917.0" text="Label" textAlignment="CENTER">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
                               </Label>
-                              <TableView fx:id="marketTable" minWidth="-Infinity" onMouseClicked="#selectMarketWeapons" prefHeight="919.0" prefWidth="887.0">
+                              <TableView fx:id="marketTable" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#selectMarketWeapons" prefHeight="857.0" prefWidth="575.0" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="nameColumn" minWidth="150.0" prefWidth="159.0" text="Weapon" />
-                                  <TableColumn fx:id="catColumn" minWidth="100.0" prefWidth="164.0" text="Category" />
-                                    <TableColumn fx:id="sellColumn" minWidth="80.0" prefWidth="163.0" text="Sell" />
-                                    <TableColumn fx:id="buyColumn" minWidth="80.0" prefWidth="145.0" text="Buy" />
-                                    <TableColumn fx:id="supColumn" minWidth="80.0" prefWidth="127.0" text="Supply" />
-                                    <TableColumn fx:id="demColumn" minWidth="80.0" prefWidth="148.0" text="Demand" />
+                                  <TableColumn fx:id="catColumn" minWidth="100.0" prefWidth="162.0" text="Category" />
+                                    <TableColumn fx:id="sellColumn" maxWidth="95.0" minWidth="50.0" prefWidth="65.0" resizable="false" text="Sell" />
+                                    <TableColumn fx:id="buyColumn" maxWidth="80.0" minWidth="50.0" prefWidth="65.0" resizable="false" text="Buy" />
+                                    <TableColumn fx:id="supColumn" maxWidth="80.0" minWidth="50.0" prefWidth="60.0" text="Supply" />
+                                    <TableColumn fx:id="demColumn" maxWidth="80.0" minWidth="50.0" prefWidth="60.0" text="Demand" />
                                 </columns>
                               </TableView>
                            </children>
                         </VBox>
-                      <AnchorPane minWidth="-Infinity" prefHeight="160.0" prefWidth="370.0">
+                      <AnchorPane minWidth="-Infinity" prefHeight="945.0" prefWidth="833.0">
                            <children>
                               <VBox layoutX="85.0" layoutY="103.0" spacing="20.0" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="103.0">
                                  <children>
@@ -114,7 +118,8 @@
                               <Label fx:id="transactionOutput" layoutX="439.0" layoutY="766.0" AnchorPane.bottomAnchor="128.0" AnchorPane.leftAnchor="439.0">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                               <VBox layoutX="596.0" layoutY="683.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="59.0">
                                  <children>
                                     <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" onAction="#updateSellInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
@@ -130,13 +135,40 @@
                               </VBox>
                            </children>
                         </AnchorPane>
-                    </items>
-                  </SplitPane>
+                     </children>
+                  </HBox>
                </content>
             </Tab>
             <Tab text="Inventory">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane>
+                     <children>
+                        <HBox prefHeight="917.0" prefWidth="1615.0">
+                           <children>
+                              <TableView fx:id="inventoryTable" onMouseClicked="#selectInvStorable" prefHeight="917.0" prefWidth="314.0" HBox.hgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn fx:id="invWTCol" prefWidth="124.0" resizable="false" text="Transport/Warehouse" />
+                                  <TableColumn fx:id="invLocCol" prefWidth="119.0" resizable="false" text="Location" />
+                                </columns>
+                              </TableView>
+                              <VBox prefHeight="902.0" prefWidth="414.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TableView fx:id="invCargoTable" prefHeight="447.0" prefWidth="429.0">
+                                      <columns>
+                                        <TableColumn fx:id="invCargoColumn" prefWidth="357.0" resizable="false" text="Weapons" />
+                                      </columns>
+                                    </TableView>
+                                    <VBox prefHeight="462.0" prefWidth="414.0">
+                                       <children>
+                                          <Label prefHeight="506.0" prefWidth="477.0" text="Label" />
+                                       </children></VBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="902.0" prefWidth="1097.0" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
                </content>
             </Tab>
             <Tab text="Agents">

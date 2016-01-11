@@ -25,8 +25,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import war.MarketWeapon;
 import war.PlayerCharacter;
+import war.PlayerWeapon;
 import war.Region;
 import war.Storable;
+import war.Transport;
 import war.Warehouse;
 import war.World;
 
@@ -68,6 +70,15 @@ public class GameController implements Initializable {
     @FXML ComboBox<Storable> saleSource; //Armazém ou transportes que armazenam as armas
     //@FXML ComboBox<Faction> saleDestination;
     
+    //TAB do INVENTÁRIO
+
+    @FXML TableView<Storable> inventoryTable;
+    @FXML TableColumn<Storable, String> invLocCol; //Inventory, Location Column
+    @FXML TableColumn<Storable, String> invWTCol; //Inventory, Warehouse/Transport Column
+    
+    @FXML TableView<PlayerWeapon> invCargoTable;//Inventory, Cargo Table
+    @FXML TableColumn<PlayerWeapon, String> invCargoColumn;    //Inventory, Cargo Column
+
     
     //TAB do MAPA
     @FXML MenuItem trvEmm;
@@ -79,6 +90,8 @@ public class GameController implements Initializable {
     @FXML Label guiFunds;
     @FXML Label guiHeat;
     @FXML Label guiPlayerPos;    
+    @FXML Label guiCurrentTurn;
+    @FXML Button endTurnBtn;
     
 /*------------------------------------------------------------------------------*/    
     /*ATRIBUTOS*/
@@ -86,6 +99,10 @@ public class GameController implements Initializable {
     World world;
     
     MarketWeapon selectedWeapon;
+    
+    Storable invSelectedStorable;//Selected Storable, para o inventário
+    
+    int currentTurn;
 
 /*------------------------------------------------------------------------------*/    
     /*METODOS*/
@@ -112,6 +129,7 @@ public class GameController implements Initializable {
 
     
     private void initializeMarketTab(TableView marketTable, Region region){
+        
         //Inicializa a tabela
         nameColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnName"));
         catColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnCat"));
@@ -253,7 +271,6 @@ public class GameController implements Initializable {
     }
     
     
-    
     @FXML
     //
     public void updateSellInfo(){
@@ -298,32 +315,102 @@ public class GameController implements Initializable {
     }
     
     
+    //TAB DE INVENTÁRIO---------------------------------------------------------
+    
+    public void initializeInventoryTab(){
+            //Inicializa a tabela
+
+        invLocCol.setCellValueFactory(new PropertyValueFactory<>("currentPos"));
+        invWTCol.setCellValueFactory(new PropertyValueFactory<>("name"));             
+        
+        ObservableList obl = (ObservableList) player.getStorableObl();
+        inventoryTable.setItems(obl);
+        
+        
+        /*//Inicializa os destinos de compra. Devem incluir Warehouse local e qualquer veículo do jogador que esta na região
+        ObservableList<Storable> storableObl = FXCollections.observableArrayList();
+        if(region.getLocalWarehouse() != null){
+            storableObl.add(region.getLocalWarehouse());
+        }
+        storableObl.addAll(this.player.getTransports(region));//Adiciona todos os transportes presentes na região em questão
+        purchaseDestination.setItems(storableObl);
+        saleSource.setItems(storableObl);*/
+    }
+    
+    
+    public void initializeInvCargoTable(Storable strb){
+
+        ObservableList obl = (ObservableList) strb.getWeapons();
+        invCargoColumn.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo")); //Chama o metodo getInventoryInfo
+        invCargoTable.setItems(obl);        
+    }
+    
+    public void selectInvStorable(){
+        invCargoTable.setItems(null);
+        if(inventoryTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido
+            if(invSelectedStorable != inventoryTable.getSelectionModel().getSelectedItem()) {//Storable diferente do atual é clicado
+                invSelectedStorable = inventoryTable.getSelectionModel().getSelectedItem(); 
+                
+                //Inicializa a segunda tableview com dados das playerWeapons de Storable
+                initializeInvCargoTable(invSelectedStorable);
+                System.out.println(invSelectedStorable + " Selected ");
+                //Seta o texto da descrição para o storable selecionado
+            }
+        }
+    }
+    
+    
     
     //GERAIS--------------------------------------------------------------------
+    
+    @FXML
+    /**
+     * Método para finalização de turno.
+     * Inclui recálculo dos estoques e preços dos mercados, 
+     * O jogo se passa em turnos, cada turno representa aproximadamente uma semana de tempo real. 
+     * Transportes cobrirão uma distância igual à sua velocidade dentro de um turno. 
+     * Durante o turno, o jogador pode realizar suas ações, como realizar transações econômicas ou movimentar seus agentes e transportes pelo mundo.
+     * Turnos podem ser finalizados pelo botão de finalizar turno (End Turn). 
+     * Ao finalizar um turno, o jogo realizará toda a computação necessária para atualizar o estado do mundo, realizando as ações de facções e etc. 
+     * No início de cada turno, os fundos do jogador sofrem um decremento igual ao Upkeep de Agentes e Transportes, além disso Eventos podem ocorrer.
+     */
+    public void endTurn(){
+        currentTurn ++;
+        world.updateMarkets();
+        //world.updateFactions();
+        player.subtractFunds(player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
+        
+        updateEssentialInfo();
+    }
+    
     
     @FXML
     /*Quando chegar a hora, monta uma trade-mission*/
     public void playerTravel(ActionEvent e){
         
         if(e.getSource() == trvEmm)
-            player.setCurrentPos(this.world.getRegion(0));
+            player.setCurrentPos(world.getRegion(0));
         else if(e.getSource() == trvWel)
-            player.setCurrentPos(this.world.getRegion(1));
+            player.setCurrentPos(world.getRegion(1));
         else if(e.getSource()==trvYuk)
-            player.setCurrentPos(this.world.getRegion(2));
+            player.setCurrentPos(world.getRegion(2));
         else if(e.getSource()==trvOsea)
-            player.setCurrentPos(this.world.getRegion(3));  
+            player.setCurrentPos(world.getRegion(3));  
         
-        this.updateEssentialInfo();
-        this.selectedWeapon = null;
-        this.initializeMarketTab(marketTable, player.getCurrentPos());
+        updateEssentialInfo();
+        
+        selectedWeapon = null;
+        selectedWpnImg.setImage(null);
+        selectedWpnDescr.setText(null);
+        initializeMarketTab(marketTable, player.getCurrentPos());
     }
     
     /*Atualiza info no HUD*/
     private void updateEssentialInfo(){
-        this.guiHeat.setText("HEAT: " + this.player.getHeat());
-        this.guiFunds.setText("FUNDS: "+ this.player.getFunds());
-        this.guiPlayerPos.setText("CURRENT POSITION: " + this.player.getCurrentPos().getName());
+        guiHeat.setText("HEAT: " + player.getHeat());
+        guiFunds.setText("FUNDS: "+ player.getFunds());
+        guiPlayerPos.setText("CURRENT POSITION: " + player.getCurrentPos().getName());
+        guiCurrentTurn.setText("CURRENT TURN: " + currentTurn);
     }
     
     /**
@@ -333,13 +420,18 @@ public class GameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.selectedWeapon = null;
+        selectedWeapon = null;
+        invSelectedStorable = null;
         
-        this.world = new World();
-        this.player = new PlayerCharacter("default",this.world.getRegion(0));
+        world = new World();
+        player = new PlayerCharacter("default",this.world.getRegion(0));
         
-        this.updateEssentialInfo();
-        this.initializeMarketTab(marketTable, player.getCurrentPos());
+        currentTurn = 0;
+        
+        updateEssentialInfo();
+        initializeMarketTab(marketTable, player.getCurrentPos());
+        
+        initializeInventoryTab();
     }    
     
 }

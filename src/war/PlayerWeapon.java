@@ -36,6 +36,10 @@ public class PlayerWeapon {
         this.qty = qty;
     }
     
+    public String getInventoryInfo(){ //Retorna a informação necessaria para montar a tabela de cargo no inventorio
+        String info = wpn.name + " x" + qty;
+        return info;
     
+    }
     
 }

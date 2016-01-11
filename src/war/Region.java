@@ -67,7 +67,7 @@ public class Region {
    
     public boolean buildWarehouse() {
         if(this.localWarehouse == null){
-            Warehouse w = new Warehouse();
+            Warehouse w = new Warehouse(this);
             this.localWarehouse = w;
             return true;
         }
@@ -80,6 +80,11 @@ public class Region {
         this.adjacent.add(c);
     }
     
+    
+    @Override
+    public String toString(){
+        return this.name;
+    }
 
     public Region(String name, int geoPolStatus, int opRisk, boolean mrkStatus[], WeaponDictionary wpnDic) {
         

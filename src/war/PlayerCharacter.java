@@ -3,6 +3,9 @@ package war;
 
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  * FXML Controller class
  * @briefing Classe do personagem do jogador
@@ -16,11 +19,32 @@ public class PlayerCharacter extends Character{
     private int funds;
     private int heat;
     
+    private int warehouseUpkeep;
+    private int agentUpkeep;
+    private int transportUpkeep;
+    
     private ArrayList<Warehouse> warehouses;
     private ArrayList<Agent> agents;
     private ArrayList<Transport> transports;
+
+    public int getAgentUpkeep() {
+        return agentUpkeep;
+    }
+
+    public int getTransportUpkeep() {
+        return transportUpkeep;
+    }
+
+    public int getWarehouseUpkeep() {
+        return warehouseUpkeep;
+    }
+    
     
 
+    public ArrayList<Agent> getAgents() {
+        return agents;
+    }
+    
     public int getFunds() {
         return funds;
     }
@@ -31,7 +55,12 @@ public class PlayerCharacter extends Character{
 
     public void subtractFunds(int value) {
         int funds = this.getFunds() - value;
-        this.funds = funds;
+        if(funds<0){
+            this.funds = 0;
+        }
+        else{
+            this.funds = funds;
+        }
         System.out.println("New funds:" + this.funds);
     }
     
@@ -61,8 +90,44 @@ public class PlayerCharacter extends Character{
         }
         return compatibleTransports;
     }
-
     
+    /***
+     * Retorna lista Observavel de todos os Storables.
+     * Utilizada para montar a tabela de inventário.
+     */
+    public ObservableList<Storable>getStorableObl() {//Retorna uma observable list para montar a tabela
+        ObservableList<Storable> obl = FXCollections.observableArrayList();
+        
+        for(Warehouse warehouse : warehouses){
+            obl.add(warehouse);
+        }
+        
+        for (Transport transport : transports) {
+            obl.add(transport);
+        }
+        
+        return obl;
+    }
+    
+    /**
+     * Métodos a serem chamado toda a vez que o jogador adiciona um novo transporte, agente ou armazém novo.
+     * Acrescenta o upkeep do novo asset ao upkeep total daquela categoria.
+     */
+    public void addTransport(Transport trnsp){
+        this.transports.add(trnsp);
+        this.transportUpkeep =+ trnsp.getUpkeep();
+    }
+    
+    
+    public void addAgent(Agent agnt){
+        this.agents.add(agnt);
+        this.agentUpkeep =+ agnt.getWage();
+    }
+    
+    public void addWarehouse(Warehouse wareh){
+        this.warehouses.add(wareh);
+        this.warehouseUpkeep =+ wareh.getUpkeep();
+    }
     
     /*
     Construtor para NEW GAME
@@ -70,7 +135,7 @@ public class PlayerCharacter extends Character{
     @param Posicao de inicio do jogador
     */
     public PlayerCharacter(String name, Region startingPos) {
-        this.funds = 1000;
+        this.funds = 200;
         this.heat = 0;
         this.intrigue = 0;
         this.barter = 0;
@@ -84,7 +149,7 @@ public class PlayerCharacter extends Character{
         //Constroi a warehouse da regiao inicial do jogador e a inclui na lista de Warehouses
         boolean buildWarehouse = startingPos.buildWarehouse(); 
         System.out.println("buildWarehouse: " + buildWarehouse);
-        this.warehouses.add(startingPos.getLocalWarehouse());
+        this.addWarehouse(startingPos.getLocalWarehouse());
         
         //Constroi e insere o primeiro transporte do jogador.
         Transport t = new Transport("Truck",0,"land",1, 1, 1, startingPos, 1);//TEMPORARIO
