@@ -69,8 +69,24 @@ public class PlayerCharacter extends Character{
         this.funds = funds;
     }
     
-    public void setHeat(int heat) {
-        this.heat = heat;
+    public void subtractHeat(int heatInc) {
+        int heat = this.getHeat() - heatInc;
+        if(heat<0){
+            this.heat = 0;
+        }
+        else{
+            this.heat = heat;
+        }
+    }
+    
+    public void addHeat(int heatInc) {
+        int heat = this.getHeat() + heatInc;
+        if(heat >= 100){
+            System.out.println("Game over");
+        }
+        else{
+            this.heat = heat;
+        }
     }
 
     public ArrayList<Transport> getTransports() {
@@ -106,6 +122,26 @@ public class PlayerCharacter extends Character{
             obl.add(transport);
         }
         
+        return obl;
+    }
+    
+    /***
+     * Retorna lista Observavel de todos os Storables em uma determinada região, com a exceção de um.
+     * @param sto = storable exceção, já selecionado
+     * @param reg = região para procurar
+     * Utilizada para montar a comboBox de "Mover" do inventário.
+     */
+    public ObservableList<Storable>getStorableObl(Region reg, Storable sto) {//Retorna uma observable list para montar a tabela
+        ObservableList<Storable> obl = FXCollections.observableArrayList();
+        
+        for(Warehouse warehouse : warehouses){
+            if(warehouse.getCurrentPos()==reg && warehouse != sto)
+                obl.add(warehouse);
+        }
+        for (Transport transport : transports) {
+            if(transport.getCurrentPos()==reg && transport != sto)
+                obl.add(transport);
+        }
         return obl;
     }
     

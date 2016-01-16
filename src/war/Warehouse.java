@@ -61,7 +61,7 @@ public class Warehouse implements Storable{
         //Pesquisa no HashMap pela arma
         PlayerWeapon wpn = this.wares.get(wpnName);
         if(wpn ==null){
-            return -1;
+            return 0;
         }
         else{
             return wpn.getQty();
@@ -82,6 +82,11 @@ public class Warehouse implements Storable{
     public void store(Weapon wpn, int qty) {
         //Pressupondo que as armas caberão no armazém. Verificação para isso deve ser feita pelo método buy() de GameController
         PlayerWeapon pwpn = this.wares.get(wpn.getName());
+        
+        if(wpn.getSize() * qty + usedCapacity > totalCapacity){
+            System.err.println("INSUFFICIENT CARGO SPACE");
+            return;
+        }
         
         //Arma ainda não existe no inventário do armazém
         if(pwpn == null){
@@ -127,6 +132,12 @@ public class Warehouse implements Storable{
         
         return obl;
     }
+    
+    @Override
+    public String getDescriptionInfo() {
+        return("LOCAL WAREHOUSE" + "\nUpkeep: " + this.upkeep + "\nSecurity: " + security + "\nCapacity: " + usedCapacity + "/" + totalCapacity);
+    }
+
     
     
     public Warehouse(Region region) {

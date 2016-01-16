@@ -37,6 +37,8 @@ public interface Storable {
     
     public ObservableList<PlayerWeapon> getWeapons();
     
+    public String getDescriptionInfo(); // retorna uma String com todas as informações (nome, espaço utilizado, velocidade, segurança, etc.) necessários para a descrição no inventório.
+    
     //Ambos métodos abaixo são necessários para a tab de inventário
     public String getName();
     public Region getCurrentPos();

@@ -29,6 +29,12 @@ public class Transport implements Storable{
         //Pressupondo que as armas caberão no transporte. Verificação para isso deve ser feita pelo método buy() de GameController
         PlayerWeapon pwpn = this.cargo.get(wpn.getName());
         
+        
+        if(wpn.getSize() * qty + usedCapacity > totalCapacity){
+            System.err.println("INSUFFICIENT CARGO SPACE");
+            return;
+        }
+        
         //Arma ainda não existe no inventário do transporte
         if(pwpn == null){
             pwpn = new PlayerWeapon(wpn, wpn.getSize()*qty, qty);//Cria uma nova arma de jogador.
@@ -117,7 +123,12 @@ public class Transport implements Storable{
         return obl;
     }
 
-    
+    @Override
+    public String getDescriptionInfo() {
+        return (name.toUpperCase() + "\nType: " + type.toUpperCase() + "\nSpeed: " + speed +
+                "\nNoise: " + noise +"\nUpkeep: " + upkeep + "\nCapacity: " + usedCapacity +  "/" + totalCapacity);
+    }
+
     
     @Override
     public String toString() {
@@ -137,5 +148,6 @@ public class Transport implements Storable{
         this.cargo = new HashMap<>();
 
     }
+
 
 }
