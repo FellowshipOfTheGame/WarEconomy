@@ -18,7 +18,12 @@ public class Transport implements Storable{
     private int speed;
     private int noise;
     private int upkeep;
+    
     private Region currentPos;
+    private int weightTraveled;//Distância percorrida até o momento na conexão 
+    private Connection currentConnection;
+    private ArrayList<Region> route; //Rota que o transporte deve seguir.
+    
     private int totalCapacity;
     private int usedCapacity;//Capacidade sendo utilizada pelas armas.    
     private HashMap<String, PlayerWeapon> cargo;//Quais armas serão carregadas em uma trade mission.
@@ -97,7 +102,7 @@ public class Transport implements Storable{
             return wpn.getQty();
         }
     }
-
+    
     public int getUpkeep() {
         return upkeep;
     }
@@ -106,9 +111,12 @@ public class Transport implements Storable{
     public String getName() {
         return name;
     }
-    
-    
 
+    public String getType() {
+        return type;
+    }
+
+    
     @Override
     public ObservableList<PlayerWeapon> getWeapons() {
         Iterator it = this.cargo.entrySet().iterator();
@@ -130,12 +138,188 @@ public class Transport implements Storable{
     }
 
     
+    public String getStatusString() {//Getter utilizado para montar a tabela de transportes
+        if(route!=null)
+            return "En Route";
+        else
+            return "Standing By";
+    }
+
+    public ArrayList<Region> getRoute() {
+        return route;
+    }
+    
+    public String getRouteString(){
+        String routeString = "En route from: " + currentPos.getName();
+        for(Region region : route)
+            routeString = routeString + " -> " + region.getName() ;
+        System.out.println(routeString);
+        return routeString;
+    }
+    
+    /**
+     * Adiciona uma nova região na rota do transporte. 
+     * Se não havia rota, a rota é criada, caso contrário, apenas adiciona
+     * @param reg = nova região destino
+     */
+    
+    public void addRouteStop(Region reg) {
+        System.out.println(route);
+        if(route==null){
+            route = new ArrayList<Region>();
+            route.add(reg);
+            System.out.println("nova ArrayList, rota estabelecida");
+        }
+        else{
+            route.add(reg);
+            System.out.println("Parada adicionada");
+        }
+    }
+    
+    
+    /**
+     * Remove o destino final da rota do transporte.
+     * Se não há mais nada na rota, transforma rota em null
+     */
+    public void removeRouteStop() {
+        route.remove(route.size()-1);//Remove a ultima posição da rota
+        if (route.size() == 0){
+            route = null;
+            System.out.println("parada removida, rota = " + route);
+        }
+    }
+    
+    
+    /**
+     * Verifica, a partir de todas regiões adjacentes da posição atual, quais
+     * regiões o transporte pode se mover.
+     * @return obl = lista observável com as regiões moviveis. Usada para montar 
+     * a ComboBox do menu de transportes. Se necessário, modificar aqui para considerar o caso de duas conexões entre 2 paises
+     */
+    public ObservableList<Region> getMovableAdjacent(){
+        
+        ObservableList<Region> obl = FXCollections.observableArrayList();
+        if(route == null){//Transporte em standby
+            if(type == "land"){//Transporte terrestre
+                for(Connection connection : currentPos.getAdjacent()){
+                    if(connection.isLand()){
+                        if(connection.getRegionA() != currentPos)
+                            obl.add(connection.getRegionA());//Regiao A da conexao é a outra
+                        else
+                            obl.add(connection.getRegionB());//Região B da conexão é a outra
+                    }
+                }
+            }
+            else if (type == "sea"){//Transporte marinh
+                for(Connection connection : currentPos.getAdjacent()){
+                    if(!connection.isLand()){
+                        if(connection.getRegionA() != currentPos)
+                            obl.add(connection.getRegionA());//Regiao A da conexao é a outra
+                        else
+                            obl.add(connection.getRegionB());//Região B da conexão é a outra
+                    }
+                }
+            }
+            else{//Transporte aéreo
+                for(Connection connection : currentPos.getAdjacent()){
+                    if(connection.getRegionA() != currentPos)
+                        obl.add(connection.getRegionA());//Regiao A da conexao é a outra
+                    else
+                        obl.add(connection.getRegionB());//Região B da conexão é a outra
+                }
+            }    
+        }
+        
+        else{ //Transporte em rota
+            Region destination = route.get(route.size()-1);//Ultima posição da rota
+            if(type == "land"){//Transporte terrestre
+                for(Connection connection : destination.getAdjacent()){
+                    if(connection.isLand()){
+                        if(connection.getRegionA() != destination)
+                            obl.add(connection.getRegionA());//Regiao A da conexao é a outra
+                        else
+                            obl.add(connection.getRegionB());//Região B da conexão é a outra
+                    }
+                }
+            }
+            else if (type == "sea"){//Transporte marinh
+                for(Connection connection : destination.getAdjacent()){
+                    if(!connection.isLand()){
+                        if(connection.getRegionA() != destination)
+                            obl.add(connection.getRegionA());//Regiao A da conexao é a outra
+                        else
+                            obl.add(connection.getRegionB());//Região B da conexão é a outra
+                    }
+                }
+            }
+            else{//Transporte aéreo
+                for(Connection connection : destination.getAdjacent()){
+                    if(connection.getRegionA() != destination)
+                        obl.add(connection.getRegionA());//Regiao A da conexao é a outra
+                    else
+                        obl.add(connection.getRegionB());//Região B da conexão é a outra
+                }
+            }          
+        }
+        return obl;
+    }
+    
+    
+    public void move(){
+        
+        if(route != null){
+            System.out.println(name + "Moving !");
+            
+            if(currentConnection==null){//Transporte vai sair agora da sua posição atual
+                currentConnection = currentPos.getConnection(route.get(0));//Pega a conexao entre a posição atual e a primeira região da rota
+                weightTraveled = speed;
+                System.out.println("current con" + currentConnection);
+            }
+            else{//Transporte já está em movimento
+                weightTraveled =+ speed;
+            }
+            
+            
+            if(weightTraveled == currentConnection.getWeight()){//percorreu exatamente toda a distancia
+                weightTraveled = 0;
+                currentPos = route.get(0);//Chegou no destino
+                route.remove(0);//Remove da rota
+                
+                if(route.size() > 0){//O caminho ainda não acabou
+                    currentConnection = currentPos.getConnection(route.get(0));//Seta a nova conexão atual
+                }else{//Caminho acabou
+                    System.out.println("Arrived at destination");
+                    currentConnection = null;
+                    route = null;
+                }
+            }
+            else if(weightTraveled > currentConnection.getWeight()){ //Percorreu mais do que a distãncia
+                currentPos = route.get(0); //nova posição
+                route.remove(0);//remove da rota
+                if(route.size() > 0){//O caminho ainda não acabou.
+                    weightTraveled = weightTraveled - currentConnection.getWeight();//Distancia percorrida é a diferença do total com o peso da conexão atual "antiga"
+                    currentConnection = currentPos.getConnection(route.get(0));//Nova conexão atual
+                }else{//Caminho acabou
+                    System.out.println("Arrived at destination");
+                    weightTraveled = 0;
+                    currentConnection = null;
+                    route = null;
+                }
+            }
+            
+            /*
+            INCLUIR TESTES DE NOISE AQUI, EVENTUALMENTE
+             */
+        }
+    }
+    
+    
     @Override
     public String toString() {
         return this.name;
     }
     
-        public Transport(String name, int price, String type, int speed, int noise, int upkeep, Region currentPos, int totalCapacity){
+    public Transport(String name, int price, String type, int speed, int noise, int upkeep, Region currentPos, int totalCapacity){
         this.name = name;
         this.price = price;
         this.type = type;
@@ -145,7 +329,11 @@ public class Transport implements Storable{
         this.currentPos = currentPos;
         this.totalCapacity = totalCapacity;
         this.usedCapacity = 0;
+        this.weightTraveled = 0;
         this.cargo = new HashMap<>();
+        
+        this.route = null;
+        this.currentConnection = null;
 
     }
 

@@ -92,6 +92,7 @@ public class PlayerCharacter extends Character{
     public ArrayList<Transport> getTransports() {
         return transports;
     }
+    
     /**
      * Retorna apenas os transportes localizados em uma determinada região.
      * @param region //Região em questão para procurar
@@ -105,6 +106,13 @@ public class PlayerCharacter extends Character{
             }
         }
         return compatibleTransports;
+    }
+    
+    
+    public void moveTransports(){
+        for(Transport transport : transports){
+            transport.move();
+        }
     }
     
     /***
@@ -144,6 +152,18 @@ public class PlayerCharacter extends Character{
         }
         return obl;
     }
+    
+    
+    public ObservableList<Transport>getTransportObl() {//Retorna uma observable list para montar a tabela da tab de transportes
+        ObservableList<Transport> obl = FXCollections.observableArrayList();
+        
+        for (Transport transport : transports) {
+            obl.add(transport);
+        }
+        
+        return obl;
+    }
+    
     
     /**
      * Métodos a serem chamado toda a vez que o jogador adiciona um novo transporte, agente ou armazém novo.
@@ -188,7 +208,7 @@ public class PlayerCharacter extends Character{
         this.addWarehouse(startingPos.getLocalWarehouse());
         
         //Constroi e insere o primeiro transporte do jogador.
-        Transport t = new Transport("Truck",0,"land",1, 1, 1, startingPos, 1);//TEMPORARIO
+        Transport t = new Transport("Teco Teco",0,"air",1, 1, 1, startingPos, 1);//TEMPORARIO
         this.transports.add(t);
         
         System.out.println("New player " + name + " character chreated at " + startingPos.getName());

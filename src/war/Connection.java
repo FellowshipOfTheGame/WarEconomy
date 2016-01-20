@@ -16,6 +16,24 @@ public class Connection {
     private boolean land;/*true significa conexao por terra*/
     private int weight;
 
+    public Region getRegionA() {
+        return regionA;
+    }
+
+    public Region getRegionB() {
+        return regionB;
+    }
+
+    public boolean isLand() {
+        return land;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    
+    
     public Connection(Region regionA, Region regionB, boolean land, int weight) {
         this.regionA = regionA;
         this.regionB = regionB;

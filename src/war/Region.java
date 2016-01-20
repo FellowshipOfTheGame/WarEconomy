@@ -6,6 +6,8 @@
 package war;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -63,7 +65,14 @@ public class Region {
         return adjacent;
     }
     
-    
+    public Connection getConnection(Region reg){
+        for (Connection connection : adjacent){
+            if(connection.getRegionA() == reg || connection.getRegionB() == reg)
+                return connection;
+        }
+        System.out.println("Error: connection not found");
+        return null;        
+    }
    
     public boolean buildWarehouse() {
         if(this.localWarehouse == null){
@@ -79,8 +88,7 @@ public class Region {
     public void addAdjacent(Connection c){
         this.adjacent.add(c);
     }
-    
-    
+
     @Override
     public String toString(){
         return this.name;

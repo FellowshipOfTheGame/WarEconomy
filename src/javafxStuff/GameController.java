@@ -6,6 +6,7 @@
 package javafxStuff;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -44,6 +48,12 @@ import war.World;
 public class GameController implements Initializable {
     
     /*ELEMENTOS DE FXML*/
+    //GERAIS
+    @FXML TabPane pane;
+    @FXML Tab map;
+    @FXML Tab blackMarket;
+    @FXML Tab inventory;
+    @FXML Tab transports;
     
     //TAB de MERCADO NEGRO
     @FXML ImageView selectedWpnImg;
@@ -95,7 +105,19 @@ public class GameController implements Initializable {
     @FXML MenuItem trvYuk;    
     @FXML MenuItem trvWel;    
     
+    //TAB de TRANSPORTES
     
+    @FXML TableView<Transport> transportsTable;
+    @FXML TableColumn<Transport, String> tranLocCol; // Transport, Location Column
+    @FXML TableColumn<Transport, String> tranNameCol; // Transport, Name Column
+    @FXML TableColumn<Transport, String> tranTypeCol; // Transport, Type Column
+    @FXML TableColumn<Transport, String> tranStatCol; // Transport, Status Column
+    
+    @FXML ComboBox<Region> adjacentRegions;
+    
+    @FXML Text tranRoute;
+    
+    //INFO ESSENCIAL
     @FXML Label guiFunds;
     @FXML Label guiHeat;
     @FXML Label guiPlayerPos;    
@@ -111,6 +133,8 @@ public class GameController implements Initializable {
     PlayerWeapon invSelectedWpn;//Inventory, selected weapon
     
     Storable invSelectedStorable;//Selected Storable, para o inventário
+    
+    Transport tranSelectedTransport;//Selected Transport, para a tab de Transportes
     
     int currentTurn;
 
@@ -138,16 +162,15 @@ public class GameController implements Initializable {
 
 
     
-    private void initializeMarketTab(TableView marketTable, Region region){
+    private void initializeMarketTab(Region region){
         
         //Inicializa a tabela
-        nameColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnName"));
-        catColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, String>("wpnCat"));
-
-        sellColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("sellPrice"));
-        buyColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("buyPrice"));
-        supColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("supply"));
-        demColumn.setCellValueFactory(new PropertyValueFactory<MarketWeapon, Integer>("demand"));             
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("wpnName"));
+        catColumn.setCellValueFactory(new PropertyValueFactory<>("wpnCat"));
+        sellColumn.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
+        buyColumn.setCellValueFactory(new PropertyValueFactory<>("buyPrice"));
+        supColumn.setCellValueFactory(new PropertyValueFactory<>("supply"));
+        demColumn.setCellValueFactory(new PropertyValueFactory<>("demand"));             
         
         ObservableList obl = (ObservableList) region.getLocalMarket().getAvailableWeapons();
         this.marketName.setText(this.player.getCurrentPos().getName()+"'s Black Market");
@@ -417,16 +440,21 @@ public class GameController implements Initializable {
         invMoveQty.setText(null);
         invMoveDestination.setValue(null);
         
-        
-        initializeInvCargoTable(invSelectedStorable);
         invCargoTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
         invCargoTable.getColumns().get(0).setVisible(true);                      
         
-        if(invSelectedStorable.getWeaponQuantity(invSelectedWpn.getWpn().getName()) <= 0){
+        inventoryTable.getColumns().get(0).setVisible(false);
+        inventoryTable.getColumns().get(0).setVisible(true);
+        
+        if(invSelectedStorable != null)
+            initializeInvCargoTable(invSelectedStorable);
+        
+        if(invSelectedWpn != null && invSelectedStorable.getWeaponQuantity(invSelectedWpn.getWpn().getName()) <= 0){
             invWpnImg.setImage(null);
             invWpnDes.setText(null);
-        }        
+        }
     }
+    
     /**
      * Método usado para mover armas de um Storable para outro.
      */
@@ -477,8 +505,82 @@ public class GameController implements Initializable {
             }
         }
     }
+    
+    
+    //TAB DE TRANSPORTES--------------------------------------------------------
+    
+    public void initializeTransportsTab(){
+    //    transportsTable;
+        tranLocCol.setCellValueFactory(new PropertyValueFactory<>("currentPos")); // Transport, Location Column
+        tranNameCol.setCellValueFactory(new PropertyValueFactory<>("name")); // Transport, Name Column
+        tranTypeCol.setCellValueFactory(new PropertyValueFactory<>("type")); // Transport, Type Column
+        tranStatCol.setCellValueFactory(new PropertyValueFactory<>("statusString")); //Transport, Status Column
+        
+        ObservableList obl = (ObservableList) player.getTransportObl();
+        transportsTable.setItems(obl);        
+    }
+    
+    @FXML
+    public void selectTransport(){
+        if(transportsTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido
+            if(tranSelectedTransport != transportsTable.getSelectionModel().getSelectedItem()) {//Transporte diferente do atual é clicado
+                updateTransportTab();
+            }
+        }
+    }
+    
+    @FXML
+    /**
+     * Seleção de uma nova parada para a rota do Transporte
+     */
+    public void addRouteStop(){
+        Region newStop = adjacentRegions.getValue();
+        if(newStop != null){
+            tranSelectedTransport.addRouteStop(newStop);
 
-    //GERAIS--------------------------------------------------------------------
+            adjacentRegions.setValue(null);
+            updateTransportTab();
+        }
+    }
+    
+    @FXML
+    public void removeRouteStop(){
+        tranSelectedTransport.removeRouteStop();
+        adjacentRegions.setValue(null);
+        updateTransportTab();        
+    }
+    
+    public void updateTransportTab(){
+    
+        tranSelectedTransport = transportsTable.getSelectionModel().getSelectedItem(); 
+
+        ArrayList<Region> route = tranSelectedTransport.getRoute();
+        //Inicializa a combobox de regiões
+        adjacentRegions.setItems(tranSelectedTransport.getMovableAdjacent());
+        
+        if(route == null){ //Standby, setar vizinhos da posição atual
+            tranRoute.setText("Standing By");
+        }
+        else{ //Inicializar a partir das regiões adjacentes ao destino
+            tranRoute.setText(tranSelectedTransport.getRouteString());
+        }
+        transportsTable.getColumns().get(0).setVisible(false);
+        transportsTable.getColumns().get(0).setVisible(true);
+    }
+
+    @FXML
+    public void editCargo(){
+        if(tranSelectedTransport != null){
+            invSelectedStorable = tranSelectedTransport;
+            
+            updateInventoryTab();       
+            
+            inventoryTable.getSelectionModel().select(invSelectedStorable);           
+            pane.getSelectionModel().select(inventory);
+        }
+    }
+    
+//GERAIS--------------------------------------------------------------------
     
     @FXML
     /**
@@ -495,7 +597,13 @@ public class GameController implements Initializable {
         currentTurn ++;
         world.updateMarkets();
         //world.updateFactions();
+        
         player.subtractFunds(player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
+        player.moveTransports();
+        
+        updateTransportTab();
+        updateInventoryTab();
+        initializeMarketTab(player.getCurrentPos());
         
         updateEssentialInfo();
     }
@@ -519,7 +627,7 @@ public class GameController implements Initializable {
         selectedWeapon = null;
         selectedWpnImg.setImage(null);
         selectedWpnDescr.setText(null);
-        initializeMarketTab(marketTable, player.getCurrentPos());
+        initializeMarketTab(player.getCurrentPos());
     }
     
     /*Atualiza info no HUD*/
@@ -540,6 +648,7 @@ public class GameController implements Initializable {
         selectedWeapon = null;
         invSelectedStorable = null;
         invSelectedWpn = null;
+        tranSelectedTransport = null;
         
         world = new World();
         player = new PlayerCharacter("default",this.world.getRegion(0));
@@ -547,8 +656,8 @@ public class GameController implements Initializable {
         currentTurn = 0;
         
         updateEssentialInfo();
-        initializeMarketTab(marketTable, player.getCurrentPos());
-        
+        initializeMarketTab(player.getCurrentPos());
+        initializeTransportsTab();
         initializeInventoryTab();
     }    
     
