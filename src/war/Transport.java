@@ -115,7 +115,23 @@ public class Transport implements Storable{
     public String getType() {
         return type;
     }
-
+    
+    /**
+     * Metodo usado principalmente para a tab de transportes.
+     * */
+    
+    public String getWeaponsString(){
+        Iterator it = this.cargo.entrySet().iterator();
+        String str = "";
+        
+        while(it.hasNext()){
+            HashMap.Entry entry = (HashMap.Entry<String, PlayerWeapon>)it.next();
+            PlayerWeapon wpn = (PlayerWeapon)entry.getValue();
+            str += wpn.getWpn().getName() + "x" + wpn.getQty() +"\n";
+        }
+        
+        return str;    
+    }
     
     @Override
     public ObservableList<PlayerWeapon> getWeapons() {
@@ -268,15 +284,16 @@ public class Transport implements Storable{
     public void move(){
         
         if(route != null){
-            System.out.println(name + "Moving !");
+            System.out.println(name + " Moving !");
             
             if(currentConnection==null){//Transporte vai sair agora da sua posição atual
                 currentConnection = currentPos.getConnection(route.get(0));//Pega a conexao entre a posição atual e a primeira região da rota
                 weightTraveled = speed;
-                System.out.println("current con" + currentConnection);
+                System.out.println("new con: " + currentConnection);
             }
             else{//Transporte já está em movimento
-                weightTraveled =+ speed;
+                weightTraveled += speed;
+                System.out.println("Proceeding " + weightTraveled +"/" + currentConnection.getWeight());
             }
             
             

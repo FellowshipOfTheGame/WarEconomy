@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import war.MarketWeapon;
 import war.PlayerCharacter;
@@ -114,9 +115,9 @@ public class GameController implements Initializable {
     @FXML TableColumn<Transport, String> tranStatCol; // Transport, Status Column
     
     @FXML ComboBox<Region> adjacentRegions;
-    
+    @FXML Text tranCargo;
     @FXML Text tranRoute;
-    
+        
     //INFO ESSENCIAL
     @FXML Label guiFunds;
     @FXML Label guiHeat;
@@ -446,6 +447,8 @@ public class GameController implements Initializable {
         inventoryTable.getColumns().get(0).setVisible(false);
         inventoryTable.getColumns().get(0).setVisible(true);
         
+        storableDes.setText(invSelectedStorable.getDescriptionInfo());
+
         if(invSelectedStorable != null)
             initializeInvCargoTable(invSelectedStorable);
         
@@ -564,6 +567,7 @@ public class GameController implements Initializable {
         else{ //Inicializar a partir das regiões adjacentes ao destino
             tranRoute.setText(tranSelectedTransport.getRouteString());
         }
+        tranCargo.setText(tranSelectedTransport.getWeaponsString());
         transportsTable.getColumns().get(0).setVisible(false);
         transportsTable.getColumns().get(0).setVisible(true);
     }
