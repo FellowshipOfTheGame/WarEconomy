@@ -3,7 +3,6 @@ Hellfire do War Economy
 `hell` pra deixar tudo certo, `hell run` pra rodar ;]
 Variável 'unchecked' cuida de compilar os java com "-Xlint:unchecked" ]]
 
-local utils = hell.utils
 hell.outdir = 'build'
 
 -- nomes importantes
@@ -13,7 +12,7 @@ javafxPkg = "javafxStuff"
 jsonLib = utils.glob ('libs/*json*.jar')[1]
 
 -- compila os java
-jstuff = java {
+jStuff = java {
 	input = utils.recursiveGlob ('*.java', 'src'),
 	flags = unchecked and '&-Xlint:unchecked',
 	classpath = jsonLib
@@ -26,12 +25,13 @@ copy {
 		return utils.makePath (javafxPkg:gsub ('%.', '/'), i)
 	end,
 	multinput = true,
-	deps = {jstuff}
+	deps = {jStuff}
 }
 
 -- imagens
 copy {
-	input = "src/images"
+	input = utils.glob "src/images",
+	flags = '&-T'
 }
 
 -- pra rodar

@@ -11,7 +11,7 @@ javaSrc = $(shell ls -b src/{$(warPkg),$(javafxPkg)}/*.java)
 # extras do javafx, só copia
 javafxStuff = $(shell ls -b src/javafxStuff/*.{fxml,css})
 # imagens, só copia também
-images = $(shell ls -b src/images/*.png)
+images = src/images
 # lib do json pra java
 jsonLib = $(shell ls -b libs/*json*.jar)
 
@@ -25,7 +25,7 @@ java :
 
 resto :
 	cp $(javafxStuff) $(BUILDDIR)/$(subst .,/,$(javafxPkg))
-	cp -r src/images $(BUILDDIR)
+	cp -r $(images) $(BUILDDIR)
 
 pasta :
 	@mkdir -p $(BUILDDIR)
