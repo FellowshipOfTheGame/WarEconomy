@@ -171,18 +171,18 @@ public class PlayerCharacter extends Character{
      */
     public void addTransport(Transport trnsp){
         this.transports.add(trnsp);
-        this.transportUpkeep =+ trnsp.getUpkeep();
+        this.transportUpkeep += trnsp.getUpkeep();
     }
     
     
     public void addAgent(Agent agnt){
         this.agents.add(agnt);
-        this.agentUpkeep =+ agnt.getWage();
+        this.agentUpkeep += agnt.getWage();
     }
     
     public void addWarehouse(Warehouse wareh){
         this.warehouses.add(wareh);
-        this.warehouseUpkeep =+ wareh.getUpkeep();
+        this.warehouseUpkeep += wareh.getUpkeep();
     }
     
     /*

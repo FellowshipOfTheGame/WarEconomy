@@ -5,3 +5,7 @@
 # objetos
 *.class
 build/
+
+# coisas do cscope
+*cscope*
+*ctags*
