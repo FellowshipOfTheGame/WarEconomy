@@ -74,21 +74,38 @@ public final class World {
                 
         boolean[] marketStatusTest = {true, false};
         
-        Region emm = new Region("Emmeria", 5, 5, marketStatusTest, this.weapons);
-        Region wel = new Region("Wellow",4, 4, marketStatusTest, this.weapons);
-        Region yuk = new Region("Yuktobania", 3, 3, marketStatusTest, this.weapons);
-        Region osea = new Region("Osea", 2, 2, marketStatusTest, this.weapons);
+        Region naf = new Region("Nafran", 5, 5, marketStatusTest, this.weapons);
+        Region col = new Region("Columbia",4, 4, marketStatusTest, this.weapons);
+        Region cal = new Region("Callisto", 3, 3, marketStatusTest, this.weapons);
+        Region ura = new Region("Uraliya", 2, 2, marketStatusTest, this.weapons);
+        Region rut = new Region("Ruthenia", 2, 2, marketStatusTest, this.weapons);
+        Region aur = new Region("Auria", 2, 2, marketStatusTest, this.weapons);
+        
+        
         /*Seta as conexoes entre as regios*/
-        this.createConnection(emm, yuk, false, 1);
-        this.createConnection(yuk, osea, false, 2);
-        this.createConnection(osea, wel, false, 1);
-        this.createConnection(emm, wel, false,3);
+        this.createConnection(naf, col, true, 1);
+        this.createConnection(naf, aur, false, 2);
+        
+        this.createConnection(col, cal, false, 1);
+        this.createConnection(col, ura, false,3);
+        
+        this.createConnection(cal, ura, false,1);
+        this.createConnection(cal, rut, false,1);
+        
+        this.createConnection(ura, rut, false,1);
+        this.createConnection(ura, aur, false,1);
+        
+        this.createConnection(rut, aur, false,1);
         
         /*Adiciona as regioes ao arraylist*/
-        this.regions.add(emm);//0
-        this.regions.add(wel);//1
-        this.regions.add(yuk);//2
-        this.regions.add(osea);//3
+        this.regions.add(naf);
+        this.regions.add(col);
+        this.regions.add(cal);
+        this.regions.add(ura);
+        this.regions.add(rut);
+        this.regions.add(aur);
+        
+        System.out.println(regions);
     }
     
     

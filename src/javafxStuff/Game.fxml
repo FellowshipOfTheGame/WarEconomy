@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.GameController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.GameController">
    <children>
       <HBox prefHeight="26.0" prefWidth="1780.0">
          <children>
@@ -19,6 +19,8 @@
             <Label fx:id="guiFunds" text="Funds" />
             <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
             <Label fx:id="guiHeat" text="Heat" />
+            <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
+            <Label fx:id="guiNotoriety" text="Notoriety" />
             <Separator layoutX="38.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
             <Label fx:id="guiPlayerPos" layoutX="84.0" layoutY="10.0" text="Current Pos" />
             <Separator layoutX="112.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
@@ -40,52 +42,34 @@
                                     <Image url="@../images/WE-WorldMap.png" />
                                  </image>
                               </ImageView>
-                              <MenuButton layoutX="170.0" layoutY="166.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                              <MenuButton layoutX="224.0" layoutY="523.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="NAFRAN">
                                 <items>
-                                  <MenuItem fx:id="trvEmm" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
-                                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                                  <MenuItem fx:id="trvNaf" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
                                 </items>
                               </MenuButton>
-                              <MenuButton layoutX="205.0" layoutY="602.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                              <MenuButton layoutX="726.0" layoutY="577.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="COLUMBIA">
                                  <items>
-                                    <MenuItem fx:id="trvYuk" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                    <MenuItem fx:id="trvCol" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
                                  </items>
                               </MenuButton>
-                              <MenuButton layoutX="806.0" layoutY="564.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                              <MenuButton layoutX="1081.0" layoutY="267.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="CALLISTO">
                                  <items>
-                                    <MenuItem fx:id="trvOsea" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                    <MenuItem fx:id="trvCal" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
                                  </items>
                               </MenuButton>
-                              <MenuButton layoutX="1311.0" layoutY="635.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                              <MenuButton layoutX="1318.0" layoutY="423.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="URALIYA">
                                  <items>
-                                    <MenuItem fx:id="trvWel" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                    <MenuItem fx:id="trvUra" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
                                  </items>
                               </MenuButton>
-                              <MenuButton layoutX="1629.0" layoutY="201.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                              <MenuButton layoutX="1743.0" layoutY="186.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="RUTHENIA">
                                  <items>
-                                    <MenuItem fx:id="trvWel1" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                    <MenuItem fx:id="trvRut" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
                                  </items>
                               </MenuButton>
-                              <MenuButton layoutX="1823.0" layoutY="355.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
+                              <MenuButton layoutX="1687.0" layoutY="735.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="AURIA">
                                  <items>
-                                    <MenuItem fx:id="trvWel11" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
-                                 </items>
-                              </MenuButton>
-                              <MenuButton layoutX="1905.0" layoutY="552.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
-                                 <items>
-                                    <MenuItem fx:id="trvWel111" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
-                                 </items>
-                              </MenuButton>
-                              <MenuButton layoutX="280.0" layoutY="852.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="MenuButton">
-                                 <items>
-                                    <MenuItem fx:id="trvEmm1" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                    <MenuItem fx:id="trvAur" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
                                  </items>
                               </MenuButton>
                            </children>
@@ -112,7 +96,7 @@
                                     <TableColumn fx:id="sellColumn" maxWidth="95.0" minWidth="50.0" prefWidth="65.0" resizable="false" text="Sell" />
                                     <TableColumn fx:id="buyColumn" maxWidth="80.0" minWidth="50.0" prefWidth="65.0" resizable="false" text="Buy" />
                                     <TableColumn fx:id="supColumn" maxWidth="80.0" minWidth="50.0" prefWidth="60.0" text="Supply" />
-                                    <TableColumn fx:id="demColumn" maxWidth="80.0" minWidth="50.0" prefWidth="60.0" text="Demand" />
+                                    <TableColumn fx:id="demColumn" maxWidth="80.0" minWidth="50.0" prefWidth="63.0" text="Demand" />
                                 </columns>
                               </TableView>
                            </children>
@@ -174,17 +158,17 @@
                      <children>
                         <HBox prefHeight="917.0" prefWidth="1780.0">
                            <children>
-                              <TableView fx:id="inventoryTable" onMouseClicked="#selectInvStorable" prefHeight="917.0" prefWidth="314.0" HBox.hgrow="ALWAYS">
+                              <TableView fx:id="inventoryTable" onMouseClicked="#selectInvStorable" prefHeight="917.0" prefWidth="420.0" HBox.hgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn fx:id="invWTCol" prefWidth="124.0" resizable="false" text="Transport/Warehouse" />
-                                  <TableColumn fx:id="invLocCol" prefWidth="119.0" resizable="false" text="Location" />
+                                  <TableColumn fx:id="invWTCol" prefWidth="128.0" resizable="false" text="Transport/Warehouse" />
+                                  <TableColumn fx:id="invLocCol" prefWidth="131.0" resizable="false" text="Location" />
                                 </columns>
                               </TableView>
                               <VBox prefHeight="902.0" prefWidth="414.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <TableView fx:id="invCargoTable" onMouseClicked="#selectInvWeapons" prefHeight="516.0" prefWidth="344.0">
                                       <columns>
-                                        <TableColumn fx:id="invCargoColumn" prefWidth="343.0" resizable="false" text="Weapons" />
+                                        <TableColumn fx:id="invCargoColumn" prefWidth="253.0" resizable="false" text="Weapons" />
                                       </columns>
                                     </TableView>
                                     <AnchorPane prefHeight="280.0" prefWidth="344.0">
@@ -311,10 +295,85 @@
             </Tab>
             <Tab text="Agents">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <HBox>
+                     <children>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1025.0" prefWidth="545.0">
+                           <children>
+                              <TableView prefHeight="1025.0" prefWidth="560.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn prefWidth="173.0" text="Agents" />
+                                  <TableColumn minWidth="0.0" prefWidth="181.33334350585938" text="Current Location" />
+                                    <TableColumn minWidth="0.0" prefWidth="204.66665649414062" text="Current Orders" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="1025.0" prefWidth="1375.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="216.0" layoutY="57.0" prefHeight="148.0" prefWidth="618.0">
+                                 <children>
+                                    <Label prefHeight="148.0" prefWidth="199.0" text="&lt;STATS DO AGENTE&gt;">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="140.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                 <children>
+                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
+                                    <Label text="Success Chance:" />
+                                    <Label text="Total Price:" />
+                                    <Label text="Notoriety Increase:" />
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="ASSASSINATE" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox layoutX="140.0" layoutY="503.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                 <children>
+                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
+                                    <Label text="Success Chance:" />
+                                    <Label text="Total Price:" />
+                                    <Label text="Heat Deacrese:" />
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="BRIBE" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox layoutX="456.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                 <children>
+                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
+                                    <Label text="Success Chance:" />
+                                    <Label text="Total Price:" />
+                                    <Label text="Notoriety Increase:" />
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="DESTROY EVIDENCES" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox layoutX="456.0" layoutY="503.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                 <children>
+                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
+                                    <Label text="Success Chance:" />
+                                    <Label text="Total Price:" />
+                                    <Label text="Notoriety Increase:" />
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="SAFEGUARD" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </VBox>
+                           </children></AnchorPane>
+                     </children>
+                  </HBox>
                </content>
             </Tab>
         </tabs>
       </TabPane>
+      <TextArea fx:id="guiPlayerOutput" editable="false" prefHeight="65.0" prefWidth="1920.0" promptText="&lt;PLAYER OUTPUT&gt;" />
    </children>
 </VBox>

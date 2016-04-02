@@ -22,6 +22,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -101,10 +102,12 @@ public class GameController implements Initializable {
 
     
     //TAB do MAPA
-    @FXML MenuItem trvEmm;
-    @FXML MenuItem trvOsea;
-    @FXML MenuItem trvYuk;    
-    @FXML MenuItem trvWel;    
+    @FXML MenuItem trvNaf;
+    @FXML MenuItem trvCol;
+    @FXML MenuItem trvCal;    
+    @FXML MenuItem trvUra;
+    @FXML MenuItem trvRut;
+    @FXML MenuItem trvAur;
     
     //TAB de TRANSPORTES
     
@@ -119,9 +122,11 @@ public class GameController implements Initializable {
     @FXML Text tranRoute;
         
     //INFO ESSENCIAL
+    @FXML TextArea guiPlayerOutput;
     @FXML Label guiFunds;
     @FXML Label guiHeat;
     @FXML Label guiPlayerPos;    
+    @FXML Label guiNotoriety;
     @FXML Label guiCurrentTurn;
     @FXML Button endTurnBtn;
     
@@ -215,9 +220,12 @@ public class GameController implements Initializable {
 
 
                             source.remove(selectedWeapon.getWpnName(), qty);
-                            player.addFunds(qty * selectedWeapon.getSellPrice());
-                            player.addHeat(qty * selectedWeapon.getWpn().getHeatInc());
-
+                            player.setFunds(true, qty * selectedWeapon.getSellPrice());
+                            
+                            /*
+                            *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
+                            */
+                            
                             qtyField1.setText("");                            
                             saleSource.setValue(null);
                             
@@ -264,8 +272,12 @@ public class GameController implements Initializable {
                         qtyField.setText("");
                         
                         destination.store(selectedWeapon.getWpn(), qty);
-                        player.addHeat(qty * selectedWeapon.getWpn().getHeatInc());
-                        player.subtractFunds(qty * selectedWeapon.getBuyPrice());
+
+                        player.setFunds(false, qty * selectedWeapon.getBuyPrice());
+
+                        /*
+                        *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
+                        */                        
                         
                         transactionOutput.setText("");
                         purchaseDestination.setValue(null);
@@ -501,7 +513,7 @@ public class GameController implements Initializable {
                 int qty = Integer.parseInt(invDestQty.getText());
                 if(invSelectedWpn != null && invSelectedWpn.getQty() >= qty){
                     invSelectedStorable.remove(invSelectedWpn.getWpn().getName(), qty);
-                    player.subtractHeat((invSelectedWpn.getWpn().getHeatInc() * qty)/2);
+                    player.setHeat(false,(invSelectedWpn.getWpn().getHeatInc() * qty)/2);
                     updateEssentialInfo();
                     updateInventoryTab();
                 }
@@ -602,7 +614,7 @@ public class GameController implements Initializable {
         world.updateMarkets();
         //world.updateFactions();
         
-        player.subtractFunds(player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
+        player.setFunds(false, player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
         player.moveTransports();
         
         updateTransportTab();
@@ -614,17 +626,21 @@ public class GameController implements Initializable {
     
     
     @FXML
-    /*Quando chegar a hora, monta uma trade-mission*/
+    /*Temporário, para debugging*/
     public void playerTravel(ActionEvent e){
-        
-        if(e.getSource() == trvEmm)
+
+        if(e.getSource() == trvNaf)
             player.setCurrentPos(world.getRegion(0));
-        else if(e.getSource() == trvWel)
+        else if(e.getSource() == trvCol)
             player.setCurrentPos(world.getRegion(1));
-        else if(e.getSource()==trvYuk)
+        else if(e.getSource()==trvCal)
             player.setCurrentPos(world.getRegion(2));
-        else if(e.getSource()==trvOsea)
+        else if(e.getSource()==trvUra)
             player.setCurrentPos(world.getRegion(3));  
+        else if(e.getSource()==trvRut)
+            player.setCurrentPos(world.getRegion(4));          
+        else if(e.getSource()==trvAur)
+            player.setCurrentPos(world.getRegion(5));  
         
         updateEssentialInfo();
         
@@ -640,6 +656,7 @@ public class GameController implements Initializable {
         guiFunds.setText("FUNDS: "+ player.getFunds());
         guiPlayerPos.setText("CURRENT POSITION: " + player.getCurrentPos().getName());
         guiCurrentTurn.setText("CURRENT TURN: " + currentTurn);
+        guiNotoriety.setText("NOTRIETY: " + player.getNotoriety());
     }
     
     /**

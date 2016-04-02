@@ -17,6 +17,15 @@ public class Character {
     protected String name;
     protected int intrigue;
     protected int barter;
+    protected int investigation;
+
+    public int getInvestigation() {
+        return investigation;
+    }
+
+    public void setInvestigation(int investigation) {
+        this.investigation = investigation;
+    }
     protected Region currentPos;
 
     public String getName() {

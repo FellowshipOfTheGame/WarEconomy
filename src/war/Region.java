@@ -108,7 +108,7 @@ public class Region {
         
         Market m = new Market(geoPolStatus, mrkStatus, wpnDic);
         this.localMarket = m;
-        
+                
     }
     
     

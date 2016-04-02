@@ -13,10 +13,7 @@ public class Agent extends Character{
     private int wage;
     private int loyalty; //Medida entre 0-9
 
-    public Agent() {
-        this.wage = 1;
-        this.loyalty = 4;
-    }
+
 
     public int getWage() {
         return wage;
@@ -32,9 +29,18 @@ public class Agent extends Character{
 
     public void setLoyalty(int loyalty) {
         this.loyalty = loyalty;
+    }    
+
+    public void setName(String name) {
+        this.name = name;
     }
     
-    
-    
-    
+    /**
+     *Construtor de agente.
+     */
+        public Agent() {
+        this.name = "Agente";
+        this.wage = 1;
+        this.loyalty = 4;
+    }
 }

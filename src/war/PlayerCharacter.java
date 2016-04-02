@@ -16,8 +16,10 @@ import javafx.collections.ObservableList;
  */
 
 public class PlayerCharacter extends Character{
+    
     private int funds;
     private int heat;
+    private int notoriety;
     
     private int warehouseUpkeep;
     private int agentUpkeep;
@@ -25,8 +27,14 @@ public class PlayerCharacter extends Character{
     
     private ArrayList<Warehouse> warehouses;
     private ArrayList<Agent> agents;
-    private ArrayList<Transport> transports;
 
+
+    private ArrayList<Transport> transports;
+    
+    public int getNotoriety() {
+        return notoriety;
+    }
+    
     public int getAgentUpkeep() {
         return agentUpkeep;
     }
@@ -39,8 +47,6 @@ public class PlayerCharacter extends Character{
         return warehouseUpkeep;
     }
     
-    
-
     public ArrayList<Agent> getAgents() {
         return agents;
     }
@@ -48,47 +54,86 @@ public class PlayerCharacter extends Character{
     public int getFunds() {
         return funds;
     }
-
+    
     public int getHeat() {
         return heat;
     }
-
-    public void subtractFunds(int value) {
-        int funds = this.getFunds() - value;
-        if(funds<0){
-            this.funds = 0;
-        }
-        else{
+    
+    /**
+     * Setter para os fundos.
+     * @param add bool true para adicionar, false para subtrair
+     * @param value inteiro com a quantidade para realizar a operação
+     * 
+     */
+    public void setFunds(boolean add, int value) {
+        if(add){
+            int funds = this.getFunds() + value;
             this.funds = funds;
         }
-        System.out.println("New funds:" + this.funds);
+        else{
+            int funds = this.getFunds() - value;
+            if(funds<0){
+                this.funds = 0;
+            }
+            else{
+                this.funds = funds;
+            }
+            System.out.println("New funds:" + this.funds);
+        }
     }
     
-    public void addFunds(int value) {
-        int funds = this.getFunds() + value;
-        this.funds = funds;
-    }
-    
-    public void subtractHeat(int heatInc) {
-        int heat = this.getHeat() - heatInc;
-        if(heat<0){
-            this.heat = 0;
+    /**
+     * Setter para Heat.
+     * @param add bool true para adicionar, false para subtrair
+     * @param heatInc inteiro com a quantidade para realizar a operação
+     * 
+     */
+    public void setHeat(boolean add, int value){
+        if(add){
+            int heat = this.getHeat() + value;
+            if(heat >= 100){
+                System.out.println("Game over");
+            }
+            else{
+                this.heat = heat;
+            }
         }
         else{
-            this.heat = heat;
+            int heat = this.getHeat() - value;
+            if(heat<0){
+                this.heat = 0;
+            }
+            else{
+                this.heat = heat;
+            }        
         }
     }
     
-    public void addHeat(int heatInc) {
-        int heat = this.getHeat() + heatInc;
-        if(heat >= 100){
-            System.out.println("Game over");
+    /**
+     * Setter para Notoriedade.
+     * @param add bool true para adicionar, false para subtrair
+     * @param value inteiro com a quantidade para realizar a operação
+     * 
+     */
+    public void setNotoriety(boolean add, int value) {
+        if(add){
+            int noto = this.getNotoriety() + value;
+            //Aumenta a notoriedade apenas se ela for menor do que 100
+            if(noto < 100){
+                this.notoriety = noto;
+            }
         }
         else{
-            this.heat = heat;
+            int noto = this.getNotoriety() - value;
+            if(noto<0){
+                this.notoriety = 0;
+            }
+            else{
+                this.notoriety = noto;
+            }        
         }
     }
-
+        
     public ArrayList<Transport> getTransports() {
         return transports;
     }
@@ -96,7 +141,7 @@ public class PlayerCharacter extends Character{
     /**
      * Retorna apenas os transportes localizados em uma determinada região.
      * @param region //Região em questão para procurar
-     * @return 
+     * @return compatibleTransports  //Lista de transportes compatíveis
      */
     public ArrayList<Transport> getTransports(Region region) {
         ArrayList<Transport> compatibleTransports = new ArrayList<>();
@@ -108,7 +153,11 @@ public class PlayerCharacter extends Character{
         return compatibleTransports;
     }
     
-    
+    /**
+     * Método usado ao finalizar turno para mover todos os transportes.
+     * Realiza uma iteração na lista de transportes do jogador e manda todos se moverem.
+     * Método utilizado na função "endTurn()" de GameController
+     */
     public void moveTransports(){
         for(Transport transport : transports){
             transport.move();
@@ -192,6 +241,7 @@ public class PlayerCharacter extends Character{
     */
     public PlayerCharacter(String name, Region startingPos) {
         this.funds = 200;
+        this.investigation = 2;
         this.heat = 0;
         this.intrigue = 0;
         this.barter = 0;
