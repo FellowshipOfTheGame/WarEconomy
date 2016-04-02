@@ -4,6 +4,7 @@
 package war.turn;
 
 import war.Character;
+import war.PlayerCharacter;
 
 /**
  * @briefing Classe abstrata das Ações de Characters, que compõem os turnos
@@ -15,14 +16,17 @@ import war.Character;
 public abstract class Action {
 	/// Quem está fazendo a ação
 	protected Character actor;
+	/// O player, que é pra descontar os dinheiros e talz
+	protected PlayerCharacter player;
 	
 	/**
 	 * Ctor
 	 *
 	 * @param actor Qual personagem que tá executando a ação
 	 */
-	public Action (Character actor) {
+	public Action (PlayerCharacter player, Character actor) {
 		this.actor = actor;
+		this.player = player;
 	}
 
 	/**

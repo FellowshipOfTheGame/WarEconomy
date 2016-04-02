@@ -123,5 +123,15 @@ public class Turn {
 			throw new RuntimeException ("[Turn.addAction] Turno já foi finalizado");
 		}
 	}
+
+	/**
+	 * Resetta um turno, começando um turno novo no mesmo objeto
+	 *
+	 * Apaga as ações que tavam guardadas
+	 */
+	public void reset () {
+		isOver = false;
+		actions.clear ();
+	}
 }
 

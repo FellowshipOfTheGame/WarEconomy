@@ -4,7 +4,10 @@
 package war.turn;
 
 import war.Character;
-import war.Region;
+import war.PlayerCharacter;
+import war.Connection;
+
+import java.lang.IllegalArgumentException;
 
 /**
  * @briefing Classe da ação de transporte de personagens
@@ -15,13 +18,9 @@ import war.Region;
  */
 public class TravelAction extends Action {
 	/**
-	 * Região de origem
+	 * Conexão da viagem
 	 */
-	Region from;
-	/**
-	 * Região de destino
-	 */
-	Region to;
+	Connection travel;
 	/**
 	 * Ctor
 	 *
@@ -30,14 +29,17 @@ public class TravelAction extends Action {
 	 * @param actor Qual personagem que tá executando a ação
 	 * @param newPos Nova posição
 	 */
-	public TravelAction (Character actor, Region newPos) {
-		super (actor);
-		// atualiza percurso
-		this.from = actor.getCurrentPos ();
-		this.to = newPos;
+	public TravelAction (PlayerCharacter player, Character actor, Connection travel) {
+		super (player, actor);
+		if (actor.getCurrentPos () != travel.getRegionA ()) {
+			throw new IllegalArgumentException ("[TravelAction] Character \"" + actor.getName () + "\" não está na posição inicial da Connection");
+		}
+		this.travel = travel;
 	}
 
+	@Override
 	public void execute () {
-		actor.setCurrentPos (this.to);
+		player.setFunds (false, travel.getWeight ());
+		actor.setCurrentPos (travel.getRegionB ());
 	}
 }
