@@ -19,12 +19,9 @@ public final class World {
     Metodo para criar conexao entre 2 regioes, A e B
     */
     public void createConnection(Region regA, Region regB, boolean land, int weight){
-        //Cria a conexão
-        Connection con = new Connection(regA, regB, land, weight);
-        
-        //Referencia as duas regiões com a mesma conexão
-        regA.addAdjacent(con);
-        regB.addAdjacent(con);
+        //Cria duas instâncias de conexão. 
+        regA.addAdjacent (new Connection (regA, regB, land, weight));
+        regB.addAdjacent (new Connection (regB, regA, land, weight));
     }
     
     public Region getRegion(int index){

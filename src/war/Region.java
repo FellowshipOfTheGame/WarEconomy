@@ -67,7 +67,7 @@ public class Region {
     
     public Connection getConnection(Region reg){
         for (Connection connection : adjacent){
-            if(connection.getRegionA() == reg || connection.getRegionB() == reg)
+            if(connection.getDestination() == reg)
                 return connection;
         }
         System.out.println("Error: connection not found");

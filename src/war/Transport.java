@@ -219,29 +219,24 @@ public class Transport implements Storable{
             if(type == "land"){//Transporte terrestre
                 for(Connection connection : currentPos.getAdjacent()){
                     if(connection.isLand()){
-                        if(connection.getRegionA() != currentPos)
+                        obl.add(connection.getDestination());
+                        /*if(connection.getRegionA() != currentPos)
                             obl.add(connection.getRegionA());//Regiao A da conexao é a outra
                         else
-                            obl.add(connection.getRegionB());//Região B da conexão é a outra
+                            obl.add(connection.getRegionB());//Região B da conexão é a outra*/
                     }
                 }
             }
             else if (type == "sea"){//Transporte marinh
                 for(Connection connection : currentPos.getAdjacent()){
                     if(!connection.isLand()){
-                        if(connection.getRegionA() != currentPos)
-                            obl.add(connection.getRegionA());//Regiao A da conexao é a outra
-                        else
-                            obl.add(connection.getRegionB());//Região B da conexão é a outra
+                        obl.add(connection.getDestination());
                     }
                 }
             }
             else{//Transporte aéreo
                 for(Connection connection : currentPos.getAdjacent()){
-                    if(connection.getRegionA() != currentPos)
-                        obl.add(connection.getRegionA());//Regiao A da conexao é a outra
-                    else
-                        obl.add(connection.getRegionB());//Região B da conexão é a outra
+                    obl.add(connection.getDestination());
                 }
             }    
         }
@@ -251,29 +246,20 @@ public class Transport implements Storable{
             if(type == "land"){//Transporte terrestre
                 for(Connection connection : destination.getAdjacent()){
                     if(connection.isLand()){
-                        if(connection.getRegionA() != destination)
-                            obl.add(connection.getRegionA());//Regiao A da conexao é a outra
-                        else
-                            obl.add(connection.getRegionB());//Região B da conexão é a outra
+                        obl.add(connection.getDestination());
                     }
                 }
             }
-            else if (type == "sea"){//Transporte marinh
+            else if (type == "sea"){//Transporte marinho
                 for(Connection connection : destination.getAdjacent()){
                     if(!connection.isLand()){
-                        if(connection.getRegionA() != destination)
-                            obl.add(connection.getRegionA());//Regiao A da conexao é a outra
-                        else
-                            obl.add(connection.getRegionB());//Região B da conexão é a outra
+                        obl.add(connection.getDestination());
                     }
                 }
             }
             else{//Transporte aéreo
                 for(Connection connection : destination.getAdjacent()){
-                    if(connection.getRegionA() != destination)
-                        obl.add(connection.getRegionA());//Regiao A da conexao é a outra
-                    else
-                        obl.add(connection.getRegionB());//Região B da conexão é a outra
+                    obl.add(connection.getDestination());
                 }
             }          
         }

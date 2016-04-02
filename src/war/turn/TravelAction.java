@@ -31,7 +31,7 @@ public class TravelAction extends Action {
 	 */
 	public TravelAction (PlayerCharacter player, Character actor, Connection travel) {
 		super (player, actor);
-		if (actor.getCurrentPos () != travel.getRegionA ()) {
+		if (actor.getCurrentPos () != travel.getOrigin ()) {
 			throw new IllegalArgumentException ("[TravelAction] Character \"" + actor.getName () + "\" não está na posição inicial da Connection");
 		}
 		this.travel = travel;
@@ -40,6 +40,6 @@ public class TravelAction extends Action {
 	@Override
 	public void execute () {
 		player.setFunds (false, travel.getWeight ());
-		actor.setCurrentPos (travel.getRegionB ());
+		actor.setCurrentPos (travel.getDestination ());
 	}
 }

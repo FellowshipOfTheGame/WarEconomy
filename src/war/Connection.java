@@ -10,18 +10,18 @@ package war;
  * @author João
  */
 public class Connection {
-    private Region regionA;
-    private Region regionB;
+    private Region orig;
+    private Region dest;
     
     private boolean land;/*true significa conexao por terra*/
     private int weight;
 
-    public Region getRegionA() {
-        return regionA;
+    public Region getOrigin() {
+        return orig;
     }
 
-    public Region getRegionB() {
-        return regionB;
+    public Region getDestination() {
+        return dest;
     }
 
     public boolean isLand() {
@@ -32,11 +32,17 @@ public class Connection {
         return weight;
     }
 
+    /***
+     * ctor.
+     * @param orig região origem da conexão
+     * @param dest região destino da conexão
+     * @param land Booleano se é ou não terra
+     * @param weight peso da conexão.
+     */
     
-    
-    public Connection(Region regionA, Region regionB, boolean land, int weight) {
-        this.regionA = regionA;
-        this.regionB = regionB;
+    public Connection(Region orig, Region dest, boolean land, int weight) {
+        this.orig = orig;
+        this.dest = dest;
         this.land = land;
         this.weight = weight;
     }

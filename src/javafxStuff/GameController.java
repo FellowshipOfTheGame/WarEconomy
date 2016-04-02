@@ -459,11 +459,12 @@ public class GameController implements Initializable {
         inventoryTable.getColumns().get(0).setVisible(false);
         inventoryTable.getColumns().get(0).setVisible(true);
         
-        storableDes.setText(invSelectedStorable.getDescriptionInfo());
-
-        if(invSelectedStorable != null)
-            initializeInvCargoTable(invSelectedStorable);
         
+
+        if(invSelectedStorable != null){
+            storableDes.setText(invSelectedStorable.getDescriptionInfo());
+            initializeInvCargoTable(invSelectedStorable);
+        }
         if(invSelectedWpn != null && invSelectedStorable.getWeaponQuantity(invSelectedWpn.getWpn().getName()) <= 0){
             invWpnImg.setImage(null);
             invWpnDes.setText(null);
