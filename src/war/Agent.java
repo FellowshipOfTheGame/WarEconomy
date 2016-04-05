@@ -9,7 +9,7 @@ package war;
  *
  * @author João
  */
-public class Agent extends Character{
+public class Agent extends GameCharacter{
     private int wage;
     private int loyalty; //Medida entre 0-9
 
@@ -38,8 +38,10 @@ public class Agent extends Character{
     /**
      *Construtor de agente.
      */
-        public Agent() {
+        public Agent(Region startingRegion) {
+            
         this.name = "Agente";
+        this.currentPos = startingRegion;
         this.wage = 1;
         this.loyalty = 4;
     }

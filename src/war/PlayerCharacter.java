@@ -15,7 +15,7 @@ import javafx.collections.ObservableList;
  * @phase I
  */
 
-public class PlayerCharacter extends Character{
+public class PlayerCharacter extends GameCharacter{
     
     private int funds;
     private int heat;
@@ -26,7 +26,7 @@ public class PlayerCharacter extends Character{
     private int transportUpkeep;
     
     private ArrayList<Warehouse> warehouses;
-    private ArrayList<Agent> agents;
+    private ArrayList<GameCharacter> agents;
 
 
     private ArrayList<Transport> transports;
@@ -46,10 +46,25 @@ public class PlayerCharacter extends Character{
     public int getWarehouseUpkeep() {
         return warehouseUpkeep;
     }
-    
-    public ArrayList<Agent> getAgents() {
+    /***
+     * 
+     * @param includePlayer booleano que pergunta se o player sera incluso na resposta
+     * @return 
+     */
+    public ArrayList<GameCharacter> getAgents() {
         return agents;
     }
+    
+    public ObservableList<GameCharacter> getAgentObl(){
+        ObservableList<GameCharacter> agntObl = FXCollections.observableArrayList();
+        agents.stream()
+                .forEach(agent -> {agntObl.add(agent);
+                });
+        agntObl.add(this);
+        System.out.println(agntObl);
+        return agntObl;
+    }
+    
     
     public int getFunds() {
         return funds;
@@ -85,17 +100,16 @@ public class PlayerCharacter extends Character{
     /**
      * Setter para Heat.
      * @param add bool true para adicionar, false para subtrair
-     * @param heatInc inteiro com a quantidade para realizar a operação
-     * 
+     * @param value inteiro com a quantidade para realizar a operação
      */
     public void setHeat(boolean add, int value){
         if(add){
-            int heat = this.getHeat() + value;
-            if(heat >= 100){
+            int heatCheck = this.getHeat() + value;
+            if(heatCheck >= 100){
                 System.out.println("Game over");
             }
             else{
-                this.heat = heat;
+                this.heat = heatCheck;
             }
         }
         else{
@@ -145,11 +159,11 @@ public class PlayerCharacter extends Character{
      */
     public ArrayList<Transport> getTransports(Region region) {
         ArrayList<Transport> compatibleTransports = new ArrayList<>();
-        for (Transport transport : transports) {
-            if(transport.getCurrentPos() == region){
-                compatibleTransports.add(transport);
-            }
-        }
+        transports.stream()
+                    .filter((transport) -> (transport.getCurrentPos() == region))
+                    .forEach((transport) -> {
+                        compatibleTransports.add(transport);
+                    });
         return compatibleTransports;
     }
     
@@ -165,8 +179,8 @@ public class PlayerCharacter extends Character{
     }
     
     /***
-     * Retorna lista Observavel de todos os Storables.
      * Utilizada para montar a tabela de inventário.
+     * @return Retorna lista Observavel de todos os Storables.
      */
     public ObservableList<Storable>getStorableObl() {//Retorna uma observable list para montar a tabela
         ObservableList<Storable> obl = FXCollections.observableArrayList();
@@ -187,18 +201,21 @@ public class PlayerCharacter extends Character{
      * @param sto = storable exceção, já selecionado
      * @param reg = região para procurar
      * Utilizada para montar a comboBox de "Mover" do inventário.
+     * @return lista Observavel de todos os Storables em uma determinada região, com a exceção de um.
      */
     public ObservableList<Storable>getStorableObl(Region reg, Storable sto) {//Retorna uma observable list para montar a tabela
         ObservableList<Storable> obl = FXCollections.observableArrayList();
         
-        for(Warehouse warehouse : warehouses){
-            if(warehouse.getCurrentPos()==reg && warehouse != sto)
-                obl.add(warehouse);
-        }
-        for (Transport transport : transports) {
-            if(transport.getCurrentPos()==reg && transport != sto)
-                obl.add(transport);
-        }
+        warehouses.stream()
+                .filter((warehouse) -> (warehouse.getCurrentPos()==reg && warehouse != sto))
+                .forEach((warehouse) -> {
+                    obl.add(warehouse);
+                });
+        transports.stream()
+                .filter((transport) -> (transport.getCurrentPos()==reg && transport != sto))
+                .forEach((transport) -> {
+                        obl.add(transport);
+                });
         return obl;
     }
     
@@ -206,9 +223,10 @@ public class PlayerCharacter extends Character{
     public ObservableList<Transport>getTransportObl() {//Retorna uma observable list para montar a tabela da tab de transportes
         ObservableList<Transport> obl = FXCollections.observableArrayList();
         
-        for (Transport transport : transports) {
-            obl.add(transport);
-        }
+        transports.stream()
+                .forEach((transport) -> {
+                    obl.add(transport);
+                });
         
         return obl;
     }
@@ -217,6 +235,7 @@ public class PlayerCharacter extends Character{
     /**
      * Métodos a serem chamado toda a vez que o jogador adiciona um novo transporte, agente ou armazém novo.
      * Acrescenta o upkeep do novo asset ao upkeep total daquela categoria.
+     * @param trnsp Transporte a ser adicionado
      */
     public void addTransport(Transport trnsp){
         this.transports.add(trnsp);
@@ -249,7 +268,7 @@ public class PlayerCharacter extends Character{
         this.currentPos = startingPos;
         
         this.warehouses = new ArrayList<Warehouse>();
-        this.agents = new ArrayList<Agent>();
+        this.agents = new ArrayList<GameCharacter>();
         this.transports = new ArrayList<Transport>();
         
         //Constroi a warehouse da regiao inicial do jogador e a inclui na lista de Warehouses
@@ -263,7 +282,5 @@ public class PlayerCharacter extends Character{
         
         System.out.println("New player " + name + " character chreated at " + startingPos.getName());
     }
-
-    
     
 }

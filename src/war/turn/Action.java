@@ -3,7 +3,7 @@
  */
 package war.turn;
 
-import war.Character;
+import war.GameCharacter;
 import war.PlayerCharacter;
 
 /**
@@ -15,7 +15,7 @@ import war.PlayerCharacter;
  */
 public abstract class Action {
 	/// Quem está fazendo a ação
-	protected Character actor;
+	protected GameCharacter actor;
 	/// O player, que é pra descontar os dinheiros e talz
 	protected PlayerCharacter player;
 	
@@ -24,7 +24,7 @@ public abstract class Action {
 	 *
 	 * @param actor Qual personagem que tá executando a ação
 	 */
-	public Action (PlayerCharacter player, Character actor) {
+	public Action (PlayerCharacter player, GameCharacter actor) {
 		this.actor = actor;
 		this.player = player;
 	}
@@ -34,7 +34,7 @@ public abstract class Action {
 	 *
 	 * @return Character ator
 	 */
-	Character getCharacter () {
+	GameCharacter getCharacter () {
 		return this.actor;
 	}
 

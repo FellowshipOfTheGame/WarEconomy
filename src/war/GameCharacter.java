@@ -13,7 +13,7 @@ package war;
  * @version 0.1
  * @phase I
  */
-public class Character {
+public class GameCharacter {
     protected String name;
     protected int intrigue;
     protected int barter;
@@ -56,6 +56,5 @@ public class Character {
     public void setCurrentPos(Region currentPos) {
         this.currentPos = currentPos;
     }
-    
     
 }

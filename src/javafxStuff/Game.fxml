@@ -108,19 +108,14 @@
                                     <ImageView fx:id="selectedWpnImg" fitHeight="171.0" fitWidth="743.0" layoutX="440.0" layoutY="26.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
                                     <Text fx:id="selectedWpnDescr" layoutX="411.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="730.13671875" />
                                     <Separator opacity="0.0" prefHeight="235.0" prefWidth="742.0" />
-                                    <Label fx:id="transactionOutput" prefHeight="20.0" prefWidth="754.0" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <HBox spacing="30.0">
+                                    <HBox prefHeight="164.0" prefWidth="742.0" spacing="30.0">
                                        <children>
                                           <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
                                              <children>
                                                 <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" promptText="Type in the quantity to buy" />
                                                 <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
                                                 <Label fx:id="totalBuyPrice" text="Total Price:" />
-                                                <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select purchase destination" />
+                                                <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="35.0" prefWidth="232.0" promptText="Select purchase destination" />
                                                 <Label fx:id="usedCargoSpace" text="Used Cargo Space" />
                                                 <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
                                              </children>
@@ -173,7 +168,7 @@
                                     </TableView>
                                     <AnchorPane prefHeight="280.0" prefWidth="344.0">
                                        <children>
-                                          <Label fx:id="storableDes" layoutX="57.0" prefHeight="181.0" prefWidth="183.0" text="Label" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="0.0">
+                                          <Label fx:id="storableDes" layoutX="1.0" prefHeight="261.0" prefWidth="256.0" text="Label" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font size="20.0" />
                                              </font></Label>
@@ -183,7 +178,7 @@
                               </VBox>
                               <AnchorPane prefHeight="917.0" prefWidth="1263.0">
                                  <children>
-                                    <VBox style="-fx-border-color: 000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="340.0" AnchorPane.topAnchor="0.0">
+                                    <VBox prefHeight="917.0" prefWidth="1016.0" style="-fx-border-color: 000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="142.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <VBox alignment="BASELINE_CENTER" prefHeight="334.0" prefWidth="1027.0" spacing="20.0">
                                              <children>
@@ -206,11 +201,7 @@
                                                       <Button fx:id="invMoveBtn" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#moveInvWeapons" prefHeight="25.0" prefWidth="341.0" text="MOVE" textAlignment="CENTER" />
                                                    </children>
                                                 </VBox>
-                                                <Label fx:id="invOutput" layoutX="520.0" layoutY="670.0" prefHeight="66.0" prefWidth="154.0">
-                                                   <font>
-                                                      <Font size="22.0" />
-                                                   </font>
-                                                </Label>
+                                                <Separator prefWidth="200.0" visible="false" />
                                                 <VBox layoutX="926.0" layoutY="544.0" prefHeight="159.0" prefWidth="207.0" spacing="10.0" AnchorPane.bottomAnchor="214.0" AnchorPane.leftAnchor="826.0" AnchorPane.rightAnchor="160.0">
                                                    <children>
                                                       <Label alignment="CENTER" prefHeight="17.0" prefWidth="219.0" text="DESTROY CARGO" textAlignment="CENTER" />
@@ -297,13 +288,13 @@
                <content>
                   <HBox>
                      <children>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1025.0" prefWidth="545.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="949.0" prefWidth="434.0">
                            <children>
-                              <TableView prefHeight="1025.0" prefWidth="560.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="agentTable" prefHeight="949.0" prefWidth="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="173.0" text="Agents" />
-                                  <TableColumn minWidth="0.0" prefWidth="181.33334350585938" text="Current Location" />
-                                    <TableColumn minWidth="0.0" prefWidth="204.66665649414062" text="Current Orders" />
+                                  <TableColumn fx:id="agentNameCol" prefWidth="127.0" text="Agents" />
+                                  <TableColumn fx:id="agentPosCol" minWidth="0.0" prefWidth="140.0" text="Current Location" />
+                                    <TableColumn fx:id="agentOrderCol" minWidth="0.0" prefWidth="166.0" text="Current Orders" />
                                 </columns>
                               </TableView>
                            </children>
@@ -312,60 +303,105 @@
                            <children>
                               <VBox alignment="TOP_CENTER" layoutX="216.0" layoutY="57.0" prefHeight="148.0" prefWidth="618.0">
                                  <children>
-                                    <Label prefHeight="148.0" prefWidth="199.0" text="&lt;STATS DO AGENTE&gt;">
+                                    <Label fx:id="agentStats" prefHeight="148.0" prefWidth="199.0" text="&lt;STATS DO AGENTE&gt;">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </VBox>
-                              <VBox layoutX="140.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                              <VBox layoutX="140.0" layoutY="303.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="30.0">
                                  <children>
-                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
-                                    <Label text="Success Chance:" />
-                                    <Label text="Total Price:" />
-                                    <Label text="Notoriety Increase:" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="ASSASSINATE" VBox.vgrow="ALWAYS" />
+                                    <HBox layoutX="140.0" layoutY="303.0" spacing="25.0">
+                                       <children>
+                                          <VBox layoutX="140.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                             <children>
+                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
+                                                <Label text="Success Chance:" />
+                                                <Label text="Total Price:" />
+                                                <Label text="Notoriety Increase:" />
+                                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="ASSASSINATE" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox layoutX="456.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                             <children>
+                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
+                                                <Label text="Success Chance:" />
+                                                <Label text="Total Price:" />
+                                                <Label text="Notoriety Increase:" />
+                                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="DESTROY EVIDENCES" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox layoutX="790.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                             <children>
+                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
+                                                <Label text="Success Chance:" />
+                                                <Label text="Total Price:" />
+                                                <Label text="Notoriety Increase:" />
+                                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="IMPROVE RELATIONS" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox layoutX="1059.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                             <children>
+                                                <Label text="Success Chance:" />
+                                                <Label text="Total Price:" />
+                                                <Label text="Notoriety Increase:" />
+                                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="OVERWATCH" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="140.0" layoutY="503.0" spacing="25.0">
+                                       <children>
+                                          <VBox layoutX="140.0" layoutY="503.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                             <children>
+                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
+                                                <Label text="Success Chance:" />
+                                                <Label text="Total Price:" />
+                                                <Label text="Heat Deacrese:" />
+                                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="BRIBE" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox layoutX="456.0" layoutY="503.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                             <children>
+                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Connection" />
+                                                <Label text="Success Chance:" />
+                                                <Label text="Total Price:" />
+                                                <Label text="Notoriety Increase:" />
+                                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="SAFEGUARD" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox layoutX="790.0" layoutY="503.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
+                                             <children>
+                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Factions" />
+                                                <Label text="Success Chance:" />
+                                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="SABOTAGE RELATIONS" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
                                  </children>
-                                 <padding>
-                                    <Insets top="5.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox layoutX="140.0" layoutY="503.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
-                                 <children>
-                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
-                                    <Label text="Success Chance:" />
-                                    <Label text="Total Price:" />
-                                    <Label text="Heat Deacrese:" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="BRIBE" VBox.vgrow="ALWAYS" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="5.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox layoutX="456.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
-                                 <children>
-                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
-                                    <Label text="Success Chance:" />
-                                    <Label text="Total Price:" />
-                                    <Label text="Notoriety Increase:" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="DESTROY EVIDENCES" VBox.vgrow="ALWAYS" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="5.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox layoutX="456.0" layoutY="503.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
-                                 <children>
-                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
-                                    <Label text="Success Chance:" />
-                                    <Label text="Total Price:" />
-                                    <Label text="Notoriety Increase:" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="SAFEGUARD" VBox.vgrow="ALWAYS" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="5.0" />
-                                 </padding>
                               </VBox>
                            </children></AnchorPane>
                      </children>
@@ -374,6 +410,6 @@
             </Tab>
         </tabs>
       </TabPane>
-      <TextArea fx:id="guiPlayerOutput" editable="false" prefHeight="65.0" prefWidth="1920.0" promptText="&lt;PLAYER OUTPUT&gt;" />
+      <TextArea fx:id="guiPlayerOutput" editable="false" prefHeight="76.0" prefWidth="1920.0" wrapText="true" />
    </children>
 </VBox>

@@ -3,7 +3,7 @@
  */
 package war.turn;
 
-import war.Character;
+import war.GameCharacter;
 import war.PlayerCharacter;
 import war.Connection;
 
@@ -29,7 +29,7 @@ public class TravelAction extends Action {
 	 * @param actor Qual personagem que tá executando a ação
 	 * @param newPos Nova posição
 	 */
-	public TravelAction (PlayerCharacter player, Character actor, Connection travel) {
+	public TravelAction (PlayerCharacter player, GameCharacter actor, Connection travel) {
 		super (player, actor);
 		if (actor.getCurrentPos () != travel.getOrigin ()) {
 			throw new IllegalArgumentException ("[TravelAction] Character \"" + actor.getName () + "\" não está na posição inicial da Connection");

@@ -29,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import war.GameCharacter;
 import war.MarketWeapon;
 import war.PlayerCharacter;
 import war.PlayerWeapon;
@@ -70,7 +71,6 @@ public class GameController implements Initializable {
     @FXML Label totalBuyPrice;
     @FXML Label ReqCargoSpace;
     @FXML Label marketName;
-    @FXML Label transactionOutput;
     @FXML Label usedCargoSpace;
     @FXML Label qtyStored;
     @FXML Label totalSellPrice;    
@@ -90,7 +90,6 @@ public class GameController implements Initializable {
     @FXML TableColumn<Storable, String> invWTCol; //Inventory, Warehouse/Transport Column
     @FXML TableView<PlayerWeapon> invCargoTable;//Inventory, Cargo Table
     @FXML TableColumn<PlayerWeapon, String> invCargoColumn;    //Inventory, Cargo Column
-    @FXML Label invOutput; //Inventory, Output
     @FXML Label storableDes; //Storable Description
     @FXML ImageView invWpnImg; //Inventory, Weapon Image    
     @FXML Text invWpnDes; //Inventory, Weapon Description
@@ -120,7 +119,14 @@ public class GameController implements Initializable {
     @FXML ComboBox<Region> adjacentRegions;
     @FXML Text tranCargo;
     @FXML Text tranRoute;
-        
+    
+    //TAB de AGENTES
+    @FXML Label agentStats;
+    @FXML TableView<GameCharacter> agentTable;
+    @FXML TableColumn<GameCharacter, String> agentNameCol; //Transport, Name Column
+    @FXML TableColumn<GameCharacter, String> agentPosCol; //Agent, Position Column
+    @FXML TableColumn<GameCharacter, String> agentOrderCol; //Agent, Current Order Column
+    
     //INFO ESSENCIAL
     @FXML TextArea guiPlayerOutput;
     @FXML Label guiFunds;
@@ -141,6 +147,8 @@ public class GameController implements Initializable {
     Storable invSelectedStorable;//Selected Storable, para o inventário
     
     Transport tranSelectedTransport;//Selected Transport, para a tab de Transportes
+    
+    Character selectedCharacter;
     
     int currentTurn;
 
@@ -229,24 +237,22 @@ public class GameController implements Initializable {
                             qtyField1.setText("");                            
                             saleSource.setValue(null);
                             
-                            transactionOutput.setText("");
-                            
                             updateSellInfo();
                             updateEssentialInfo();
                         }
                         else
-                            transactionOutput.setText("Insufficient Demmand");
+                            guiPlayerOutput.appendText("\nInsufficient Demmand");
                     }else
-                        transactionOutput.setText("Insufficient Wares");
+                        guiPlayerOutput.appendText("\nInsufficient Wares");
                 }  
                 else
-                    transactionOutput.setText("Invalid destination");
+                    guiPlayerOutput.appendText("\nInvalid destination");
             }
             else
-                transactionOutput.setText("Invalid quantity");
+                guiPlayerOutput.appendText("\nInvalid quantity");
         }
         else
-            transactionOutput.setText("Invalid weapon");
+            guiPlayerOutput.appendText("\nInvalid weapon");
     }
     
     @FXML
@@ -279,23 +285,22 @@ public class GameController implements Initializable {
                         *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
                         */                        
                         
-                        transactionOutput.setText("");
                         purchaseDestination.setValue(null);
                         updateEssentialInfo();
                         updateBuyInfo();
 
                     }
                     else
-                        transactionOutput.setText("Insufficient Space");
+                        guiPlayerOutput.appendText("\nInsufficient Space");
                 }
                 else
-                    transactionOutput.setText("Insufficient Funds");
+                    guiPlayerOutput.appendText("\nInsufficient Funds");
             }
             else
-                transactionOutput.setText("Insufficient Supply");
+                guiPlayerOutput.appendText("\nInsufficient Supply");
         }
         else
-            transactionOutput.setText("Invalid weapon, destination or quantity");
+            guiPlayerOutput.appendText("\nInvalid weapon, destination or quantity");
     }
 
     
@@ -449,7 +454,6 @@ public class GameController implements Initializable {
      */
     public void updateInventoryTab(){
         invDestQty.setText(null);
-        invOutput.setText(null);
         invMoveQty.setText(null);
         invMoveDestination.setValue(null);
         
@@ -478,9 +482,10 @@ public class GameController implements Initializable {
     public void moveInvWeapons(){
         
         if(invSelectedStorable != null){
-            if (qtyValidation (invMoveQty)){    //Quantidade é um inteiro positivo.
+            if(invSelectedWpn != null){
+                if (qtyValidation (invMoveQty)){    //Quantidade é um inteiro positivo.
                 int qty = Integer.parseInt(invMoveQty.getText());
-                if(invSelectedWpn != null){
+                
                     if(invSelectedWpn.getQty() >= qty){
                         if(invMoveDestination.getValue() != null){
                             Storable destination = invMoveDestination.getValue();
@@ -491,16 +496,16 @@ public class GameController implements Initializable {
                                 updateInventoryTab();
 
                             }else
-                                invOutput.setText("Insuficient Capacity");
+                                guiPlayerOutput.appendText("\nInsuficient Capacity");
                         }else
-                            invOutput.setText("Inavlid destination");
+                            guiPlayerOutput.appendText("\nInavlid destination");
                     }else
-                        invOutput.setText("Insuficient Quantity");
-                }
-                else
-                    invOutput.setText("Select a valid weapon");
+                        guiPlayerOutput.appendText("\nInsuficient Quantity");
+                }else
+                    guiPlayerOutput.appendText("\nInavlid Quantity");
+                
             }else
-                invOutput.setText("Inavlid Quantity");
+                guiPlayerOutput.appendText("\nSelect a valid weapon");
         }
     }
     
@@ -569,18 +574,19 @@ public class GameController implements Initializable {
     public void updateTransportTab(){
     
         tranSelectedTransport = transportsTable.getSelectionModel().getSelectedItem(); 
+        if(tranSelectedTransport != null){
+            ArrayList<Region> route = tranSelectedTransport.getRoute();
+            //Inicializa a combobox de regiões
+            adjacentRegions.setItems(tranSelectedTransport.getMovableAdjacent());
+            if(route == null){ //Standby, setar vizinhos da posição atual
+                tranRoute.setText("Standing By");
+            }
+            else{ //Inicializar a partir das regiões adjacentes ao destino
+                tranRoute.setText(tranSelectedTransport.getRouteString());
+            }
+            tranCargo.setText(tranSelectedTransport.getWeaponsString());
+        }
 
-        ArrayList<Region> route = tranSelectedTransport.getRoute();
-        //Inicializa a combobox de regiões
-        adjacentRegions.setItems(tranSelectedTransport.getMovableAdjacent());
-        
-        if(route == null){ //Standby, setar vizinhos da posição atual
-            tranRoute.setText("Standing By");
-        }
-        else{ //Inicializar a partir das regiões adjacentes ao destino
-            tranRoute.setText(tranSelectedTransport.getRouteString());
-        }
-        tranCargo.setText(tranSelectedTransport.getWeaponsString());
         transportsTable.getColumns().get(0).setVisible(false);
         transportsTable.getColumns().get(0).setVisible(true);
     }
@@ -595,6 +601,25 @@ public class GameController implements Initializable {
             inventoryTable.getSelectionModel().select(invSelectedStorable);           
             pane.getSelectionModel().select(inventory);
         }
+    }
+    
+
+    
+//TAB DE AGENTES--------------------------------------------------------
+    
+    public void initializeAgentTab(){
+            //Inicializa a tabela
+        agentNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        agentOrderCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        agentPosCol.setCellValueFactory(new PropertyValueFactory<>("currentPos"));
+
+        ObservableList obl = player.getAgentObl();
+        agentTable.setItems(obl);
+    }
+    
+    @FXML
+    public void selectCharacter(){
+    
     }
     
 //GERAIS--------------------------------------------------------------------
@@ -617,6 +642,8 @@ public class GameController implements Initializable {
         
         player.setFunds(false, player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
         player.moveTransports();
+        
+        guiPlayerOutput.clear();
         
         updateTransportTab();
         updateInventoryTab();
@@ -645,6 +672,7 @@ public class GameController implements Initializable {
         
         updateEssentialInfo();
         
+        selectedCharacter = null;
         selectedWeapon = null;
         selectedWpnImg.setImage(null);
         selectedWpnDescr.setText(null);
@@ -681,6 +709,7 @@ public class GameController implements Initializable {
         initializeMarketTab(player.getCurrentPos());
         initializeTransportsTab();
         initializeInventoryTab();
+        initializeAgentTab();
     }    
     
 }

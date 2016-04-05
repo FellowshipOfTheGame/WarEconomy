@@ -4,7 +4,7 @@
  */
 package war.turn;
 
-import war.Character;
+import war.GameCharacter;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -75,7 +75,7 @@ public class Turn {
 				// primeira ação (cabeça do iterador), será removida
 				Action aux = it.next ();
 				// salva o Character ator, pra removermos suas ações seguintes
-				Character actor = aux.getCharacter ();
+				GameCharacter actor = aux.getCharacter ();
 
 				it.remove ();
 
