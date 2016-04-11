@@ -34,10 +34,13 @@ import war.MarketWeapon;
 import war.PlayerCharacter;
 import war.PlayerWeapon;
 import war.Region;
+import war.Connection;
 import war.Storable;
 import war.Transport;
 import war.Warehouse;
 import war.World;
+import war.turn.Turn;
+import war.turn.TravelAction;
 
 /**
  * FXML Controller class
@@ -149,6 +152,9 @@ public class GameController implements Initializable {
     Transport tranSelectedTransport;//Selected Transport, para a tab de Transportes
     
     Character selectedCharacter;
+
+	/// Turno atual, que guardará as ações feitas
+	Turn turn;
     
     int currentTurn;
 
@@ -636,6 +642,10 @@ public class GameController implements Initializable {
      * No início de cada turno, os fundos do jogador sofrem um decremento igual ao Upkeep de Agentes e Transportes, além disso Eventos podem ocorrer.
      */
     public void endTurn(){
+		// finaliza Turn, e o reseta pro próximo
+		turn.endTurn ();
+		turn.reset ();
+
         currentTurn ++;
         world.updateMarkets();
         //world.updateFactions();
@@ -655,20 +665,38 @@ public class GameController implements Initializable {
     
     @FXML
     /*Temporário, para debugging*/
-    public void playerTravel(ActionEvent e){
+    public void playerTravel(ActionEvent e) {
+		// Região da qual player tá saindo
+		Region whereFrom = player.getCurrentPos ();
+		// Região pra qual player tá viajando
+		Region whereTo = null;
 
         if(e.getSource() == trvNaf)
-            player.setCurrentPos(world.getRegion(0));
+            whereTo = world.getRegion(0);
         else if(e.getSource() == trvCol)
-            player.setCurrentPos(world.getRegion(1));
+            whereTo = world.getRegion(1);
         else if(e.getSource()==trvCal)
-            player.setCurrentPos(world.getRegion(2));
+            whereTo = world.getRegion(2);
         else if(e.getSource()==trvUra)
-            player.setCurrentPos(world.getRegion(3));  
+            whereTo = world.getRegion(3);
         else if(e.getSource()==trvRut)
-            player.setCurrentPos(world.getRegion(4));          
+            whereTo = world.getRegion(4);
         else if(e.getSource()==trvAur)
-            player.setCurrentPos(world.getRegion(5));  
+            whereTo = world.getRegion(5);
+
+		// se rolou viagem, adiciona tal ação
+		if (whereTo != null) {
+			// verifica primeiro se tem a conexão, né
+			Connection con = whereFrom.getConnection (whereTo);
+			if (con != null) {
+				turn.addAction (new TravelAction (player, player, con));
+			}
+			else {
+				System.err.println ("[GameController.playerTravel] Conexão \"" +
+						whereFrom.getName () + " -> " + whereTo.getName () +
+						"\" não existe!");
+			}
+		}
         
         updateEssentialInfo();
         
@@ -702,6 +730,7 @@ public class GameController implements Initializable {
         
         world = new World();
         player = new PlayerCharacter("default",this.world.getRegion(0));
+		turn = new Turn ();
         
         currentTurn = 0;
         
