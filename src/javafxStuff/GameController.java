@@ -13,6 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -27,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import war.GameCharacter;
@@ -57,6 +60,8 @@ public class GameController implements Initializable {
     @FXML Tab blackMarket;
     @FXML Tab inventory;
     @FXML Tab transports;
+    Label mapTabText;
+    StackPane stp;
     
     //TAB de MERCADO NEGRO
     @FXML ImageView selectedWpnImg;
@@ -84,18 +89,18 @@ public class GameController implements Initializable {
     //@FXML ComboBox<Faction> saleDestination;
     
     //TAB do INVENTÁRIO
-
-    @FXML TableView<Storable> inventoryTable;
-    @FXML TableColumn<Storable, String> invLocCol; //Inventory, Location Column
-    @FXML TableColumn<Storable, String> invWTCol; //Inventory, Warehouse/Transport Column
-    @FXML TableView<PlayerWeapon> invCargoTable;//Inventory, Cargo Table
-    @FXML TableColumn<PlayerWeapon, String> invCargoColumn;    //Inventory, Cargo Column
-    @FXML Label storableDes; //Storable Description
+    @FXML ComboBox<Storable> invLeftStorable; //Inventory, Left Storable
+    @FXML TableView<PlayerWeapon> invLeftTable;//Inventory, Left Storable Cargo Table
+    @FXML TableColumn<PlayerWeapon, String> invLeftCol;    //Inventory, Cargo Column
+    @FXML Label invLeftDesc;//Inventory, Left Description
+    @FXML ComboBox<Storable> invRightStorable; //Inventory, Right Storable
+    @FXML TableView<PlayerWeapon> invRightTable;//Inventory, Right Storable Cargo Table
+    @FXML TableColumn<PlayerWeapon, String> invRightCol;    //Inventory, Cargo Column
+    @FXML Label invRightDesc;//Inventory, Right Description
+    
     @FXML ImageView invWpnImg; //Inventory, Weapon Image    
     @FXML Text invWpnDes; //Inventory, Weapon Description
-    @FXML ComboBox<Storable> invMoveDestination; //Inventory, Move Destination
-    @FXML TextField invDestQty; //Inventory, Destroy Quantity
-    @FXML TextField invMoveQty; //Inventory, Move Quantity
+    @FXML TextField invOpQty; //Inventory, Operation Quantity
     @FXML Button invDestBtn; //Inventory, Destroy Button
     @FXML Button invMoveBtn; //Inventory, Move Button
 
@@ -142,9 +147,11 @@ public class GameController implements Initializable {
     World world;
     
     MarketWeapon selectedWeapon;
-    PlayerWeapon invSelectedWpn;//Inventory, selected weapon
     
-    Storable invSelectedStorable;//Selected Storable, para o inventário
+    PlayerWeapon invSelectedWpn;//Inventory, selected weapon
+    Boolean invWpnSide; //TRUE = ESQUERDA, FALSE = DIREITA
+    Storable invSelectLeft;//Selected Storable, para o inventário
+    Storable invSelectRight;//Selected Storable, para o inventário
     
     Transport tranSelectedTransport;//Selected Transport, para a tab de Transportes
     
@@ -378,62 +385,62 @@ public class GameController implements Initializable {
     //TAB DE INVENTÁRIO---------------------------------------------------------
     
     public void initializeInventoryTab(){
-            //Inicializa a tabela
 
-        invLocCol.setCellValueFactory(new PropertyValueFactory<>("currentPos"));
-        invWTCol.setCellValueFactory(new PropertyValueFactory<>("name"));             
+        invLeftStorable.setValue(null);
+        invRightStorable.setValue(null);
         
-        ObservableList obl = (ObservableList) player.getStorableObl();
-        inventoryTable.setItems(obl);
+        ObservableList obl = (ObservableList) player.getStorableObl(player.getCurrentPos(), null);//Adiciona os transportes da região
+                
+        invRightStorable.setItems(obl);
+        invLeftStorable.setItems(obl);
         
+        invLeftTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
+        invLeftTable.getColumns().get(0).setVisible(true);
         
-        /*//Inicializa os destinos de compra. Devem incluir Warehouse local e qualquer veículo do jogador que esta na região
-        ObservableList<Storable> storableObl = FXCollections.observableArrayList();
-        if(region.getLocalWarehouse() != null){
-            storableObl.add(region.getLocalWarehouse());
-        }
-        storableObl.addAll(this.player.getTransports(region));//Adiciona todos os transportes presentes na região em questão
-        purchaseDestination.setItems(storableObl);
-        saleSource.setItems(storableObl);*/
+        invRightTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
+        invRightTable.getColumns().get(0).setVisible(true);
+        
+        invRightDesc.setText("");
+        invLeftDesc.setText("");
+
     }
     
-    public void initializeInvCargoTable(Storable strb){
 
-        ObservableList obl = (ObservableList) strb.getWeapons();
-        invCargoColumn.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo")); //Chama o metodo getInventoryInfo
-        invCargoTable.setItems(obl);        
+    /***
+     * Seleção do Storable de um dos lados da tela.
+     * @param e Qual das duas ComboBoxes clicou
+     */
+    @FXML
+    public void invSelectStorable(ActionEvent e){
+
+        if(e.getSource() == invLeftStorable && invLeftStorable!=null){
+            invSelectLeft = invLeftStorable.getValue();
+            System.out.println(invSelectLeft);
+            ObservableList obl = (ObservableList) invSelectLeft.getWeapons();
+            invLeftCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
+            invLeftTable.setItems(obl);
+            invLeftDesc.setText(invSelectLeft.getDescriptionInfo());
+        }
+        else if(e.getSource() == invRightStorable && invRightStorable != null){
+            invSelectRight = invRightStorable.getValue();
+            System.out.println(invSelectRight);
+            ObservableList obl = (ObservableList) invSelectRight.getWeapons();
+            invRightCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
+            invRightTable.setItems(obl);
+            invRightDesc.setText(invSelectRight.getDescriptionInfo());
+        }        
     }
     
-    public void selectInvStorable(){
-        if(inventoryTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido
-            if(invSelectedStorable != inventoryTable.getSelectionModel().getSelectedItem()) {//Storable diferente do atual é clicado
-                //invCargoTable.setItems(null);
-                invSelectedStorable = inventoryTable.getSelectionModel().getSelectedItem(); 
-                
-                //Inicializa a segunda tableview com dados das playerWeapons de Storable
-                initializeInvCargoTable(invSelectedStorable);
-                System.out.println(invSelectedStorable + " Selected ");
-                //Seta o texto da descrição para o storable selecionado
-                storableDes.setText(invSelectedStorable.getDescriptionInfo());
-                
-                invSelectedWpn = null;
-                //Deseleciona a arma selecionada
-                invWpnImg.setImage(null);
-                //Seta o texto da descrição para a arma clicada
-                invWpnDes.setText(null);
-                
-                //Inicializa a combobox de move
-                invMoveDestination.setItems(player.getStorableObl(invSelectedStorable.getCurrentPos(), invSelectedStorable));
-            }
-        }
-    }
+    /**
+     * Método para seleção de armas na tabela Esquerda.
+     */
     
     @FXML
-    public void selectInvWeapons(){
-        if(invCargoTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido
-            if(invSelectedWpn != invCargoTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
+    public void invSelectWeaponsLeft(){
+        if(invLeftTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido na tabela esquerda
+            if(invSelectedWpn != invLeftTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
                 //seta a referencia à arma clicada
-                invSelectedWpn = invCargoTable.getSelectionModel().getSelectedItem(); 
+                invSelectedWpn = invLeftTable.getSelectionModel().getSelectedItem(); 
                 //Seta a imageview à foto da arma clicada
                 String imagePath = "/images/" + this.invSelectedWpn.getWpn().getCategory() + "/" + this.invSelectedWpn.getWpn().getName() + ".png";
                 //System.out.println("Clicou na " + this.selectedWeapon.getWpnName() + "-chan" + "\n" + imagePath);//DEBUG
@@ -445,80 +452,123 @@ public class GameController implements Initializable {
                     +"\nCombat Effectiveness Bonus: " + invSelectedWpn.getWpn().getCombEfecBonus()
                     +"\nHeat Increase: " + invSelectedWpn.getWpn().getHeatInc()
                 );
+                invWpnSide=true;
             }
         }
     }
+    /**
+     * Método para seleção de armas na tabela Direita.
+     */
+    @FXML
+    public void invSelectWeaponsRight(){
+        if (invRightTable.getSelectionModel().getSelectedIndex() >= 0){
+            if(invSelectedWpn != invRightTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
+                //seta a referencia à arma clicada
+                invSelectedWpn = invRightTable.getSelectionModel().getSelectedItem(); 
+                //Seta a imageview à foto da arma clicada
+                String imagePath = "/images/" + this.invSelectedWpn.getWpn().getCategory() + "/" + this.invSelectedWpn.getWpn().getName() + ".png";
+                //System.out.println("Clicou na " + this.selectedWeapon.getWpnName() + "-chan" + "\n" + imagePath);//DEBUG
+                Image updatedWpnImg = new Image(imagePath, false);
+                invWpnImg.setImage(updatedWpnImg);
+                //Seta o texto da descrição para a arma clicada
+                invWpnDes.setText(this.invSelectedWpn.getWpn().getDescription()
+                    +"\nCategory: " + invSelectedWpn.getWpn().getCategory().toUpperCase() 
+                    +"\nCombat Effectiveness Bonus: " + invSelectedWpn.getWpn().getCombEfecBonus()
+                    +"\nHeat Increase: " + invSelectedWpn.getWpn().getHeatInc()
+                );
+                invWpnSide=false;
+            }        
+        }
+    }
+    
     
     /**
      * Método a ser chamado após mover ou destruir armas. Atualiza todos os elementos relevantes da tab
      */
-    public void updateInventoryTab(){
-        invDestQty.setText(null);
-        invMoveQty.setText(null);
-        invMoveDestination.setValue(null);
-        
-        invCargoTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
-        invCargoTable.getColumns().get(0).setVisible(true);                      
-        
-        inventoryTable.getColumns().get(0).setVisible(false);
-        inventoryTable.getColumns().get(0).setVisible(true);
-        
-        
-
-        if(invSelectedStorable != null){
-            storableDes.setText(invSelectedStorable.getDescriptionInfo());
-            initializeInvCargoTable(invSelectedStorable);
-        }
-        if(invSelectedWpn != null && invSelectedStorable.getWeaponQuantity(invSelectedWpn.getWpn().getName()) <= 0){
-            invWpnImg.setImage(null);
-            invWpnDes.setText(null);
-        }
-    }
     
+    public void updateInventoryTab(){
+        System.out.println("ATUALIZANDO");
+        
+        invOpQty.setText(null);
+        
+        invLeftTable.getColumns().clear();
+        invLeftTable.getColumns().addAll(invLeftCol);
+        ObservableList obl = (ObservableList) invSelectLeft.getWeapons();
+        invLeftCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
+        invLeftTable.setItems(obl);         
+        invLeftDesc.setText(invSelectLeft.getDescriptionInfo());
+        
+        invRightTable.getColumns().clear();
+        invRightTable.getColumns().addAll(invRightCol);
+        obl = (ObservableList) invSelectLeft.getWeapons();
+        invRightCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
+        invRightTable.setItems(obl);        
+        invRightDesc.setText(invSelectRight.getDescriptionInfo());
+    }
+
     /**
      * Método usado para mover armas de um Storable para outro.
      */
+    
     @FXML
-    public void moveInvWeapons(){
+    public void invMoveWeapons(){
+        Storable source = null;
+        Storable destination = null;
         
-        if(invSelectedStorable != null){
-            if(invSelectedWpn != null){
-                if (qtyValidation (invMoveQty)){    //Quantidade é um inteiro positivo.
-                int qty = Integer.parseInt(invMoveQty.getText());
-                
-                    if(invSelectedWpn.getQty() >= qty){
-                        if(invMoveDestination.getValue() != null){
-                            Storable destination = invMoveDestination.getValue();
-                            if(qty * invSelectedWpn.getWpn().getSize() + destination.getUsedCapacity() <= destination.getTotalCapacity()){ //Destino com capacidade suficiente
-                                destination.store(invSelectedWpn.getWpn(), qty);
-                                invSelectedStorable.remove(invSelectedWpn.getWpn().getName(), qty);
-
-                                updateInventoryTab();
-
-                            }else
-                                guiPlayerOutput.appendText("\nInsuficient Capacity");
-                        }else
-                            guiPlayerOutput.appendText("\nInavlid destination");
-                    }else
-                        guiPlayerOutput.appendText("\nInsuficient Quantity");
-                }else
-                    guiPlayerOutput.appendText("\nInavlid Quantity");
-                
-            }else
-                guiPlayerOutput.appendText("\nSelect a valid weapon");
+        if(invSelectRight != null && invSelectLeft != null){
+            
+            if(invSelectedWpn != null && invWpnSide==false){
+               source = invSelectRight;
+               destination = invSelectLeft;
+               System.out.println("RIGHT->LEFT");
+            }
+            else if(invSelectedWpn != null && invWpnSide==true){
+                source = invSelectLeft;
+                destination = invSelectRight;
+                System.out.println("LEFT->RIGHT");
+            }                
         }
-    }
+        
+        if(source != null && destination != null){
+            if(qtyValidation(invOpQty)){//Quantidade valida
+                   int qty = Integer.parseInt(invOpQty.getText());
+                   if(invSelectedWpn.getQty() >= qty){
+                       if(qty * invSelectedWpn.getWpn().getSize() + 
+                               destination.getUsedCapacity() <= destination.getTotalCapacity()){
+                            
+                            destination.store(invSelectedWpn.getWpn(), qty);
+                            source.remove(invSelectedWpn.getWpn().getName(), qty);
+                            updateInventoryTab();
+                       }else
+                            guiPlayerOutput.appendText("\nInsuficient Capacity");
+                   }else
+                        guiPlayerOutput.appendText("\nInvalid Quantity");
+               }else
+                    guiPlayerOutput.appendText("\nIInvalid Quantity");
+            }else
+            guiPlayerOutput.appendText("\nInvalid  Transport/Warehosue");
+        }
+    
+    
     
     /**
      * Método usado para destruir armas de um Storable e reduzir heat.
      */
+    
     @FXML
-    public void destroyInvWeapons(){
-        if(invSelectedStorable != null){
-            if (qtyValidation (invDestQty)){    //Quantidade é um inteiro positivo.
-                int qty = Integer.parseInt(invDestQty.getText());
+    public void invDestroyWeapons(){
+        Storable target = null;
+        if(invSelectedWpn != null && invWpnSide==false){
+           target = invSelectRight;
+        }
+        else if(invSelectedWpn != null && invWpnSide==true){
+            target = invSelectLeft;
+        }   
+        if(target !=null){
+            if (qtyValidation (invOpQty)){    //Quantidade é um inteiro positivo.
+                int qty = Integer.parseInt(invOpQty.getText());
                 if(invSelectedWpn != null && invSelectedWpn.getQty() >= qty){
-                    invSelectedStorable.remove(invSelectedWpn.getWpn().getName(), qty);
+                    target.remove(invSelectedWpn.getWpn().getName(), qty);
                     player.setHeat(false,(invSelectedWpn.getWpn().getHeatInc() * qty)/2);
                     updateEssentialInfo();
                     updateInventoryTab();
@@ -527,9 +577,8 @@ public class GameController implements Initializable {
         }
     }
     
-    
     //TAB DE TRANSPORTES--------------------------------------------------------
-    
+
     public void initializeTransportsTab(){
     //    transportsTable;
         tranLocCol.setCellValueFactory(new PropertyValueFactory<>("currentPos")); // Transport, Location Column
@@ -590,7 +639,7 @@ public class GameController implements Initializable {
         transportsTable.getColumns().get(0).setVisible(false);
         transportsTable.getColumns().get(0).setVisible(true);
     }
-
+/*
     @FXML
     public void editCargo(){
         if(tranSelectedTransport != null){
@@ -601,7 +650,7 @@ public class GameController implements Initializable {
             inventoryTable.getSelectionModel().select(invSelectedStorable);           
             pane.getSelectionModel().select(inventory);
         }
-    }
+    }*/
     
 
     
@@ -646,7 +695,7 @@ public class GameController implements Initializable {
         guiPlayerOutput.clear();
         
         updateTransportTab();
-        updateInventoryTab();
+        //updateInventoryTab();
         initializeMarketTab(player.getCurrentPos());
         
         updateEssentialInfo();
@@ -695,9 +744,20 @@ public class GameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       /* mapTabText = new Label();
+        mapTabText.setText("MAP");
+        mapTabText.setRotate(90);
+        stp  = new StackPane(new Group(mapTabText));
+        stp.setPrefWidth(80);
+        stp.setPrefHeight(80);
+        map.setGraphic(stp);*/
+        
         selectedWeapon = null;
-        invSelectedStorable = null;
+        
+        invSelectRight= null;
+        invSelectLeft= null;
         invSelectedWpn = null;
+        
         tranSelectedTransport = null;
         
         world = new World();

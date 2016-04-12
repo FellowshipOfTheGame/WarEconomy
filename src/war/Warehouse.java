@@ -135,7 +135,7 @@ public class Warehouse implements Storable{
     
     @Override
     public String getDescriptionInfo() {
-        return("LOCAL WAREHOUSE" + "\nUpkeep: " + this.upkeep + "\nSecurity: " + security + "\nCapacity: " + usedCapacity + "/" + totalCapacity);
+        return("Upkeep: " + this.upkeep + "\nSecurity: " + security + "\nCapacity: " + usedCapacity + "/" + totalCapacity);
     }
 
     

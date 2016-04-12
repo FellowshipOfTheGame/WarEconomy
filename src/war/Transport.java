@@ -149,7 +149,7 @@ public class Transport implements Storable{
 
     @Override
     public String getDescriptionInfo() {
-        return (name.toUpperCase() + "\nType: " + type.toUpperCase() + "\nSpeed: " + speed +
+        return ("Type: " + type.toUpperCase() + "\nSpeed: " + speed +
                 "\nNoise: " + noise +"\nUpkeep: " + upkeep + "\nCapacity: " + usedCapacity +  "/" + totalCapacity);
     }
 

@@ -1,4 +1,4 @@
-* {
+/** {
 	-fx-background-color: black;
 	-fx-text-fill: #00FF00;
 	-fx-border-color: #00FF00;
@@ -14,3 +14,7 @@
 .menu-bar .container .menu:openvertically .label .text{
 	-fx-fill: #00FF00;
 }
+
+.tab-label {
+	-fx-rotate: 90;
+}*/

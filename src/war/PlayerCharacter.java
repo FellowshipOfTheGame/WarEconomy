@@ -185,16 +185,17 @@ public class PlayerCharacter extends GameCharacter{
     public ObservableList<Storable>getStorableObl() {//Retorna uma observable list para montar a tabela
         ObservableList<Storable> obl = FXCollections.observableArrayList();
         
-        for(Warehouse warehouse : warehouses){
+        warehouses.stream().forEach((warehouse) -> {
             obl.add(warehouse);
-        }
+        });
         
-        for (Transport transport : transports) {
+        transports.stream().forEach((transport) -> {
             obl.add(transport);
-        }
+        });
         
         return obl;
     }
+
     
     /***
      * Retorna lista Observavel de todos os Storables em uma determinada região, com a exceção de um.
