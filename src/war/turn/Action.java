@@ -42,4 +42,9 @@ public abstract class Action {
 	 * Executa a ação
 	 */
 	public abstract void execute ();
+
+	/**
+	 * Obriga ações a serem Stringificáveis, pra descrição
+	 */
+	public abstract String toString ();
 }

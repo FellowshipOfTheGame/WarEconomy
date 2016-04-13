@@ -42,4 +42,17 @@ public class TravelAction extends Action {
 		player.setFunds (false, travel.getWeight ());
 		actor.setCurrentPos (travel.getDestination ());
 	}
+
+	@Override
+	public String toString () {
+		StringBuilder sb = new StringBuilder ();
+		sb.append ("TravelAction: \"");
+		sb.append (actor.getName ());
+		sb.append ("\" foi de \"");
+		sb.append (travel.getOrigin ().getName ());
+		sb.append ("\" para \"");
+		sb.append (travel.getDestination ().getName ());
+		sb.append ("\".");
+		return sb.toString ();
+	}
 }

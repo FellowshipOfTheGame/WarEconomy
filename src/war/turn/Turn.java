@@ -131,6 +131,10 @@ public class Turn {
 	 */
 	public void reset () {
 		isOver = false;
+		System.out.println ("[Turn.reset] Ações executadas:");
+		for (Action act : actions) {
+			System.out.println ("  - " + act);
+		}
 		actions.clear ();
 	}
 }
