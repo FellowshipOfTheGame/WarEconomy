@@ -41,6 +41,7 @@ import war.Warehouse;
 import war.World;
 import war.turn.Turn;
 import war.turn.TravelAction;
+import war.turn.BuyAction;
 
 /**
  * FXML Controller class
@@ -278,14 +279,12 @@ public class GameController implements Initializable {
                     
                     //Verifica se tem espaço suficiente no armazém/veículo
                     if(qty * selectedWeapon.getWpn().getSize() + destination.getUsedCapacity() <= destination.getTotalCapacity()){
-                        selectedWeapon.setSupply(supply-qty);//Seta nova oferta do mercado
+						// adiciona a compra, e já executa-a
+						turn.addAction (new BuyAction (player, player, selectedWeapon, qty, destination));
+
                         marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
                         marketTable.getColumns().get(0).setVisible(true);
                         qtyField.setText("");
-                        
-                        destination.store(selectedWeapon.getWpn(), qty);
-
-                        player.setFunds(false, qty * selectedWeapon.getBuyPrice());
 
                         /*
                         *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
