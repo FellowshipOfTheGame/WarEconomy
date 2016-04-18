@@ -1,5 +1,5 @@
 /*
- * BuyAction: uma ação que um GameCharacter comprou alguma MarketWeapon
+ * SellAction: uma ação que um GameCharacter comprou alguma MarketWeapon
  */
 package war.turn;
 
@@ -17,19 +17,19 @@ import java.lang.IllegalArgumentException;
  * @version 0.1
  * @phase I
  */
-public class BuyAction extends Action {
+public class SellAction extends Action {
 	/**
-	 * Qual arma está sendo comprada (wrapper do mercado)
+	 * Qual arma está sendo vendida (wrapper do mercado)
 	 */
 	MarketWeapon wpn;
 
 	/**
-	 * Onde arma comprada será armazenada
+	 * De onde arma vendida será retirada
 	 */
 	Storable store;
 
 	/**
-	 * Quantidade da arma que será comprada
+	 * Quantidade da arma que será vendida
 	 */
 	int quantity;
 
@@ -38,14 +38,14 @@ public class BuyAction extends Action {
 	 *
 	 * @param player Player, pra subtrair os dinheiros
 	 * @param actor Qual personagem que tá executando a ação
-	 * @param weapon Qual arma está sendo comprada
-	 * @param quantity Quantidade a ser comprada
-	 * @param store Onde compra será armazenada
+	 * @param weapon Qual arma está sendo vendida
+	 * @param quantity Quantidade a ser vendida
+	 * @param store De onde arma vendida será retirada
 	 */
-	public BuyAction (PlayerCharacter player, GameCharacter actor, MarketWeapon weapon, int quantity, Storable store) {
+	public SellAction (PlayerCharacter player, GameCharacter actor, MarketWeapon weapon, int quantity, Storable store) {
 		super (player, actor);
 		if (quantity <= 0) {
-			throw new IllegalArgumentException ("[BuyAction] Quantidade de armas compradas não pode ser menor que 1 (" + quantity + ")");
+			throw new IllegalArgumentException ("[SellAction] Quantidade de armas vendidadas não pode ser menor que 1 (" + quantity + ")");
 		}
 		this.wpn = weapon;
 		this.quantity = quantity;
@@ -55,26 +55,27 @@ public class BuyAction extends Action {
 	@Override
 	public void execute () {
 		// setta nova oferta do mercado
-		wpn.setSupply (wpn.getSupply () - quantity);
-		// guarda no armazém
-		store.store (wpn.getWpn (), quantity);
+		wpn.setDemand (wpn.getDemand () - quantity);
+		// retira do armazém
+		store.remove (wpn.getWpnName (), quantity);
 		// e tira os dinheiros do player
-		player.setFunds (false, quantity * wpn.getBuyPrice ());
+		player.setFunds (true, quantity * wpn.getSellPrice ());
 	}
 
 	@Override
 	public String toString () {
 		StringBuilder sb = new StringBuilder ();
-		sb.append ("BuyAction: \"");
+		sb.append ("SellAction: \"");
 		sb.append (actor.getName ());
-		sb.append ("\" comprou ");
+		sb.append ("\" vendeu ");
 		sb.append (quantity);
 		sb.append (" \"");
 		sb.append (wpn.getWpnName ());
-		sb.append ("\", armazenada(s) em \"");
+		sb.append ("\", que estava armazenada(s) em \"");
 		sb.append (store.getName ());
 		sb.append ("\".");
 		return sb.toString ();
 	}
 }
+
 

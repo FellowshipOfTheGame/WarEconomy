@@ -42,6 +42,7 @@ import war.World;
 import war.turn.Turn;
 import war.turn.TravelAction;
 import war.turn.BuyAction;
+import war.turn.SellAction;
 
 /**
  * FXML Controller class
@@ -228,14 +229,12 @@ public class GameController implements Initializable {
                     if(qty <= availableQty){//Quantidade a ser vendida é menor ou igual à quantidade disponível na fonte. Se a arma não existe, o -1 impede a entrada nesse if (qty é sempre >= 0)
 
                         if(qty <= demmand){//Quantidade menor ou igual á demanda do mercado
-                            selectedWeapon.setDemand(demmand-qty);
+							// adiciona a venda, e já executa-a
+							turn.addAction (new SellAction (player, player, selectedWeapon, qty, source));
 
                             marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
                             marketTable.getColumns().get(0).setVisible(true);
 
-
-                            source.remove(selectedWeapon.getWpnName(), qty);
-                            player.setFunds(true, qty * selectedWeapon.getSellPrice());
                             
                             /*
                             *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
