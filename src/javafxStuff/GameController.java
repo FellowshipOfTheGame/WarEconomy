@@ -44,6 +44,8 @@ import war.Warehouse;
 import war.World;
 import war.turn.Turn;
 import war.turn.TravelAction;
+import war.turn.BuyAction;
+import war.turn.SellAction;
 
 /**
  * FXML Controller class
@@ -234,14 +236,12 @@ public class GameController implements Initializable {
                     if(qty <= availableQty){//Quantidade a ser vendida é menor ou igual à quantidade disponível na fonte. Se a arma não existe, o -1 impede a entrada nesse if (qty é sempre >= 0)
 
                         if(qty <= demmand){//Quantidade menor ou igual á demanda do mercado
-                            selectedWeapon.setDemand(demmand-qty);
+							// adiciona a venda, e já executa-a
+							turn.addAction (new SellAction (player, player, selectedWeapon, qty, source));
 
                             marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
                             marketTable.getColumns().get(0).setVisible(true);
 
-
-                            source.remove(selectedWeapon.getWpnName(), qty);
-                            player.setFunds(true, qty * selectedWeapon.getSellPrice());
                             
                             /*
                             *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
@@ -285,14 +285,12 @@ public class GameController implements Initializable {
                     
                     //Verifica se tem espaço suficiente no armazém/veículo
                     if(qty * selectedWeapon.getWpn().getSize() + destination.getUsedCapacity() <= destination.getTotalCapacity()){
-                        selectedWeapon.setSupply(supply-qty);//Seta nova oferta do mercado
+						// adiciona a compra, e já executa-a
+						turn.addAction (new BuyAction (player, player, selectedWeapon, qty, destination));
+
                         marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
                         marketTable.getColumns().get(0).setVisible(true);
                         qtyField.setText("");
-                        
-                        destination.store(selectedWeapon.getWpn(), qty);
-
-                        player.setFunds(false, qty * selectedWeapon.getBuyPrice());
 
                         /*
                         *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
