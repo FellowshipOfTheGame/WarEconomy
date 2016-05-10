@@ -47,4 +47,9 @@ public abstract class Action {
 	 * Obriga ações a serem Stringificáveis, pra descrição
 	 */
 	public abstract String toString ();
+        
+        /***
+         * Getter para pegar a descrição curta da ação usada na tabela de ações do turno.
+         */
+        public abstract String getShortDesc();
 }

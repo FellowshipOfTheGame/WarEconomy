@@ -42,6 +42,7 @@ import war.Storable;
 import war.Transport;
 import war.Warehouse;
 import war.World;
+import war.turn.Action;
 import war.turn.Turn;
 import war.turn.TravelAction;
 import war.turn.BuyAction;
@@ -137,6 +138,12 @@ public class GameController implements Initializable {
     @FXML TableColumn<GameCharacter, String> agentPosCol; //Agent, Position Column
     @FXML TableColumn<GameCharacter, String> agentOrderCol; //Agent, Current Order Column
     
+    //TAB DE TURNO
+    @FXML TableView<Action> turnTable;
+    @FXML TableColumn<Action, String> turnShortCol;
+    @FXML Text turnActionDesc; //Para descrição detalhada da ação realizada
+    @FXML Label turnActionName; //Para o nome da ação.
+
     //INFO ESSENCIAL
     @FXML TextArea guiPlayerOutput;
     @FXML Label guiFunds;
@@ -160,8 +167,8 @@ public class GameController implements Initializable {
     
     Transport tranSelectedTransport;//Selected Transport, para a tab de Transportes
     
-    Character selectedCharacter;
-
+    GameCharacter selectedCharacter;
+    Action selectedAction;
 	/// Turno atual, que guardará as ações feitas
 	Turn turn;
     
@@ -504,10 +511,11 @@ public class GameController implements Initializable {
         
         invRightTable.getColumns().clear();
         invRightTable.getColumns().addAll(invRightCol);
-        obl = (ObservableList) invSelectLeft.getWeapons();
+        obl = (ObservableList) invSelectRight.getWeapons();
         invRightCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
         invRightTable.setItems(obl);        
         invRightDesc.setText(invSelectRight.getDescriptionInfo());
+
     }
 
     /**
@@ -519,6 +527,7 @@ public class GameController implements Initializable {
         Storable source = null;
         Storable destination = null;
         
+        //Verificação de quem é fonte e quem é destino
         if(invSelectRight != null && invSelectLeft != null){
             
             if(invSelectedWpn != null && invWpnSide==false){
@@ -532,7 +541,7 @@ public class GameController implements Initializable {
                 System.out.println("LEFT->RIGHT");
             }                
         }
-        
+        //Verificação da validade da operação
         if(source != null && destination != null){
             if(qtyValidation(invOpQty)){//Quantidade valida
                    int qty = Integer.parseInt(invOpQty.getText());
@@ -671,8 +680,43 @@ public class GameController implements Initializable {
     }
     
     @FXML
+    /**
+     * Método para selecionar um personagem da tabela.
+     */
     public void selectCharacter(){
+        if(agentTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido na tabela esquerda
+            if(selectedCharacter != agentTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
+                //seta a referencia ao personagem clicado
+                selectedCharacter = agentTable.getSelectionModel().getSelectedItem(); 
+            }
+        }
+    }
     
+    
+//TAB DE TURNOS--------------------------------------------------------
+    
+    public void initializeTurnTab(){
+        //Inicializa a tabela
+        turnShortCol.setCellValueFactory(new PropertyValueFactory<>("shortDesc")); //Turn short Description
+
+        ObservableList obl = turn.getActionsObl();
+        turnTable.setItems(obl);
+    }    
+    
+    
+    @FXML
+    /**
+     * Método para selecionar um personagem da tabela.
+     */
+    public void selectAction(){
+        if(turnTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido na tabela esquerda
+            if(selectedAction != turnTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
+                //seta a referencia ao personagem clicado
+                selectedAction = turnTable.getSelectionModel().getSelectedItem(); 
+                turnActionDesc.setText(selectedAction.toString());
+                turnActionName.setText(selectedAction.getShortDesc());
+            }
+        }
     }
     
 //GERAIS--------------------------------------------------------------------
@@ -701,6 +745,11 @@ public class GameController implements Initializable {
         player.moveTransports();
         
         guiPlayerOutput.clear();
+        
+        //Turns
+        turnActionDesc.setText("");
+        turnActionName.setText("");
+        initializeTurnTab();
         
         updateTransportTab();
         //updateInventoryTab();
@@ -747,6 +796,7 @@ public class GameController implements Initializable {
         
         updateEssentialInfo();
         
+        selectedAction = null;
         selectedCharacter = null;
         selectedWeapon = null;
         selectedWpnImg.setImage(null);
@@ -786,6 +836,9 @@ public class GameController implements Initializable {
         
         tranSelectedTransport = null;
         
+        selectedCharacter = null;
+        selectedAction = null;
+        
         world = new World();
         player = new PlayerCharacter("default",this.world.getRegion(0));
 		turn = new Turn ();
@@ -797,6 +850,7 @@ public class GameController implements Initializable {
         initializeTransportsTab();
         initializeInventoryTab();
         initializeAgentTab();
+        initializeTurnTab();
     }    
     
 }

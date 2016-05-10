@@ -55,6 +55,7 @@ public class PlayerCharacter extends GameCharacter{
         return agents;
     }
     
+    //Cria a observablelist de agentes (incluind o próprio personagem do jogador) para montar a tabela de agentes.
     public ObservableList<GameCharacter> getAgentObl(){
         ObservableList<GameCharacter> agntObl = FXCollections.observableArrayList();
         agents.stream()

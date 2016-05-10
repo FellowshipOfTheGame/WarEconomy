@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.lang.IndexOutOfBoundsException;
 import java.lang.RuntimeException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * @briefing Classe dos Turnos, composto de ações
@@ -137,4 +139,17 @@ public class Turn {
 		}
 		actions.clear ();
 	}
+        
+        
+        /**
+         * Cria e retorna a observablelist de ações feitas em um turno, para montar tabela de ações.
+         * @return actionObl lista observável de ações.
+         */
+        public ObservableList<Action> getActionsObl(){
+            ObservableList<Action> actionObl = FXCollections.observableArrayList();
+            actions.stream()
+                    .forEach(action -> {actionObl.add(action);
+                    });
+            return actionObl;
+        }
 }

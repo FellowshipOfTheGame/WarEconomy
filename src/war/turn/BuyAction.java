@@ -76,5 +76,10 @@ public class BuyAction extends Action {
 		sb.append ("\".");
 		return sb.toString ();
 	}
+
+    @Override
+    public String getShortDesc() {
+        return ("Buy Action");
+    }
 }
 
