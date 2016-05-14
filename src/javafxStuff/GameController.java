@@ -528,11 +528,13 @@ public class GameController implements Initializable {
         // finaliza Turn, e o reseta pro próximo
         turn.endTurn (player.getAgents ());
         turn.reset ();
-
+        
+        //world:
         currentTurn ++;
         world.updateMarkets();
         //world.updateFactions();
         
+        //player:
         player.setFunds(false, player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
         player.decrementNotoriety();
         player.moveTransports();

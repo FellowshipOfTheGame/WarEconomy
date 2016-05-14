@@ -18,10 +18,10 @@ public final class World {
     /*
     Metodo para criar conexao entre 2 regioes, A e B
     */
-    public void createConnection(Region regA, Region regB, boolean land, int weight){
+    public void createConnection(Region regA, Region regB, boolean land, int weight, int risk){
         //Cria duas instâncias de conexão. 
-        regA.addAdjacent (new Connection (regA, regB, land, weight));
-        regB.addAdjacent (new Connection (regB, regA, land, weight));
+        regA.addAdjacent (new Connection (regA, regB, land, weight, risk));
+        regB.addAdjacent (new Connection (regB, regA, land, weight, risk));
     }
     
     public Region getRegion(int index){
@@ -80,19 +80,19 @@ public final class World {
         
         
         /*Seta as conexoes entre as regios*/
-        this.createConnection(naf, col, true, 1);
-        this.createConnection(naf, aur, false, 2);
+        this.createConnection(naf, col, true, 1, 30);
+        this.createConnection(naf, aur, false, 2, 30);
         
-        this.createConnection(col, cal, false, 1);
-        this.createConnection(col, ura, false,3);
+        this.createConnection(col, cal, false, 1, 30);
+        this.createConnection(col, ura, false,3, 30);
         
-        this.createConnection(cal, ura, false,1);
-        this.createConnection(cal, rut, false,1);
+        this.createConnection(cal, ura, false,1, 30);
+        this.createConnection(cal, rut, false,1, 30);
         
-        this.createConnection(ura, rut, false,1);
-        this.createConnection(ura, aur, false,1);
+        this.createConnection(ura, rut, false,1, 30);
+        this.createConnection(ura, aur, false,1, 30);
         
-        this.createConnection(rut, aur, false,1);
+        this.createConnection(rut, aur, false,1, 30);
         
         /*Adiciona as regioes ao arraylist*/
         this.regions.add(naf);

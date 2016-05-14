@@ -4,6 +4,7 @@ package war;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -266,23 +267,28 @@ public class Transport implements Storable{
         return obl;
     }
     
-    
-    public void move(){
-        
+    /***
+     * Método chamado para mover o transporte. Já realiza o teste de noise também
+     * @return Resultado do teste de noise
+     */
+    public boolean move(){
+        boolean result = true;
         if(route != null){
             System.out.println(name + " Moving !");
             
             if(currentConnection==null){//Transporte vai sair agora da sua posição atual
                 currentConnection = currentPos.getConnection(route.get(0));//Pega a conexao entre a posição atual e a primeira região da rota
                 weightTraveled = speed;
-                System.out.println("new con: " + currentConnection);
+                System.out.println("entering con: " + currentConnection);
+                result = makeNoiseTest();
             }
             else{//Transporte já está em movimento
                 weightTraveled += speed;
                 System.out.println("Proceeding " + weightTraveled +"/" + currentConnection.getWeight());
+                result = makeNoiseTest();
             }
             
-            
+            //VERIFICAÇÕES DE CHEGADA
             if(weightTraveled == currentConnection.getWeight()){//percorreu exatamente toda a distancia
                 weightTraveled = 0;
                 currentPos = route.get(0);//Chegou no destino
@@ -290,32 +296,60 @@ public class Transport implements Storable{
                 
                 if(route.size() > 0){//O caminho ainda não acabou
                     currentConnection = currentPos.getConnection(route.get(0));//Seta a nova conexão atual
+                    return result;
                 }else{//Caminho acabou
                     System.out.println("Arrived at destination");
                     currentConnection = null;
                     route = null;
+                    return result;
                 }
             }
-            else if(weightTraveled > currentConnection.getWeight()){ //Percorreu mais do que a distãncia
+            else if(weightTraveled > currentConnection.getWeight()){ //Percorreu mais do que a distância de uma dada conexão 
                 currentPos = route.get(0); //nova posição
                 route.remove(0);//remove da rota
                 if(route.size() > 0){//O caminho ainda não acabou.
                     weightTraveled = weightTraveled - currentConnection.getWeight();//Distancia percorrida é a diferença do total com o peso da conexão atual "antiga"
                     currentConnection = currentPos.getConnection(route.get(0));//Nova conexão atual
+                    return result;
                 }else{//Caminho acabou
                     System.out.println("Arrived at destination");
-                    weightTraveled = 0;
+                    weightTraveled = 0;                  
                     currentConnection = null;
                     route = null;
+                    return result;
                 }
             }
             
-            /*
-            INCLUIR TESTES DE NOISE AQUI, EVENTUALMENTE
-             */
         }
+        return true;
     }
     
+                
+    /***
+     * Método que realiza um teste de noise em uma determinada região.
+     * Ele é chamado quando o jogador usa "moveTransports()"
+     * Teste é feito se o transporte esta carregando armas.
+     * @return TRUE se o teste passou e o transporte não chamou atenção das autoridades
+     *         FALSE se o transporte falhou e chamou atenção.
+     */
+    private boolean makeNoiseTest(){
+        System.out.println("Making Noise Test");
+        //Se o transporte está se movendo e tem carga
+        if(currentConnection != null && usedCapacity != 0){
+            Random diceRoll = new Random();
+            //random.nextInt(max - min + 1) + min
+            int result = diceRoll.nextInt(100) + 0;
+            int target = currentConnection.getTravelRisk() + this.noise /*-currentConnection.getTravelRiskDebuff()*/;
+            System.out.println("Jogou dado!\t RESULT: " + result + " atr: " + target);
+            if(result <= target){
+                System.out.println("Falhou teste de noise, pista pode ser gerada");
+                return false;
+            }
+            else
+                return true;
+        }
+        return true;
+    }
     
     @Override
     public String toString() {
