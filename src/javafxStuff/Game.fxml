@@ -43,32 +43,32 @@
                               </ImageView>
                               <MenuButton layoutX="224.0" layoutY="523.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="NAFRAN">
                                 <items>
-                                  <MenuItem fx:id="trvNaf" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
+                                  <MenuItem fx:id="blNaf" mnemonicParsing="false" onAction="#openBL" text="Market" />
                                 </items>
                               </MenuButton>
                               <MenuButton layoutX="726.0" layoutY="577.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="COLUMBIA">
                                  <items>
-                                    <MenuItem fx:id="trvCol" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
+                                    <MenuItem fx:id="blCol" mnemonicParsing="false" onAction="#openBL" text="Market" />
                                  </items>
                               </MenuButton>
                               <MenuButton layoutX="1081.0" layoutY="267.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="CALLISTO">
                                  <items>
-                                    <MenuItem fx:id="trvCal" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
+                                    <MenuItem fx:id="blCal" mnemonicParsing="false" onAction="#openBL" text="Market" />
                                  </items>
                               </MenuButton>
                               <MenuButton layoutX="1318.0" layoutY="423.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="URALIYA">
                                  <items>
-                                    <MenuItem fx:id="trvUra" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
+                                    <MenuItem fx:id="blUra" mnemonicParsing="false" onAction="#openBL" text="Market" />
                                  </items>
                               </MenuButton>
                               <MenuButton layoutX="1743.0" layoutY="186.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="RUTHENIA">
                                  <items>
-                                    <MenuItem fx:id="trvRut" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
+                                    <MenuItem fx:id="blRut" mnemonicParsing="false" onAction="#openBL" text="Market" />
                                  </items>
                               </MenuButton>
                               <MenuButton layoutX="1687.0" layoutY="735.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="AURIA">
                                  <items>
-                                    <MenuItem fx:id="trvAur" mnemonicParsing="false" onAction="#playerTravel" text="Market" />
+                                    <MenuItem fx:id="blAur" mnemonicParsing="false" onAction="#openBL" text="Market" />
                                  </items>
                               </MenuButton>
                            </children>
@@ -77,75 +77,6 @@
                   </ScrollPane>
                </content>
           </Tab>
-            <Tab fx:id="blackMarket" text="Black Market">
-               <content>
-                  <HBox>
-                     <children>
-                        <VBox prefHeight="902.0" prefWidth="563.0">
-                           <children>
-                              <Label fx:id="marketName" prefHeight="45.0" prefWidth="917.0" text="Label" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="30.0" />
-                                 </font>
-                              </Label>
-                              <TableView fx:id="marketTable" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#selectMarketWeapons" prefHeight="857.0" prefWidth="575.0" VBox.vgrow="ALWAYS">
-                                <columns>
-                                  <TableColumn fx:id="nameColumn" minWidth="150.0" prefWidth="159.0" text="Weapon" />
-                                  <TableColumn fx:id="catColumn" minWidth="100.0" prefWidth="162.0" text="Category" />
-                                    <TableColumn fx:id="sellColumn" maxWidth="95.0" minWidth="50.0" prefWidth="65.0" resizable="false" text="Sell" />
-                                    <TableColumn fx:id="buyColumn" maxWidth="80.0" minWidth="50.0" prefWidth="65.0" resizable="false" text="Buy" />
-                                    <TableColumn fx:id="supColumn" maxWidth="80.0" minWidth="50.0" prefWidth="60.0" text="Supply" />
-                                    <TableColumn fx:id="demColumn" maxWidth="80.0" minWidth="50.0" prefWidth="63.0" text="Demand" />
-                                </columns>
-                              </TableView>
-                           </children>
-                        </VBox>
-                      <AnchorPane minWidth="-Infinity" prefHeight="945.0" prefWidth="833.0">
-                           <children>
-                              <VBox layoutX="37.0" layoutY="107.0" spacing="20.0" AnchorPane.bottomAnchor="243.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="107.0">
-                                 <children>
-                                    <ImageView fx:id="selectedWpnImg" fitHeight="171.0" fitWidth="743.0" layoutX="440.0" layoutY="26.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
-                                    <Text fx:id="selectedWpnDescr" layoutX="411.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="730.13671875" />
-                                    <Separator opacity="0.0" prefHeight="235.0" prefWidth="742.0" />
-                                    <HBox prefHeight="164.0" prefWidth="742.0" spacing="30.0">
-                                       <children>
-                                          <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
-                                             <children>
-                                                <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" promptText="Type in the quantity to buy" />
-                                                <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
-                                                <Label fx:id="totalBuyPrice" text="Total Price:" />
-                                                <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="35.0" prefWidth="232.0" promptText="Select purchase destination" />
-                                                <Label fx:id="usedCargoSpace" text="Used Cargo Space" />
-                                                <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                             <padding>
-                                                <Insets top="5.0" />
-                                             </padding>
-                                          </VBox>
-                                          <Label fx:id="totalHeatInc" alignment="CENTER" layoutX="343.0" layoutY="709.0" prefHeight="38.0" prefWidth="204.0" text="Heat Increase:" textAlignment="CENTER" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="343.0" AnchorPane.rightAnchor="319.0" />
-                                          <VBox layoutX="596.0" layoutY="683.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="59.0">
-                                             <children>
-                                                <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" onAction="#updateSellInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
-                                                <Label fx:id="qtyStored" text="Quantity Stored:" />
-                                                <TextField fx:id="qtyField1" onKeyPressed="#updateSellInfo" onKeyReleased="#updateSellInfo" promptText="Type in the quantity to sell" />
-                                                <Label fx:id="totalSellPrice" text="Total Price:" />
-                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
-                                                <Button fx:id="sellButton" mnemonicParsing="false" onAction="#sell" prefHeight="25.0" prefWidth="792.0" text="SELL" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                             <padding>
-                                                <Insets top="5.0" />
-                                             </padding>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
-               </content>
-            </Tab>
             <Tab fx:id="inventory" text="Inventory Manegement">
                <content>
                   <HBox prefHeight="971.0" prefWidth="1804.0">

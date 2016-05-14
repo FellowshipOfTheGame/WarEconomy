@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.BlackMarketController">
+   <children>
+      <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="509.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="marketName" prefHeight="45.0" prefWidth="516.0" text="Label" textAlignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <TableView fx:id="marketTable" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#selectMarketWeapons" prefHeight="555.0" prefWidth="516.0" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="nameColumn" minWidth="107.0" prefWidth="120.0" text="Weapon" />
+                  <TableColumn fx:id="catColumn" minWidth="91.0" prefWidth="91.0" text="Category" />
+                  <TableColumn fx:id="sellColumn" maxWidth="175.0" minWidth="50.0" prefWidth="75.0" resizable="false" text="Sell" />
+                  <TableColumn fx:id="buyColumn" maxWidth="178.0" minWidth="50.0" prefWidth="79.0" resizable="false" text="Buy" />
+                  <TableColumn fx:id="supColumn" maxWidth="146.0" minWidth="50.0" prefWidth="70.0" text="Supply" />
+                  <TableColumn fx:id="demColumn" maxWidth="152.0" minWidth="50.0" text="Demand" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="486.0" minWidth="-Infinity" prefHeight="600.0" prefWidth="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="516.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox layoutX="37.0" layoutY="41.0" prefHeight="534.0" prefWidth="453.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="41.0">
+               <children>
+                  <ImageView fx:id="selectedWpnImg" fitHeight="170.0" fitWidth="628.0" layoutX="440.0" layoutY="26.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
+                  <Text fx:id="selectedWpnDescr" layoutX="411.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="630.13671875" />
+                  <Separator opacity="0.0" prefHeight="235.0" prefWidth="742.0" />
+                  <HBox prefHeight="370.0" prefWidth="464.0" spacing="30.0">
+                     <children>
+                        <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
+                           <children>
+                              <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" prefHeight="43.0" prefWidth="144.0" promptText="qty" />
+                              <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
+                              <Label fx:id="totalBuyPrice" text="Total Price:" />
+                              <ComboBox fx:id="purchaseDestination" prefHeight="35.0" prefWidth="232.0" promptText="Purchase destination" />
+                              <Label fx:id="usedCargoSpace" text="Used Cargo Space" />
+                              <Button fx:id="buyButton" mnemonicParsing="false" onMouseClicked="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </VBox>
+                        <Label fx:id="totalHeatInc" alignment="CENTER" layoutX="343.0" layoutY="709.0" prefHeight="38.0" prefWidth="204.0" text="Heat Increase:" textAlignment="CENTER" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="343.0" AnchorPane.rightAnchor="319.0" />
+                        <VBox layoutX="596.0" layoutY="683.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="59.0">
+                           <children>
+                              <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
+                              <Label fx:id="qtyStored" text="Quantity Stored:" />
+                              <TextField fx:id="qtyField1" onKeyPressed="#updateSellInfo" onKeyReleased="#updateSellInfo" promptText="qty" />
+                              <Label fx:id="totalSellPrice" text="Total Price:" />
+                              <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
+                              <Button fx:id="sellButton" mnemonicParsing="false" onMouseClicked="#sell" prefHeight="25.0" prefWidth="792.0" text="SELL" VBox.vgrow="ALWAYS" />
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
