@@ -112,6 +112,10 @@ public class GameController implements Initializable {
     @FXML TableColumn<Transport, String> tranTypeCol; // Transport, Type Column
     @FXML TableColumn<Transport, String> tranStatCol; // Transport, Status Column
     
+    @FXML Button transBuy;
+    @FXML Button transDest;
+    @FXML Button transSell;
+    
     @FXML ComboBox<Region> adjacentRegions;
     @FXML Text tranCargo;
     @FXML Text tranRoute;
@@ -444,6 +448,27 @@ public class GameController implements Initializable {
         transportsTable.getColumns().get(0).setVisible(false);
         transportsTable.getColumns().get(0).setVisible(true);
     }
+    /***
+     * Abre a janela de mercado de transportes
+     */
+    public void openTransMarket(){
+        try {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TransportMarketFXML.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+               
+                //Referencia o controlador do blackmarket para passar a região para inicializar a tabela e valores
+                TransportMarketController controller = fxmlLoader.<TransportMarketController>getController();
+                controller.initialize();//Por enquanto só seta para NAFRAN
+                
+                stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
+                stage.setScene(new Scene(root1));  
+                stage.showAndWait();
+                
+        } catch(Exception e) {
+           e.printStackTrace();
+          }
+    }
 /*
     @FXML
     public void editCargo(){
@@ -605,7 +630,7 @@ public class GameController implements Initializable {
 		Region whereFrom = player.getCurrentPos ();
 		// Região pra qual player tá viajando
 		Region whereTo = null;
-/*
+
         if(e.getSource() == trvNaf)
             whereTo = world.getRegion(0);
         else if(e.getSource() == trvCol)
@@ -637,7 +662,7 @@ public class GameController implements Initializable {
         
         selectedAction = null;
         selectedCharacter = null;
-        selectedWeapon = null;*/
+        selectedWeapon = null;
     }
     
     /*Atualiza info no HUD*/
@@ -646,7 +671,7 @@ public class GameController implements Initializable {
         guiFunds.setText("FUNDS: "+ player.getFunds());
         guiPlayerPos.setText("CURRENT POSITION: " + player.getCurrentPos().getName());
         guiCurrentTurn.setText("CURRENT TURN: " + currentTurn);
-        guiNotoriety.setText("NOTRIETY: " + player.getNotoriety());
+        guiNotoriety.setText("NOTORIETY: " + player.getNotoriety());
     }
     
     /**
