@@ -26,8 +26,11 @@ import javafx.collections.ObservableList;
  * @phase I
  */
 public class Turn {
-	/// Coleção de ações do turno
-	private ArrayList<Action> actions;
+	/// Coleção de ações imediatas do turno, aquelas que são executadas ao serem
+	/// adicionadas aqui
+	private ArrayList<Action> immediateActions;
+	/// Coleção de ações de fim de turno, aquelas que são executadas só no fim do turno =P
+	private ArrayList<Action> endTurnActions;
 	/// Flag que mostra se turno já acabou
 	/// Um turno só pode ser modificado (suas ações) se esse não tiver acabado
 	private boolean isOver;
@@ -36,19 +39,22 @@ public class Turn {
 	 * Ctor
 	 */
 	public Turn () {
-		actions = new ArrayList<Action> ();
+		immediateActions = new ArrayList<Action> ();
+		endTurnActions = new ArrayList<Action> ();
 		isOver = false;
 	}
 
 	/**
-	 * Adiciona uma ação ao turno
+	 * Adiciona uma ação imediata ao turno.
 	 *
-	 * @param a Ação a ser adicionada
+	 * Note que essa ação <b>será</b> executada imediatamente, sem choro xP
+	 *
+	 * @param a Ação imediata a ser adicionada
 	 * @throws RuntimeException se turno já foi finalizado
 	 */
 	public void addAction (Action a) {
 		if (!isOver) {
-			actions.add (a);
+			immediateActions.add (a);
 			a.execute ();
 		}
 		else {
@@ -57,13 +63,34 @@ public class Turn {
 	}
 
 	/**
-	 * Remove uma ação da lista de ações, tomando como base o índice dado
+	 * Marca uma ação a ser executada no fim do turno.
+	 *
+	 * Cada GameCharacter só pode marcar uma ação por turno, então esse método
+	 * verifica se o tal não tem nada marcado ainda, pra ação poder ser sobreposta.
+	 *
+	 * @return Ação marcada antiga do GameCharacter, null se não tiver
+	 */
+	public Action scheduleAction (Action a) {
+		GameCharacter actor = a.getCharacter ();
+		for (int i = 0; i < endTurnActions.size (); i++) {
+			Action aux = endTurnActions.get (i);
+			if (actor == aux.getCharacter ()) {
+				endTurnActions.set (i, a);
+				return aux;
+			}
+		}
+
+		endTurnActions.add (a);
+		return null;
+	}
+
+
+	/**
+	 * Remove uma ação da lista de ações, tomando como base o índice dado.
 	 * 
 	 * Note que se uma ação é feita por um Character, qualquer ação feita pelo
 	 * mesmo também será removida, visto que a ordem das ações na lista é como
 	 * fosse cronológica, no jogo.
-	 * <p>
-	 * Lembre-se que ações removidas serão revertidas!
 	 *
 	 * @param index Índice da ação a ser removida
 	 * @throws RuntimeException se turno já foi finalizado
@@ -73,7 +100,7 @@ public class Turn {
 			try {
 				// pega a lista de ações a partir da que se quer remover;
 				// se tiver fora da lista, exceção
-				ListIterator<Action> it = actions.listIterator (index);
+				ListIterator<Action> it = immediateActions.listIterator (index);
 				// primeira ação (cabeça do iterador), será removida
 				Action aux = it.next ();
 				// salva o Character ator, pra removermos suas ações seguintes
@@ -106,35 +133,28 @@ public class Turn {
 	 * @see #removeAction(int)
 	 */
 	public void removeAction (Action a) {
-		removeAction (actions.indexOf (a));
+		removeAction (immediateActions.indexOf (a));
 	}
 
 	/**
 	 * Acaba um turno, fazendo com que ações sejam permanentes.
 	 *
-	 * Executa ações marcadas dos possíveis atores, as consumindo.
+	 * Executa ações marcadas como de fim de turno.
 	 *
 	 * Note que qualquer tentativa de modificação do turno solta um
 	 * RuntimeException, já que turnos finalizados devem ser imutáveis.
 	 *
 	 * Realiza funções de decremento de Notoriedade
 	 *
-	 * @param possibleActors Agentes que possivelmente têm ações de fim de turno
-	 * a serem realizadas
-	 *
 	 * @throws RuntimeException se turno já foi finalizado
 	 */
-	public void endTurn (ArrayList<GameCharacter> possibleActors) {
+	public void endTurn () {
 		if (!isOver) {
-			isOver = true;
-			for (GameCharacter actor : possibleActors) {
-				// extrai ação de fim de turno de um possível ator e a executa, se existir
-				Action action = actor.getEndTurnAction ();
-				if (action != null) {
-					action.execute ();
-					actor.setEndTurnAction (null);
-				}
+			// executa ações de fim de turno
+			for (Action act : endTurnActions) {
+				act.execute ();
 			}
+			isOver = true;
 		}
 		else {
 			throw new RuntimeException ("[Turn.addAction] Turno já foi finalizado");
@@ -148,11 +168,17 @@ public class Turn {
 	 */
 	public void reset () {
 		isOver = false;
+		// log
 		System.out.println ("[Turn.reset] Ações executadas:");
-		for (Action act : actions) {
+		for (Action act : immediateActions) {
 			System.out.println ("  - " + act);
 		}
-		actions.clear ();
+		for (Action act : endTurnActions) {
+			System.out.println ("  + " + act);
+		}
+		// reset nos ArrayLists
+		immediateActions.clear ();
+		endTurnActions.clear ();
 	}
         
         
@@ -162,8 +188,15 @@ public class Turn {
 	 */
 	public ObservableList<Action> getActionsObl(){
 		ObservableList<Action> actionObl = FXCollections.observableArrayList();
-		actions.stream()
-				.forEach(action -> {actionObl.add(action);
+		// adiciona ações imediatas
+		immediateActions.stream()
+				.forEach(action -> {
+					actionObl.add(action);
+				});
+		// adiciona ações de fim de turno
+		endTurnActions.stream()
+				.forEach(action -> {
+					actionObl.add(action);
 				});
 		return actionObl;
 	}

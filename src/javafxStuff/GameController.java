@@ -526,7 +526,7 @@ public class GameController implements Initializable {
      */
     public void endTurn(){
         // finaliza Turn, e o reseta pro próximo
-        turn.endTurn (player.getAgents ());
+        turn.endTurn ();
         turn.reset ();
         
         //world:
@@ -540,6 +540,11 @@ public class GameController implements Initializable {
         player.moveTransports();
         
         guiPlayerOutput.clear();
+
+		// agents: reseta ação marcada de fim de turno
+		for (GameCharacter c : player.getAgents ()) {
+			c.setEndTurnAction (null);
+		}
         
         //Turns
         turnActionDesc.setText("");
