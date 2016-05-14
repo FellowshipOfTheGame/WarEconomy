@@ -34,7 +34,7 @@ public abstract class Action {
 	 *
 	 * @return Character ator
 	 */
-	GameCharacter getCharacter () {
+	public GameCharacter getCharacter () {
 		return this.actor;
 	}
 

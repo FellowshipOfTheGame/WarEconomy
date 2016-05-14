@@ -5,6 +5,10 @@
  */
 package war;
 
+import war.turn.Action;
+
+import java.lang.IllegalArgumentException;
+
 /**
  * FXML Controller class
  * @briefing Classe dos personagens. Abstrata, pai do personagem do jogador e dos agentes.
@@ -18,6 +22,9 @@ public class GameCharacter {
     protected int intrigue;
     protected int barter;
     protected int investigation;
+
+	/// Ação marcada pra rolar ao fim do turno, suceptível a mudanças
+	private Action endTurnAction = null;
 
     public int getInvestigation() {
         return investigation;
@@ -51,6 +58,25 @@ public class GameCharacter {
     public Region getCurrentPos() {
         return currentPos;
     }
+
+	/**
+	 * GETTER pra ação marcada pro fim do turno
+	 */
+	public Action getEndTurnAction () {
+		return endTurnAction;
+	}
+	/**
+	 * SETTER pra ação marcada pro fim de turno
+	 */
+	public void setEndTurnAction (Action action) {
+		// se ator da ação não for esse aqui, tá errado
+		if (action != null && action.getCharacter () != this) {
+			throw new IllegalArgumentException ("[GameCharacter.setEndTurnAction] Character \""
+					+ name + "\" não é o ator da Action de fim de turno dada");
+		}
+		
+		this.endTurnAction = action;
+	}
 
     /*Necessario para o produto final?*/
     public void setCurrentPos(Region currentPos) {

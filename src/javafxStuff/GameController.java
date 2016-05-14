@@ -526,7 +526,7 @@ public class GameController implements Initializable {
      */
     public void endTurn(){
         // finaliza Turn, e o reseta pro próximo
-        turn.endTurn ();
+        turn.endTurn (player.getAgents ());
         turn.reset ();
 
         currentTurn ++;

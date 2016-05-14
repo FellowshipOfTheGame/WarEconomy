@@ -110,17 +110,31 @@ public class Turn {
 	}
 
 	/**
-	 * Acaba um turno, fazendo com que ações sejam permanentes
+	 * Acaba um turno, fazendo com que ações sejam permanentes.
+	 *
+	 * Executa ações marcadas dos possíveis atores, as consumindo.
 	 *
 	 * Note que qualquer tentativa de modificação do turno solta um
-	 * RuntimeException, já que turnos finalizados devem ser imutáveis
+	 * RuntimeException, já que turnos finalizados devem ser imutáveis.
 	 *
-         * Realiza funções de decremento de Notoriedade
+	 * Realiza funções de decremento de Notoriedade
+	 *
+	 * @param possibleActors Agentes que possivelmente têm ações de fim de turno
+	 * a serem realizadas
+	 *
 	 * @throws RuntimeException se turno já foi finalizado
 	 */
-	public void endTurn () {
+	public void endTurn (ArrayList<GameCharacter> possibleActors) {
 		if (!isOver) {
 			isOver = true;
+			for (GameCharacter actor : possibleActors) {
+				// extrai ação de fim de turno de um possível ator e a executa, se existir
+				Action action = actor.getEndTurnAction ();
+				if (action != null) {
+					action.execute ();
+					actor.setEndTurnAction (null);
+				}
+			}
 		}
 		else {
 			throw new RuntimeException ("[Turn.addAction] Turno já foi finalizado");
@@ -142,15 +156,15 @@ public class Turn {
 	}
         
         
-        /**
-         * Cria e retorna a observablelist de ações feitas em um turno, para montar tabela de ações.
-         * @return actionObl lista observável de ações.
-         */
-        public ObservableList<Action> getActionsObl(){
-            ObservableList<Action> actionObl = FXCollections.observableArrayList();
-            actions.stream()
-                    .forEach(action -> {actionObl.add(action);
-                    });
-            return actionObl;
-        }
+	/**
+	 * Cria e retorna a observablelist de ações feitas em um turno, para montar tabela de ações.
+	 * @return actionObl lista observável de ações.
+	 */
+	public ObservableList<Action> getActionsObl(){
+		ObservableList<Action> actionObl = FXCollections.observableArrayList();
+		actions.stream()
+				.forEach(action -> {actionObl.add(action);
+				});
+		return actionObl;
+	}
 }
