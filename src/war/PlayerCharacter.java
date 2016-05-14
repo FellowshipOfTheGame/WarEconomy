@@ -185,12 +185,23 @@ public class PlayerCharacter extends GameCharacter{
     /**
      * Método usado ao finalizar turno para mover todos os transportes.
      * Realiza uma iteração na lista de transportes do jogador e manda todos se moverem.
+     * Cada um realiza também o teste de noise.
      * Método utilizado na função "endTurn()" de GameController
      */
     public void moveTransports(){
-        for(Transport transport : transports){
-            transport.move();
-        }
+        transports.stream().forEach((transport) -> {
+            if(transport.getRoute()!=null){
+                boolean success = transport.move();
+                
+                //SE O TRANSPORTE FALHOU NO TESTE DE NOISE
+                if(!success){
+                    /***
+                     * Rodar testes de geração de pista em uma das regiões.
+                     */
+                }
+            }
+            
+        });
     }
     
     /***
