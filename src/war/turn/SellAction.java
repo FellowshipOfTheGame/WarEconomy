@@ -60,6 +60,8 @@ public class SellAction extends Action {
 		store.remove (wpn.getWpnName (), quantity);
 		// e tira os dinheiros do player
 		player.setFunds (true, quantity * wpn.getSellPrice ());
+                //Aumenta notoriedade
+                player.setNotoriety(true, quantity * wpn.getWpn().getNotInc());
 	}
 
 	@Override

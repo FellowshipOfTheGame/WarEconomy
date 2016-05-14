@@ -58,7 +58,7 @@ public final class World {
 			System.out.println ("Arma: " + w.getName ()
 					+ "\n\tbasePrice = " + w.getBasePrice ()
 					+ "\n\tmargin = " + w.getMargin ()
-					+ "\n\theatInc = " + w.getHeatInc ()
+					+ "\n\tnotInc = " + w.getNotInc ()
 					+ "\n\tsize = " + w.getSize ()
 					+ "\n\tcombEfecBonus = " + w.getCombEfecBonus ()
 					+ "\n\tdescription = " + w.getDescription()

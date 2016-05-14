@@ -115,6 +115,7 @@ public class Turn {
 	 * Note que qualquer tentativa de modificação do turno solta um
 	 * RuntimeException, já que turnos finalizados devem ser imutáveis
 	 *
+         * Realiza funções de decremento de Notoriedade
 	 * @throws RuntimeException se turno já foi finalizado
 	 */
 	public void endTurn () {

@@ -48,7 +48,7 @@ public class BlackMarketController {
     @FXML Label usedCargoSpace;
     @FXML Label qtyStored;
     @FXML Label totalSellPrice;    
-    @FXML Label totalHeatInc;
+    @FXML Label totalNotInc;
     @FXML Button buyButton;
     @FXML Button sellButton;
     @FXML TextField qtyField; //Compra
@@ -218,12 +218,12 @@ public class BlackMarketController {
         if(selectedWeapon != null && gc.qtyValidation(qtyField1)){
             int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser comprada
             totalSellPrice.setText("Total Price: " + qty*selectedWeapon.getSellPrice());
-            totalHeatInc.setText("Heat Increase: " + qty*selectedWeapon.getWpn().getHeatInc());
+            totalNotInc.setText("Heat Increase: " + qty*selectedWeapon.getWpn().getNotInc());
             
         }
         else{
             totalSellPrice.setText("Total Price: ");
-            totalHeatInc.setText("Heat Increase: ");
+            totalNotInc.setText("Heat Increase: ");
             
         }
         
@@ -243,12 +243,12 @@ public class BlackMarketController {
             int qty = Integer.parseInt(qtyField.getText());//quantidade a ser comprada
             totalBuyPrice.setText("Total Price: " + qty*selectedWeapon.getBuyPrice());
             ReqCargoSpace.setText("Required Cargo Space: " + qty*selectedWeapon.getWpn().getSize());
-            totalHeatInc.setText("Heat Increase: " + qty*selectedWeapon.getWpn().getHeatInc());
+            totalNotInc.setText("Heat Increase: " + qty*selectedWeapon.getWpn().getNotInc());
         }
         else{
             totalBuyPrice.setText("Total Price: ");
             ReqCargoSpace.setText("Required Cargo Space: ");
-            totalHeatInc.setText("Heat Increase: ");
+            totalNotInc.setText("Heat Increase: ");
 
         }
         

@@ -44,7 +44,7 @@
                               <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" prefHeight="43.0" prefWidth="144.0" promptText="qty" />
                               <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
                               <Label fx:id="totalBuyPrice" text="Total Price:" />
-                              <ComboBox fx:id="purchaseDestination" prefHeight="35.0" prefWidth="232.0" promptText="Purchase destination" />
+                              <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="35.0" prefWidth="232.0" promptText="Purchase destination" />
                               <Label fx:id="usedCargoSpace" text="Used Cargo Space" />
                               <Button fx:id="buyButton" mnemonicParsing="false" onMouseClicked="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
                            </children>
@@ -52,10 +52,10 @@
                               <Insets top="5.0" />
                            </padding>
                         </VBox>
-                        <Label fx:id="totalHeatInc" alignment="CENTER" layoutX="343.0" layoutY="709.0" prefHeight="38.0" prefWidth="204.0" text="Heat Increase:" textAlignment="CENTER" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="343.0" AnchorPane.rightAnchor="319.0" />
+                        <Label fx:id="totalNotInc" alignment="CENTER" layoutX="343.0" layoutY="709.0" prefHeight="38.0" prefWidth="204.0" text="Notoriety Increase:" textAlignment="CENTER" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="343.0" AnchorPane.rightAnchor="319.0" />
                         <VBox layoutX="596.0" layoutY="683.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="59.0">
                            <children>
-                              <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
+                              <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" onAction="#updateSellInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
                               <Label fx:id="qtyStored" text="Quantity Stored:" />
                               <TextField fx:id="qtyField1" onKeyPressed="#updateSellInfo" onKeyReleased="#updateSellInfo" promptText="qty" />
                               <Label fx:id="totalSellPrice" text="Total Price:" />

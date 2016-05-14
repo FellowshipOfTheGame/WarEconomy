@@ -232,7 +232,7 @@ public class GameController implements Initializable {
                 invWpnDes.setText(this.invSelectedWpn.getWpn().getDescription()
                     +"\nCategory: " + invSelectedWpn.getWpn().getCategory().toUpperCase() 
                     +"\nCombat Effectiveness Bonus: " + invSelectedWpn.getWpn().getCombEfecBonus()
-                    +"\nHeat Increase: " + invSelectedWpn.getWpn().getHeatInc()
+                    +"\nHeat Increase: " + invSelectedWpn.getWpn().getNotInc()
                 );
                 invWpnSide=true;
             }
@@ -256,7 +256,7 @@ public class GameController implements Initializable {
                 invWpnDes.setText(this.invSelectedWpn.getWpn().getDescription()
                     +"\nCategory: " + invSelectedWpn.getWpn().getCategory().toUpperCase() 
                     +"\nCombat Effectiveness Bonus: " + invSelectedWpn.getWpn().getCombEfecBonus()
-                    +"\nHeat Increase: " + invSelectedWpn.getWpn().getHeatInc()
+                    +"\nHeat Increase: " + invSelectedWpn.getWpn().getNotInc()
                 );
                 invWpnSide=false;
             }        
@@ -374,7 +374,7 @@ public class GameController implements Initializable {
                 int qty = Integer.parseInt(invOpQty.getText());
                 if(invSelectedWpn != null && invSelectedWpn.getQty() >= qty){
                     target.remove(invSelectedWpn.getWpn().getName(), qty);
-                    player.setHeat(false,(invSelectedWpn.getWpn().getHeatInc() * qty)/2);
+                    player.setHeat(false,(invSelectedWpn.getWpn().getNotInc() * qty)/2);
                     updateEssentialInfo();
                     updateInventoryTab();
                 }
@@ -525,15 +525,16 @@ public class GameController implements Initializable {
      * No início de cada turno, os fundos do jogador sofrem um decremento igual ao Upkeep de Agentes e Transportes, além disso Eventos podem ocorrer.
      */
     public void endTurn(){
-		// finaliza Turn, e o reseta pro próximo
-		turn.endTurn ();
-		turn.reset ();
+        // finaliza Turn, e o reseta pro próximo
+        turn.endTurn ();
+        turn.reset ();
 
         currentTurn ++;
         world.updateMarkets();
         //world.updateFactions();
         
         player.setFunds(false, player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
+        player.decrementNotoriety();
         player.moveTransports();
         
         guiPlayerOutput.clear();

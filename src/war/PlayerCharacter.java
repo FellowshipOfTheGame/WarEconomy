@@ -134,7 +134,8 @@ public class PlayerCharacter extends GameCharacter{
         if(add){
             int noto = this.getNotoriety() + value;
             //Aumenta a notoriedade apenas se ela for menor do que 100
-            if(noto < 100){
+            if(noto < 100){           
+                System.out.println("adding notorietiy: " + value);
                 this.notoriety = noto;
             }
         }
@@ -144,11 +145,24 @@ public class PlayerCharacter extends GameCharacter{
                 this.notoriety = 0;
             }
             else{
+                System.out.println("subtracting notorietiy: " + value);
                 this.notoriety = noto;
             }        
         }
     }
         
+    /***
+     * Decrementa a notoriedade do player conforme turnos passam.
+     * 
+     */
+    public void decrementNotoriety(){
+            int noto = this.getNotoriety() - 1;
+            //Aumenta a notoriedade apenas se ela for menor do que 100
+            if(noto < 100 && noto >= 0){
+                this.notoriety = noto;
+            }    
+    }
+    
     public ArrayList<Transport> getTransports() {
         return transports;
     }

@@ -16,11 +16,11 @@ public class Weapon {
 	/**
 	 * Ctor parametrizado: cria com tudo já ;]
 	 */
-	public Weapon (String name, int basePrice, int margin, int heatInc, int size, int combEfecBonus, String description, String category) {
+	public Weapon (String name, int basePrice, int margin, int notInc, int size, int combEfecBonus, String description, String category) {
 		this.name = name;
 		this.basePrice = basePrice;
 		this.margin = margin;
-		this.heatInc = heatInc;
+		this.notInc = notInc;
 		this.size = size;
 		this.combEfecBonus = combEfecBonus;
                 this.description = description;
@@ -31,7 +31,7 @@ public class Weapon {
     protected String name;
     protected int basePrice;
     protected int margin;
-    protected int heatInc;
+    protected int notInc;
     protected int size;
     protected int combEfecBonus;
     protected String description; //Descricao da arma e flavor text em geral
@@ -48,8 +48,8 @@ public class Weapon {
 	public int getMargin () {
 		return margin;
 	}
-	public int getHeatInc () {
-		return heatInc;
+	public int getNotInc () {
+		return notInc;
 	}
 	public int getSize () {
 		return size;
