@@ -7,7 +7,6 @@ import war.GameCharacter;
 import war.PlayerCharacter;
 import war.Connection;
 
-import java.lang.IllegalArgumentException;
 import war.Region;
 
 /**
@@ -38,6 +37,7 @@ public class TravelAction extends Action {
 	 *
 	 * Personagem que tá viajando: de currentPos → newPos
 	 *
+	 * @param player Jogador
 	 * @param actor Qual personagem que tá executando a ação
 	 * @param newPos Nova posição
 	 */
@@ -47,8 +47,8 @@ public class TravelAction extends Action {
 			throw new IllegalArgumentException ("[TravelAction] Character \"" + actor.getName () + "\" não está na posição inicial da Connection");
 		}
 		this.travel = travel;
-                this.origin = travel.getOrigin();
-                this.destination = travel.getDestination();
+		this.origin = travel.getOrigin();
+		this.destination = travel.getDestination();
 	}
         
         /***
@@ -67,16 +67,16 @@ public class TravelAction extends Action {
         
 	@Override
 	public void execute () {
-            if(travel != null){//Alternativa em que o personagem percorre as conexões
-		player.setFunds (false, travel.getWeight ());
-		actor.setCurrentPos (destination);
-                actor.setEndTurnAction(null);
-            }
-            else{//Alternativa em que o personagem chega em um turno
-                player.setFunds(false, 1);
-                actor.setCurrentPos(destination);
-                actor.setEndTurnAction(null);
-            }
+		if(travel != null){//Alternativa em que o personagem percorre as conexões
+			player.setFunds (false, travel.getWeight ());
+			actor.setCurrentPos (destination);
+			actor.setEndTurnAction(null);
+		}
+		else{//Alternativa em que o personagem chega em um turno
+			player.setFunds(false, 1);
+			actor.setCurrentPos(destination);
+			actor.setEndTurnAction(null);
+		}
 	}
 
 	@Override

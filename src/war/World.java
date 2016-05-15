@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
  * @author João
  */
 public final class World {
-    private ArrayList<Region> regions;
+    private ObservableList<Region> regions;
 	private WeaponDictionary weapons;
     
     /*
@@ -41,7 +41,7 @@ public final class World {
      * @param dontInclude uma região que não deve ser incluida no retorno
      * @return observableList de todas as regiões exceto dontInclude
      */
-    public ObservableList<Region> getRegionObl(Region dontInclude){
+    public ObservableList<Region> getRegions (Region dontInclude){
         
         ObservableList<Region> obl = FXCollections.observableArrayList();
         regions.stream()
@@ -66,7 +66,7 @@ public final class World {
     */
     public World() {
         
-        this.regions = new ArrayList<Region>();
+        this.regions = FXCollections.observableArrayList ();
 		this.weapons = new WeaponDictionary ();
 		this.weapons.readJSON ("Rifles");
 

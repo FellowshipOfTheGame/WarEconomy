@@ -9,3 +9,10 @@ build/
 # coisas do cscope
 *cscope*
 *ctags*
+
+# coisas do NetBeans
+nbproject/
+build.xml
+manifest.mf
+dist/
+test/
