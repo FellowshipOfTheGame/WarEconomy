@@ -123,6 +123,7 @@ public class GameController implements Initializable {
     
     //TAB de AGENTES
     @FXML Label agentStats;
+    @FXML Label agentOrder;
     @FXML TableView<GameCharacter> agentTable;
     @FXML TableColumn<GameCharacter, String> agentNameCol; //Transport, Name Column
     @FXML TableColumn<GameCharacter, String> agentPosCol; //Agent, Position Column
@@ -513,6 +514,11 @@ public class GameController implements Initializable {
         if(selectedCharacter != null){
             obl = (ObservableList) world.getRegionObl(selectedCharacter.getCurrentPos());
             agentChangePos.setItems(obl);
+            
+                if(selectedCharacter.getEndTurnAction() != null)
+                    agentOrder.setText(selectedCharacter.getEndTurnAction().toString());
+                else
+                    agentOrder.setText("Standing By");
         }
     }
     
@@ -529,6 +535,13 @@ public class GameController implements Initializable {
                 //Seta regiões viajáveis
                 ObservableList obl = (ObservableList) world.getRegionObl(selectedCharacter.getCurrentPos());
                 agentChangePos.setItems(obl);
+                
+                //
+                agentStats.setText(selectedCharacter.getStatsString());
+                if(selectedCharacter.getEndTurnAction() != null)
+                    agentOrder.setText(selectedCharacter.getEndTurnAction().toString());
+                else
+                    agentOrder.setText("Standing By");
                 
             }
         }

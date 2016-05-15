@@ -35,6 +35,22 @@ public class Agent extends GameCharacter{
         this.name = name;
     }
     
+    @Override
+    /**
+     * Método que cria uma string a partir de todos os stats, incluindo salário e lealdade.
+     * @return string com os stats
+     */
+    public String getStatsString(){
+        String stats = ("NAME: " + name + "\n"
+                + "INTRIGUE: " + intrigue + "\n"
+                + "BARTER: " + barter + "\n"
+                + "INVESTIGATION: " + investigation + "\n"
+                + "WAGE: " + wage + "\n"
+                + "LOYALTY: " + loyalty
+                );
+        return stats;
+    }
+    
     /**
      *Construtor de agente.
      */

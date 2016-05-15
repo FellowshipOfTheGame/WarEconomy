@@ -250,9 +250,14 @@
                         </VBox>
                         <AnchorPane prefHeight="1025.0" prefWidth="1375.0">
                            <children>
-                              <VBox alignment="TOP_CENTER" layoutX="216.0" layoutY="57.0" prefHeight="148.0" prefWidth="618.0" AnchorPane.rightAnchor="534.0" AnchorPane.topAnchor="57.0">
+                              <VBox alignment="TOP_CENTER" layoutX="216.0" layoutY="57.0" prefHeight="300.0" prefWidth="618.0" AnchorPane.rightAnchor="534.0" AnchorPane.topAnchor="57.0">
                                  <children>
-                                    <Label fx:id="agentStats" prefHeight="148.0" prefWidth="633.0" text="&lt;STATS DO AGENTE&gt;">
+                                    <Label fx:id="agentStats" prefHeight="148.0" prefWidth="633.0">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="agentOrder" prefHeight="148.0" prefWidth="633.0">
                                        <font>
                                           <Font size="20.0" />
                                        </font>

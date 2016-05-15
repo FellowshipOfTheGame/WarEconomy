@@ -86,9 +86,29 @@ public class GameCharacter {
             this.endTurnAction = action;
     }
     
+    /**
+     * Método que cria uma string a partir de todos os stats.
+     * @return string com os stats
+     */
+    public String getStatsString(){
+        String stats = ("NAME: " + name + "\n"
+                + "INTRIGUE: " + intrigue + "\n"
+                + "BARTER: " + barter + "\n"
+                + "INVESTIGATION: " + investigation + "\n"
+                );
+        return stats;
+    }
+    
     /*Necessario para o produto final?*/
     public void setCurrentPos(Region currentPos) {
         this.currentPos = currentPos;
     }
     
+    /***
+     * Método toString.
+     * @return retorna o nome do personagem
+     */
+    public String toString(){
+        return name;
+    }
 }

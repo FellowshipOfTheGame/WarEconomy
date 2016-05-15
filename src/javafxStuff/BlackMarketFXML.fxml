@@ -36,42 +36,50 @@
                <children>
                   <ImageView fx:id="selectedWpnImg" fitHeight="170.0" fitWidth="628.0" layoutX="440.0" layoutY="26.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
                   <Text fx:id="selectedWpnDescr" layoutX="411.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="630.13671875" />
-                  <Separator opacity="0.0" prefHeight="235.0" prefWidth="742.0" />
-                  <HBox prefHeight="370.0" prefWidth="464.0" spacing="30.0">
+                  <Separator opacity="0.0" prefHeight="20.0" prefWidth="628.0" />
+                  <VBox prefHeight="263.0" prefWidth="628.0">
                      <children>
-                        <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
+                        <HBox prefHeight="370.0" prefWidth="464.0" spacing="30.0">
                            <children>
-                              <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
-                              <Label fx:id="totalBuyPrice" text="Total Price:" />
-                              <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="35.0" prefWidth="232.0" promptText="Purchase destination" />
-                              <Label fx:id="usedCargoSpace" text="Used Cargo Space" />
-                              <Button fx:id="buyButton" mnemonicParsing="false" onMouseClicked="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
+                              <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
+                                 <children>
+                                    <Label fx:id="baseBuyPrice" text="Base Price:" />
+                                    <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
+                                    <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="35.0" prefWidth="232.0" promptText="Purchase destination" />
+                                    <Label fx:id="usedCargoSpace" text="Used Cargo Space" />
+                                    <Label fx:id="totalBuyPrice" text="Total Price:" />
+                                    <Button fx:id="buyButton" mnemonicParsing="false" onMouseClicked="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <ComboBox fx:id="agentBox" onAction="#updateBuyInfo" prefHeight="46.0" prefWidth="232.0" promptText="Select Dealer" />
+                                    <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" prefHeight="43.0" prefWidth="144.0" promptText="qty" />
+                                    <Label fx:id="barterBonus" prefHeight="32.0" prefWidth="199.0" text="Barter Bonus:" />
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="596.0" layoutY="683.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="59.0">
+                                 <children>
+                                    <Label fx:id="baseSellPrice" text="Base Price:" />
+                                    <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" onAction="#updateSellInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
+                                    <Label fx:id="qtyStored" text="Quantity Stored:" />
+                                    <TextField fx:id="qtyField1" onKeyPressed="#updateSellInfo" onKeyReleased="#updateSellInfo" promptText="qty" />
+                                    <Label fx:id="totalSellPrice" text="Total Price:" />
+                                    <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
+                                    <Label fx:id="totalNotInc" alignment="CENTER" prefHeight="38.0" prefWidth="204.0" text="Notoriety Increase:" textAlignment="CENTER" />
+                                    <Button fx:id="sellButton" mnemonicParsing="false" onMouseClicked="#sell" prefHeight="25.0" prefWidth="792.0" text="SELL" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </VBox>
                            </children>
-                           <padding>
-                              <Insets top="5.0" />
-                           </padding>
-                        </VBox>
-                        <VBox>
-                           <children>
-                              <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" prefHeight="43.0" prefWidth="144.0" promptText="qty" />
-                           </children>
-                        </VBox>
-                        <VBox layoutX="596.0" layoutY="683.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="59.0">
-                           <children>
-                              <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" onAction="#updateSellInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
-                              <Label fx:id="qtyStored" text="Quantity Stored:" />
-                              <TextField fx:id="qtyField1" onKeyPressed="#updateSellInfo" onKeyReleased="#updateSellInfo" promptText="qty" />
-                              <Label fx:id="totalSellPrice" text="Total Price:" />
-                              <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
-                              <Label fx:id="totalNotInc" alignment="CENTER" prefHeight="38.0" prefWidth="204.0" text="Notoriety Increase:" textAlignment="CENTER" />
-                              <Button fx:id="sellButton" mnemonicParsing="false" onMouseClicked="#sell" prefHeight="25.0" prefWidth="792.0" text="SELL" VBox.vgrow="ALWAYS" />
-                           </children>
-                           <padding>
-                              <Insets top="5.0" />
-                           </padding>
-                        </VBox>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
             </VBox>
          </children>

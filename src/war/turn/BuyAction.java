@@ -59,7 +59,9 @@ public class BuyAction extends Action {
 		// guarda no armazém
 		store.store (wpn.getWpn (), quantity);
 		// e tira os dinheiros do player
-		player.setFunds (false, quantity * wpn.getBuyPrice ());
+                int standard = quantity * wpn.getSellPrice();
+                int bonus = (actor.getBarter() * standard)/100; //Porcentagem do barter
+		player.setFunds (false, standard - bonus );
 	}
 
 	@Override

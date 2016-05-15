@@ -59,7 +59,10 @@ public class SellAction extends Action {
 		// retira do armazém
 		store.remove (wpn.getWpnName (), quantity);
 		// e tira os dinheiros do player
-		player.setFunds (true, quantity * wpn.getSellPrice ());
+                
+                int base = quantity * wpn.getSellPrice();
+                int bonus = (actor.getBarter() * base)/100; //Porcentagem do barter
+		player.setFunds (true, base + bonus );
                 //Aumenta notoriedade
                 player.setNotoriety(true, quantity * wpn.getWpn().getNotInc());
 	}

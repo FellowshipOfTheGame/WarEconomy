@@ -24,6 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import war.GameCharacter;
 import war.MarketWeapon;
 import war.PlayerCharacter;
 import war.Region;
@@ -61,11 +62,17 @@ public class BlackMarketController {
     @FXML TextField qtyField1; //Venda
     @FXML ComboBox<Storable> purchaseDestination;
     @FXML ComboBox<Storable> saleSource; //Armazém ou transportes que armazenam as armas    
+    @FXML ComboBox<GameCharacter> agentBox; //Lista todos os agentes naquela região
+    @FXML Label barterBonus;
+    @FXML Label baseBuyPrice;
+    @FXML Label baseSellPrice;
     
     MarketWeapon selectedWeapon;
     Region region;//Referencia para a região
     GameController gc; //Referencia ao Controller principal do jogo para obter os atributos necessários
-        @FXML
+
+    
+    @FXML
     public void selectMarketWeapons(){
         if(marketTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido
             if(this.selectedWeapon != marketTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
@@ -107,6 +114,9 @@ public class BlackMarketController {
         storableObl.addAll(gc.player.getTransports(region));//Adiciona todos os transportes presentes na região em questão
         purchaseDestination.setItems(storableObl);
         saleSource.setItems(storableObl);
+        
+        ObservableList<GameCharacter> agents = gc.player.getAgentObl(region);
+        agentBox.setItems(agents);
     }    
     
         @FXML
@@ -114,55 +124,59 @@ public class BlackMarketController {
      * Método para vender itens no mercado
      */
     public void sell(){
-        
+        GameCharacter dealer = agentBox.getValue();
         Storable source = saleSource.getValue();
         //Faction destination = saleDestination.getValue();
         int demmand = selectedWeapon.getDemand();
         
-        if(selectedWeapon != null){
-            if(gc.qtyValidation(qtyField1)){ //Item, quantidade, fonte válidos
-                if(source != null){
-                    int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser vendida
-                    int availableQty = source.getWeaponQuantity(selectedWeapon.getWpnName());//Retorna -1 se a arma não existe. 
+        if(dealer != null){
+            if(selectedWeapon != null){
+                if(gc.qtyValidation(qtyField1)){ //Item, quantidade, fonte válidos
+                    if(source != null){
+                        int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser vendida
+                        int availableQty = source.getWeaponQuantity(selectedWeapon.getWpnName());//Retorna -1 se a arma não existe. 
 
-                    if(qty <= availableQty){//Quantidade a ser vendida é menor ou igual à quantidade disponível na fonte. Se a arma não existe, o -1 impede a entrada nesse if (qty é sempre >= 0)
+                        if(qty <= availableQty){//Quantidade a ser vendida é menor ou igual à quantidade disponível na fonte. Se a arma não existe, o -1 impede a entrada nesse if (qty é sempre >= 0)
 
-                        if(qty <= demmand){//Quantidade menor ou igual á demanda do mercado
-							// adiciona a venda, e já executa-a
-							gc.turn.addAction (new SellAction (gc.player, gc.player, selectedWeapon, qty, source));
+                            if(qty <= demmand){//Quantidade menor ou igual á demanda do mercado
+                                // adiciona a venda, e já executa-a
+                                gc.turn.addAction (new SellAction (gc.player, dealer, selectedWeapon, qty, source));
 
-                            marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
-                            marketTable.getColumns().get(0).setVisible(true);
+                                marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
+                                marketTable.getColumns().get(0).setVisible(true);
 
-                            
-                            /*
-                            *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
-                            */
-                            
-                            qtyField1.setText("");                            
-                            saleSource.setValue(null);
-                            
-                            updateSellInfo();
-                            gc.updateEssentialInfo();
-                        }
-                        else
-                            //System.out.println("\nInsufficient Demmand");
-                            gc.guiPlayerOutput.appendText("\nInsufficient Demmand");
-                    }else
-                        //System.out.println("\nInsufficient Wares");
-                        gc.guiPlayerOutput.appendText("\nInsufficient Wares");
-                }  
+
+                                /*
+                                *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
+                                */
+
+                                qtyField1.setText("");                            
+                                saleSource.setValue(null);
+
+                                updateSellInfo();
+                                gc.updateEssentialInfo();
+                            }
+                            else
+                                //System.out.println("\nInsufficient Demmand");
+                                gc.guiPlayerOutput.appendText("\nInsufficient Demmand");
+                        }else
+                            //System.out.println("\nInsufficient Wares");
+                            gc.guiPlayerOutput.appendText("\nInsufficient Wares");
+                    }  
+                    else
+                        //System.out.println("\nInvalid destination");
+                        gc.guiPlayerOutput.appendText("\nInvalid destination");
+                }
                 else
-                    //System.out.println("\nInvalid destination");
-                    gc.guiPlayerOutput.appendText("\nInvalid destination");
+                    //System.out.println("\nInvalid quantity");
+                    gc.guiPlayerOutput.appendText("\nInvalid quantity");
             }
-            else
-                //System.out.println("\nInvalid quantity");
-                gc.guiPlayerOutput.appendText("\nInvalid quantity");
+            else                           
+                //System.out.println("\nInvalid weapon");
+                gc.guiPlayerOutput.appendText("\nInvalid weapon");
         }
-        else                           
-            //System.out.println("\nInvalid weapon");
-            gc.guiPlayerOutput.appendText("\nInvalid weapon");
+        else
+            gc.guiPlayerOutput.appendText("\nSelect a Dealer");
     }
     
     @FXML
@@ -170,49 +184,54 @@ public class BlackMarketController {
      * Método de usado para comprar um item do mercado
      */
     public void buy(){
-
+        
+        GameCharacter dealer = agentBox.getValue();
         Storable destination = purchaseDestination.getValue();
         
-        if(selectedWeapon != null && gc.qtyValidation(qtyField) && destination!=null){ //Item e destino selecionados e qty é Integer positivo
-            int qty = Integer.parseInt(qtyField.getText());//quantidade a ser comprada
-            int supply = selectedWeapon.getSupply();
-            
-            if(supply >= qty){ //Mercado tem oferta suficiente
-                if(gc.player.getFunds() >= (selectedWeapon.getBuyPrice() * qty)){//Jogador tem fundos suficientes
-                    
-                    //Verifica se tem espaço suficiente no armazém/veículo
-                    if(qty * selectedWeapon.getWpn().getSize() + destination.getUsedCapacity() <= destination.getTotalCapacity()){
-						// adiciona a compra, e já executa-a
-						gc.turn.addAction (new BuyAction (gc.player, gc.player, selectedWeapon, qty, destination));
+        if(dealer != null){
+            if(selectedWeapon != null && gc.qtyValidation(qtyField) && destination!=null){ //Item e destino selecionados e qty é Integer positivo
+                int qty = Integer.parseInt(qtyField.getText());//quantidade a ser comprada
+                int supply = selectedWeapon.getSupply();
 
-                        marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
-                        marketTable.getColumns().get(0).setVisible(true);
-                        qtyField.setText("");
+                if(supply >= qty){ //Mercado tem oferta suficiente
+                    if(gc.player.getFunds() >= (selectedWeapon.getBuyPrice() * qty)){//Jogador tem fundos suficientes
 
-                        /*
-                        *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
-                        */                        
-                        
-                        purchaseDestination.setValue(null);
-                        gc.updateEssentialInfo();
-                        updateBuyInfo();
+                        //Verifica se tem espaço suficiente no armazém/veículo
+                        if(qty * selectedWeapon.getWpn().getSize() + destination.getUsedCapacity() <= destination.getTotalCapacity()){
+                            // adiciona a compra, e já executa-a
+                            gc.turn.addAction (new BuyAction (gc.player, dealer, selectedWeapon, qty, destination));
 
+                            marketTable.getColumns().get(0).setVisible(false);//Atualiza a tablelist
+                            marketTable.getColumns().get(0).setVisible(true);
+                            qtyField.setText("");
+
+                            /*
+                            *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
+                            */                        
+
+                            purchaseDestination.setValue(null);
+                            gc.updateEssentialInfo();
+                            updateBuyInfo();
+
+                        }
+                        else
+                            //System.out.println("\nInsufficient Space");
+                           gc.guiPlayerOutput.appendText("\nInsufficient Space");
                     }
                     else
-                        //System.out.println("\nInsufficient Space");
-                       gc.guiPlayerOutput.appendText("\nInsufficient Space");
+                        //System.out.println("\nInsufficient Funds");
+                        gc.guiPlayerOutput.appendText("\nInsufficient Funds");
                 }
                 else
-                    //System.out.println("\nInsufficient Funds");
-                    gc.guiPlayerOutput.appendText("\nInsufficient Funds");
+                  //System.out.println("\\nInsufficient Supply");
+                  gc.guiPlayerOutput.appendText("\nInsufficient Supply");
             }
             else
-              //System.out.println("\\nInsufficient Supply");
-              gc.guiPlayerOutput.appendText("\nInsufficient Supply");
+                //System.out.println("Invalid weapon, destination or quantity");
+                gc.guiPlayerOutput.appendText("\nInvalid weapon, destination or quantity");
         }
         else
-            //System.out.println("Invalid weapon, destination or quantity");
-            gc.guiPlayerOutput.appendText("\nInvalid weapon, destination or quantity");
+            gc.guiPlayerOutput.appendText("\nSelect a Dealer");
     }
 
 
@@ -222,10 +241,23 @@ public class BlackMarketController {
     public void updateSellInfo(){
         
         if(selectedWeapon != null && gc.qtyValidation(qtyField1)){
-            int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser comprada
-            totalSellPrice.setText("Total Price: " + qty*selectedWeapon.getSellPrice());
-            totalNotInc.setText("Heat Increase: " + qty*selectedWeapon.getWpn().getNotInc());
             
+            GameCharacter gamechar = agentBox.getValue(); 
+            int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser comprada
+            
+            int base = qty*selectedWeapon.getSellPrice();
+            baseSellPrice.setText("Base Price: " + base);
+            totalNotInc.setText("Notoriety Increase: " + qty*selectedWeapon.getWpn().getNotInc());
+            
+            if(gamechar != null){
+                
+                barterBonus.setText("Barter Bonus: " + gamechar.getBarter() + " %");
+                int bonus = (gamechar.getBarter() * base)/100;
+                totalSellPrice.setText("Total Price: " + (base + bonus));
+            }
+            else{
+                barterBonus.setText("Barter Bonus: ");
+            } 
         }
         else{
             totalSellPrice.setText("Total Price: ");
@@ -246,16 +278,26 @@ public class BlackMarketController {
     //
     public void updateBuyInfo(){
         if(selectedWeapon != null && gc.qtyValidation(qtyField)){
+            GameCharacter gamechar = agentBox.getValue(); 
             int qty = Integer.parseInt(qtyField.getText());//quantidade a ser comprada
-            totalBuyPrice.setText("Total Price: " + qty*selectedWeapon.getBuyPrice());
+            int base = qty * selectedWeapon.getBuyPrice();
+                    
+            baseBuyPrice.setText("Base Price: " + base );
             ReqCargoSpace.setText("Required Cargo Space: " + qty*selectedWeapon.getWpn().getSize());
-            totalNotInc.setText("Heat Increase: " + qty*selectedWeapon.getWpn().getNotInc());
+            
+            if(gamechar != null){
+                
+                barterBonus.setText("Barter Bonus: " + gamechar.getBarter() + " %");
+                int bonus = (gamechar.getBarter() * base)/100;
+                totalBuyPrice.setText("Total Price: " + (base - bonus));
+            }
+            else{
+                barterBonus.setText("Barter Bonus: ");
+            }            
         }
         else{
             totalBuyPrice.setText("Total Price: ");
             ReqCargoSpace.setText("Required Cargo Space: ");
-            totalNotInc.setText("Heat Increase: ");
-
         }
         
         if(purchaseDestination.getValue() != null){
@@ -265,6 +307,7 @@ public class BlackMarketController {
         else{
             usedCargoSpace.setText("Used Cargo Space: ");
         }
+        
     }
     
     public void handle(KeyEvent k) {

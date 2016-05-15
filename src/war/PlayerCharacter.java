@@ -65,8 +65,23 @@ public class PlayerCharacter extends GameCharacter{
         System.out.println(agntObl);
         return agntObl;
     }
-    
-    
+    /***
+     * Retorna lista observável de agentes em uma determinada região.
+     * @param r região para pegar agentes
+     * @return lista observável dos agentes na região.
+     */
+    public ObservableList<GameCharacter> getAgentObl(Region r){
+        ObservableList<GameCharacter> agntObl = FXCollections.observableArrayList();
+        agents.stream()
+                .forEach(agent -> {
+                    if(agent.getCurrentPos() == r)
+                        agntObl.add(agent);
+                });
+        agntObl.add(this);
+        System.out.println(agntObl);
+        return agntObl;
+    }
+        
     public int getFunds() {
         return funds;
     }
@@ -289,8 +304,8 @@ public class PlayerCharacter extends GameCharacter{
         this.funds = 200;
         this.investigation = 2;
         this.heat = 0;
-        this.intrigue = 0;
-        this.barter = 0;
+        this.intrigue = 30;
+        this.barter = 30;
         this.name = name;
         this.currentPos = startingPos;
         
