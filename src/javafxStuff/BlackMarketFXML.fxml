@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.BlackMarketController">
+<AnchorPane fx:id="wnd" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handle" prefHeight="600.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.BlackMarketController">
    <children>
       <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="509.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -41,7 +41,6 @@
                      <children>
                         <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
                            <children>
-                              <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" prefHeight="43.0" prefWidth="144.0" promptText="qty" />
                               <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
                               <Label fx:id="totalBuyPrice" text="Total Price:" />
                               <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="35.0" prefWidth="232.0" promptText="Purchase destination" />
@@ -52,7 +51,11 @@
                               <Insets top="5.0" />
                            </padding>
                         </VBox>
-                        <Label fx:id="totalNotInc" alignment="CENTER" layoutX="343.0" layoutY="709.0" prefHeight="38.0" prefWidth="204.0" text="Notoriety Increase:" textAlignment="CENTER" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="343.0" AnchorPane.rightAnchor="319.0" />
+                        <VBox>
+                           <children>
+                              <TextField fx:id="qtyField" onKeyPressed="#updateBuyInfo" onKeyReleased="#updateBuyInfo" prefHeight="43.0" prefWidth="144.0" promptText="qty" />
+                           </children>
+                        </VBox>
                         <VBox layoutX="596.0" layoutY="683.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="59.0">
                            <children>
                               <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" onAction="#updateSellInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
@@ -60,6 +63,7 @@
                               <TextField fx:id="qtyField1" onKeyPressed="#updateSellInfo" onKeyReleased="#updateSellInfo" promptText="qty" />
                               <Label fx:id="totalSellPrice" text="Total Price:" />
                               <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
+                              <Label fx:id="totalNotInc" alignment="CENTER" prefHeight="38.0" prefWidth="204.0" text="Notoriety Increase:" textAlignment="CENTER" />
                               <Button fx:id="sellButton" mnemonicParsing="false" onMouseClicked="#sell" prefHeight="25.0" prefWidth="792.0" text="SELL" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>

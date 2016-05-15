@@ -5,10 +5,10 @@
  */
 package javafxStuff;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -19,7 +19,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import war.MarketWeapon;
 import war.PlayerCharacter;
 import war.Region;
@@ -33,6 +37,8 @@ import war.turn.Turn;
  * @author João
  */
 public class BlackMarketController {
+    @FXML AnchorPane wnd;
+    
     @FXML ImageView selectedWpnImg;
     @FXML Text selectedWpnDescr;
     @FXML TableView<MarketWeapon> marketTable;
@@ -261,8 +267,50 @@ public class BlackMarketController {
         }
     }
     
-    
-    
+    public void handle(KeyEvent k) {
+        // TODO Auto-generated method stub
+        KeyCode pressed = k.getCode();
+        
+        //close window
+        if(pressed == KeyCode.T){
+            Stage sb = (Stage)marketTable.getScene().getWindow();//use any one object
+            sb.close();
+        }
+        //Up na tab
+        if(pressed == KeyCode.W || pressed == KeyCode.KP_UP || pressed == KeyCode.UP){
+            System.out.println("UP");
+            if(selectedWeapon!=null){
+                //seta o novo index
+                int newIndex = marketTable.getSelectionModel().getSelectedIndex() - 1;
+
+                marketTable.getFocusModel().focus(newIndex);
+                marketTable.getSelectionModel().select(newIndex);
+                this.selectedWeapon = marketTable.getSelectionModel().getSelectedItem(); 
+                
+                String imagePath = "/images/" + this.selectedWeapon.getWpnCat() + "/" + this.selectedWeapon.getWpnName() + ".png";
+                Image updatedWpnImg = new Image(imagePath, false);
+                this.selectedWpnImg.setImage(updatedWpnImg);
+                this.selectedWpnDescr.setText(this.selectedWeapon.getWpn().getDescription());                
+            }
+        }
+        //down na tab
+        if(pressed == KeyCode.S || pressed == KeyCode.KP_DOWN || pressed == KeyCode.DOWN){
+            //System.out.println("DOWN");
+            if(selectedWeapon!=null){
+                //seta o novo index
+                int newIndex = marketTable.getSelectionModel().getSelectedIndex() + 1;
+
+                marketTable.getFocusModel().focus(newIndex);
+                marketTable.getSelectionModel().select(newIndex);
+                this.selectedWeapon = marketTable.getSelectionModel().getSelectedItem(); 
+                
+                String imagePath = "/images/" + this.selectedWeapon.getWpnCat() + "/" + this.selectedWeapon.getWpnName() + ".png";
+                Image updatedWpnImg = new Image(imagePath, false);
+                this.selectedWpnImg.setImage(updatedWpnImg);
+                this.selectedWpnDescr.setText(this.selectedWeapon.getWpn().getDescription());                
+            }
+        }
+    }
     
      /**
      * Initializes the controller class.
@@ -274,6 +322,20 @@ public class BlackMarketController {
      */
     public void initialize(GameController gc, Region region) {
         
+        //Detecta o ESC e fecha a janela
+        wnd.addEventFilter(KeyEvent.KEY_PRESSED, 
+                    new EventHandler<KeyEvent>() {
+                        @Override
+                        public void handle(KeyEvent k){
+                            //close window
+                            if(k.getCode() == KeyCode.ESCAPE){
+                                Stage sb = (Stage)marketTable.getScene().getWindow();//use any one object
+                                sb.close();
+                            }
+                        };
+                    });
+        
+        
         this.region = region;
         this.gc = gc;
         
@@ -282,5 +344,6 @@ public class BlackMarketController {
         selectedWpnDescr.setText(null);
 
         initializeMarketTab(region);
+
     }
 }
