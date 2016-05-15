@@ -8,6 +8,7 @@ import war.PlayerCharacter;
 import war.Connection;
 
 import java.lang.IllegalArgumentException;
+import war.Region;
 
 /**
  * @briefing Classe da ação de transporte de personagens
@@ -21,6 +22,17 @@ public class TravelAction extends Action {
 	 * Conexão da viagem
 	 */
 	Connection travel;
+        
+        /**
+         * Destino da viagem, usada na maneira alternativa de Travel, em que em um turno o actor viaja para qualquer lugar do mundo.
+         */
+        Region destination;
+        
+        /***
+         * Origem da viagem.
+         */
+        Region origin;
+        
 	/**
 	 * Ctor
 	 *
@@ -35,12 +47,36 @@ public class TravelAction extends Action {
 			throw new IllegalArgumentException ("[TravelAction] Character \"" + actor.getName () + "\" não está na posição inicial da Connection");
 		}
 		this.travel = travel;
+                this.origin = travel.getOrigin();
+                this.destination = travel.getDestination();
 	}
-
+        
+        /***
+         * Construtor alternativo
+         * Modifica a posição do actor para a região de uma vez só.
+         * @param player
+         * @param actor
+         * @param destination 
+         */
+        public TravelAction (PlayerCharacter player, GameCharacter actor, Region destination){
+            super (player, actor);
+            this.origin = actor.getCurrentPos();
+            this.destination = destination;
+            
+        }
+        
 	@Override
 	public void execute () {
+            if(travel != null){//Alternativa em que o personagem percorre as conexões
 		player.setFunds (false, travel.getWeight ());
-		actor.setCurrentPos (travel.getDestination ());
+		actor.setCurrentPos (destination);
+                actor.setEndTurnAction(null);
+            }
+            else{//Alternativa em que o personagem chega em um turno
+                player.setFunds(false, 1);
+                actor.setCurrentPos(destination);
+                actor.setEndTurnAction(null);
+            }
 	}
 
 	@Override
@@ -49,9 +85,9 @@ public class TravelAction extends Action {
 		sb.append ("TravelAction: \"");
 		sb.append (actor.getName ());
 		sb.append ("\" foi de \"");
-		sb.append (travel.getOrigin ().getName ());
+		sb.append (origin.getName ());
 		sb.append ("\" para \"");
-		sb.append (travel.getDestination ().getName ());
+		sb.append (destination.getName ());
 		sb.append ("\".");
 		return sb.toString ();
 	}

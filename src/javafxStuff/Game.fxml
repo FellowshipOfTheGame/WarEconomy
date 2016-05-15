@@ -232,52 +232,51 @@
                <content>
                   <HBox>
                      <children>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="949.0" prefWidth="434.0">
+                        <VBox>
                            <children>
-                              <TableView fx:id="agentTable" prefHeight="949.0" prefWidth="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <columns>
-                                  <TableColumn fx:id="agentNameCol" prefWidth="127.0" text="Agents" />
-                                  <TableColumn fx:id="agentPosCol" minWidth="0.0" prefWidth="140.0" text="Current Location" />
-                                    <TableColumn fx:id="agentOrderCol" minWidth="0.0" prefWidth="166.0" text="Current Orders" />
-                                </columns>
-                              </TableView>
+                              <AnchorPane>
+                                 <children>
+                                    <TableView fx:id="agentTable" onMouseClicked="#selectCharacter" prefHeight="994.0" prefWidth="531.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="agentNameCol" prefWidth="156.0" text="Agents" />
+                                        <TableColumn fx:id="agentPosCol" minWidth="0.0" prefWidth="170.0" text="Current Location" />
+                                          <TableColumn fx:id="agentOrderCol" minWidth="0.0" prefWidth="204.0" text="Current Orders" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="544.0" text="HIRE AGENTS" />
                            </children>
-                        </AnchorPane>
+                        </VBox>
                         <AnchorPane prefHeight="1025.0" prefWidth="1375.0">
                            <children>
-                              <VBox alignment="TOP_CENTER" layoutX="216.0" layoutY="57.0" prefHeight="148.0" prefWidth="618.0">
+                              <VBox alignment="TOP_CENTER" layoutX="216.0" layoutY="57.0" prefHeight="148.0" prefWidth="618.0" AnchorPane.rightAnchor="534.0" AnchorPane.topAnchor="57.0">
                                  <children>
-                                    <Label fx:id="agentStats" prefHeight="148.0" prefWidth="199.0" text="&lt;STATS DO AGENTE&gt;">
+                                    <Label fx:id="agentStats" prefHeight="148.0" prefWidth="633.0" text="&lt;STATS DO AGENTE&gt;">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </VBox>
-                              <VBox layoutX="140.0" layoutY="303.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="30.0">
+                              <HBox layoutX="225.0" layoutY="895.0" prefHeight="79.0" prefWidth="659.0" spacing="25.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="486.0">
                                  <children>
-                                    <HBox layoutX="140.0" layoutY="303.0" prefHeight="306.0" prefWidth="1120.0" spacing="25.0">
-                                       <children>
-                                          <VBox layoutX="140.0" layoutY="303.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0">
-                                             <children>
-                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Order" />
-                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Target" />
-                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Connection" />
-                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
-                                                <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Factions" />
-                                                <Label text="SUCCESS CHANCE:" />
-                                                <Label text="TOTAL COSTS:" />
-                                                <Label text="EFFECT:" />
-                                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="792.0" text="EXECUTE" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                             <padding>
-                                                <Insets top="5.0" />
-                                             </padding>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
+                                    <ComboBox fx:id="agentChangePos" prefHeight="33.0" prefWidth="205.0" promptText="CHANGE LOCATION" />
+                                    <Button fx:id="setMove" mnemonicParsing="false" onAction="#changeCharacterLocation" text="MOVE" />
+                                    <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="271.0" text="SELECT ORDER">
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" text="Assassinate" />
+                                        <MenuItem mnemonicParsing="false" onAction="#openBribe" text="Bribe" />
+                                          <MenuItem mnemonicParsing="false" text="Destroy Evidences" />
+                                          <MenuItem mnemonicParsing="false" text="Improve Relations" />
+                                          <MenuItem mnemonicParsing="false" text="Sabotage Relations" />
+                                          <MenuItem mnemonicParsing="false" text="Safeguard" />
+                                          <MenuItem mnemonicParsing="false" text="Overwatch" />
+                                      </items>
+                                    </MenuButton>
+                                    <Button mnemonicParsing="false" text="ABORT" />
                                  </children>
-                              </VBox>
+                              </HBox>
                            </children>
                         </AnchorPane>
                      </children>

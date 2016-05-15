@@ -72,14 +72,15 @@ public class Turn {
 	 */
 	public Action scheduleAction (Action a) {
 		GameCharacter actor = a.getCharacter ();
+                actor.setEndTurnAction(a);
 		for (int i = 0; i < endTurnActions.size (); i++) {
 			Action aux = endTurnActions.get (i);
 			if (actor == aux.getCharacter ()) {
-				endTurnActions.set (i, a);
+                                endTurnActions.set (i, a);
 				return aux;
 			}
 		}
-
+                
 		endTurnActions.add (a);
 		return null;
 	}

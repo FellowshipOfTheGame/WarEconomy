@@ -24,7 +24,7 @@ public class GameCharacter {
     protected int investigation;
 
 	/// Ação marcada pra rolar ao fim do turno, suceptível a mudanças
-	private Action endTurnAction = null;
+    private Action endTurnAction = null;
 
     public int getInvestigation() {
         return investigation;
@@ -59,25 +59,33 @@ public class GameCharacter {
         return currentPos;
     }
 
-	/**
-	 * GETTER pra ação marcada pro fim do turno
-	 */
-	public Action getEndTurnAction () {
-		return endTurnAction;
-	}
-	/**
-	 * SETTER pra ação marcada pro fim de turno
-	 */
-	public void setEndTurnAction (Action action) {
-		// se ator da ação não for esse aqui, tá errado
-		if (action != null && action.getCharacter () != this) {
-			throw new IllegalArgumentException ("[GameCharacter.setEndTurnAction] Character \""
-					+ name + "\" não é o ator da Action de fim de turno dada");
-		}
-		
-		this.endTurnAction = action;
-	}
+    /**
+     * GETTER pra ação marcada pro fim do turno
+     */
+    public Action getEndTurnAction () {
+            return endTurnAction;
+    }
+    
+    public String getEndTurnActionDesc(){
+        if(endTurnAction == null)
+            return "Standing By";
+        else
+            return endTurnAction.getShortDesc();
+    }
+    
+    /**
+     * SETTER pra ação marcada pro fim de turno
+     */
+    public void setEndTurnAction (Action action) {
+            // se ator da ação não for esse aqui, tá errado
+            if (action != null && action.getCharacter () != this) {
+                    throw new IllegalArgumentException ("[GameCharacter.setEndTurnAction] Character \""
+                                    + name + "\" não é o ator da Action de fim de turno dada");
+            }
 
+            this.endTurnAction = action;
+    }
+    
     /*Necessario para o produto final?*/
     public void setCurrentPos(Region currentPos) {
         this.currentPos = currentPos;

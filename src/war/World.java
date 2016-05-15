@@ -6,6 +6,8 @@
 package war;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -34,6 +36,21 @@ public final class World {
         }
     }
     
+    /**
+     * Método para retornar uma observablelist com todas as regiões.
+     * @param dontInclude uma região que não deve ser incluida no retorno
+     * @return observableList de todas as regiões exceto dontInclude
+     */
+    public ObservableList<Region> getRegionObl(Region dontInclude){
+        
+        ObservableList<Region> obl = FXCollections.observableArrayList();
+        regions.stream()
+                .forEach(region -> {
+                    if(region != dontInclude)
+                        obl.add(region);
+                });    
+        return obl;
+    }
     
     /**
      * Método que atualizará o estado dos mercados e produtos ao se passar o turno

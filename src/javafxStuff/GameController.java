@@ -5,6 +5,7 @@
  */
 package javafxStuff;
 
+import javafxStuff.orders.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -126,6 +127,10 @@ public class GameController implements Initializable {
     @FXML TableColumn<GameCharacter, String> agentNameCol; //Transport, Name Column
     @FXML TableColumn<GameCharacter, String> agentPosCol; //Agent, Position Column
     @FXML TableColumn<GameCharacter, String> agentOrderCol; //Agent, Current Order Column
+    
+    @FXML ComboBox<Region> agentChangePos; 
+    @FXML Button setMove; 
+
     
     //TAB DE TURNO
     @FXML TableView<Action> turnTable;
@@ -313,7 +318,6 @@ public class GameController implements Initializable {
         }
     }
     
-    
     /**
      * Método usado para mover armas de um Storable para outro.
      */
@@ -357,8 +361,6 @@ public class GameController implements Initializable {
             }else
             guiPlayerOutput.appendText("\nInvalid  Transport/Warehosue");
         }
-    
-    
     
     /**
      * Método usado para destruir armas de um Storable e reduzir heat.
@@ -489,11 +491,29 @@ public class GameController implements Initializable {
     public void initializeAgentTab(){
             //Inicializa a tabela
         agentNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        agentOrderCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        agentOrderCol.setCellValueFactory(new PropertyValueFactory<>("endTurnActionDesc"));
         agentPosCol.setCellValueFactory(new PropertyValueFactory<>("currentPos"));
 
         ObservableList obl = player.getAgentObl();
         agentTable.setItems(obl);
+        
+    }
+    
+    public void updateAgentTab(){
+        agentTable.getColumns().clear();
+        agentTable.getColumns().addAll(agentNameCol, agentPosCol, agentOrderCol);
+        
+        agentNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        agentOrderCol.setCellValueFactory(new PropertyValueFactory<>("endTurnActionDesc"));
+        agentPosCol.setCellValueFactory(new PropertyValueFactory<>("currentPos"));
+
+        ObservableList obl = player.getAgentObl();
+        agentTable.setItems(obl);
+        
+        if(selectedCharacter != null){
+            obl = (ObservableList) world.getRegionObl(selectedCharacter.getCurrentPos());
+            agentChangePos.setItems(obl);
+        }
     }
     
     @FXML
@@ -501,14 +521,69 @@ public class GameController implements Initializable {
      * Método para selecionar um personagem da tabela.
      */
     public void selectCharacter(){
-        if(agentTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido na tabela esquerda
-            if(selectedCharacter != agentTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
+        if(agentTable.getSelectionModel().getSelectedIndex() >=0 ){
+            if(selectedCharacter != agentTable.getSelectionModel().getSelectedItem()) {
                 //seta a referencia ao personagem clicado
                 selectedCharacter = agentTable.getSelectionModel().getSelectedItem(); 
+                
+                //Seta regiões viajáveis
+                ObservableList obl = (ObservableList) world.getRegionObl(selectedCharacter.getCurrentPos());
+                agentChangePos.setItems(obl);
+                
             }
         }
     }
     
+    @FXML
+    /***
+     * Método para mover um personagem para outra região.
+     * REDUZIR FUNDOS DA VIAGEM, QUANTO MAIS LONGE, MAIS CARO
+     */
+    public void changeCharacterLocation(){
+        if (selectedCharacter != null) {
+            if(agentChangePos!=null){
+                Region destination = agentChangePos.getValue();
+                //turn.addAction (new TravelAction (player, player, con));
+                
+                turn.scheduleAction(new TravelAction (player, selectedCharacter, destination));
+                
+                agentChangePos.setValue(null);
+                updateAgentTab();
+
+            }
+            else{
+                guiPlayerOutput.appendText("\nSelect a Region");
+            }
+        }
+        else {
+            guiPlayerOutput.appendText("\nSelect a Character !");
+        }
+    }
+    
+    @FXML
+    /**
+     * Método para abrir a janela de ordem de suborno.
+     */
+    public void openBribe(){
+        if(selectedCharacter != null){//Clicou em um index valido na tabela esquerda
+            try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgntBribeFXML.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    Stage stage = new Stage();
+
+                    AgntBribeController controller = fxmlLoader.<AgntBribeController>getController();
+                    controller.initialize();//Por enquanto só seta para NAFRAN
+
+                    stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
+                    stage.setScene(new Scene(root1));  
+                    stage.showAndWait();
+            } catch(Exception e) {
+               e.printStackTrace();
+              }
+        }
+        else
+            guiPlayerOutput.appendText("\nPlease, select an agent");
+    }
     
 //TAB DE TURNOS--------------------------------------------------------
     
@@ -575,7 +650,8 @@ public class GameController implements Initializable {
         turnActionDesc.setText("");
         turnActionName.setText("");
         initializeTurnTab();
-        
+        //initializeAgentTab();
+        updateAgentTab();
         updateTransportTab();
         //updateInventoryTab();
         
@@ -612,7 +688,7 @@ public class GameController implements Initializable {
                
                 //Referencia o controlador do blackmarket para passar a região para inicializar a tabela e valores
                 BlackMarketController controller = fxmlLoader.<BlackMarketController>getController();
-                controller.initialize(this, whereTo);//Por enquanto só seta para NAFRAN
+                controller.initialize(this, whereTo);
                 
                 stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
                 stage.setScene(new Scene(root1));  
