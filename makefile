@@ -3,11 +3,12 @@
 
 # Variáveis úteis
 warPkg = war
+turnPkg = $(warPkg)/turn
 mainClass = $(warPkg).WarEconomyBeta
 javafxPkg = javafxStuff
 
 # arquivos java mesmo
-javaSrc = $(shell ls -b src/{$(warPkg),$(javafxPkg)}/*.java)
+javaSrc = $(shell ls -b src/{$(warPkg),$(javafxPkg),$(turnPkg)}/*.java)
 # extras do javafx, só copia
 javafxStuff = $(shell ls -b src/javafxStuff/*.{fxml,css})
 # imagens, só copia também

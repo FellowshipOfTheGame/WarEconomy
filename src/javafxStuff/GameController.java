@@ -34,6 +34,7 @@ import javafx.scene.text.Text;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import war.Agent;
 import war.GameCharacter;
 import war.MarketWeapon;
 import war.PlayerCharacter;
@@ -470,7 +471,7 @@ public class GameController implements Initializable {
                 
         } catch(Exception e) {
            e.printStackTrace();
-          }
+		}
     }
 /*
     @FXML
@@ -495,7 +496,7 @@ public class GameController implements Initializable {
         agentOrderCol.setCellValueFactory(new PropertyValueFactory<>("endTurnActionDesc"));
         agentPosCol.setCellValueFactory(new PropertyValueFactory<>("currentPos"));
 
-        ObservableList obl = player.getAgentObl();
+        ObservableList obl = player.getAgents ();
         agentTable.setItems(obl);
         
     }
@@ -508,11 +509,11 @@ public class GameController implements Initializable {
         agentOrderCol.setCellValueFactory(new PropertyValueFactory<>("endTurnActionDesc"));
         agentPosCol.setCellValueFactory(new PropertyValueFactory<>("currentPos"));
 
-        ObservableList obl = player.getAgentObl();
+        ObservableList obl = player.getAgents ();
         agentTable.setItems(obl);
         
         if(selectedCharacter != null){
-            obl = (ObservableList) world.getRegionObl(selectedCharacter.getCurrentPos());
+            obl = (ObservableList) world.getRegions(selectedCharacter.getCurrentPos());
             agentChangePos.setItems(obl);
             
                 if(selectedCharacter.getEndTurnAction() != null)
@@ -533,7 +534,7 @@ public class GameController implements Initializable {
                 selectedCharacter = agentTable.getSelectionModel().getSelectedItem(); 
                 
                 //Seta regiões viajáveis
-                ObservableList obl = (ObservableList) world.getRegionObl(selectedCharacter.getCurrentPos());
+                ObservableList obl = (ObservableList) world.getRegions(selectedCharacter.getCurrentPos());
                 agentChangePos.setItems(obl);
                 
                 //
@@ -662,7 +663,6 @@ public class GameController implements Initializable {
         //Turns
         turnActionDesc.setText("");
         turnActionName.setText("");
-        initializeTurnTab();
         //initializeAgentTab();
         updateAgentTab();
         updateTransportTab();
@@ -799,6 +799,7 @@ public class GameController implements Initializable {
         initializeTransportsTab();
         initializeInventoryTab();
         initializeAgentTab();
+		player.addAgent (new Agent (player.getCurrentPos ()));
         initializeTurnTab();
     }    
     

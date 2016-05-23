@@ -25,11 +25,11 @@ public class PlayerCharacter extends GameCharacter{
     private int agentUpkeep;
     private int transportUpkeep;
     
-    private ArrayList<Warehouse> warehouses;
-    private ArrayList<GameCharacter> agents;
-
-
-    private ArrayList<Transport> transports;
+    private ObservableList<Warehouse> warehouses;
+    private ObservableList<GameCharacter> agents;
+    private ObservableList<Transport> transports;
+	// ObservableList com todos os Storages, nada mais que `transports ++ warehouses`
+	private ObservableList<Storable> allStorages;
     
     public int getNotoriety() {
         return notoriety;
@@ -46,42 +46,21 @@ public class PlayerCharacter extends GameCharacter{
     public int getWarehouseUpkeep() {
         return warehouseUpkeep;
     }
-    /***
-     * 
-     * @param includePlayer booleano que pergunta se o player sera incluso na resposta
-     * @return 
+    /**
+     * @return ObservableList com todos agentes
      */
-    public ArrayList<GameCharacter> getAgents() {
+    public ObservableList<GameCharacter> getAgents() {
         return agents;
     }
+	/**
+	 * Lista de agentes filtrada pela região
+	 *
+	 * @param r Região requisitada
+	 */
+    public ObservableList<GameCharacter> getAgents (Region r) {
+        return agents.filtered (agnt -> agnt.getCurrentPos () == r);
+    }
     
-    //Cria a observablelist de agentes (incluind o próprio personagem do jogador) para montar a tabela de agentes.
-    public ObservableList<GameCharacter> getAgentObl(){
-        ObservableList<GameCharacter> agntObl = FXCollections.observableArrayList();
-        agents.stream()
-                .forEach(agent -> {agntObl.add(agent);
-                });
-        agntObl.add(this);
-        System.out.println(agntObl);
-        return agntObl;
-    }
-    /***
-     * Retorna lista observável de agentes em uma determinada região.
-     * @param r região para pegar agentes
-     * @return lista observável dos agentes na região.
-     */
-    public ObservableList<GameCharacter> getAgentObl(Region r){
-        ObservableList<GameCharacter> agntObl = FXCollections.observableArrayList();
-        agents.stream()
-                .forEach(agent -> {
-                    if(agent.getCurrentPos() == r)
-                        agntObl.add(agent);
-                });
-        agntObl.add(this);
-        System.out.println(agntObl);
-        return agntObl;
-    }
-        
     public int getFunds() {
         return funds;
     }
@@ -178,7 +157,7 @@ public class PlayerCharacter extends GameCharacter{
             }    
     }
     
-    public ArrayList<Transport> getTransports() {
+    public ObservableList<Transport> getTransports() {
         return transports;
     }
     
@@ -221,20 +200,11 @@ public class PlayerCharacter extends GameCharacter{
     
     /***
      * Utilizada para montar a tabela de inventário.
+	 * 
      * @return Retorna lista Observavel de todos os Storables.
      */
-    public ObservableList<Storable>getStorableObl() {//Retorna uma observable list para montar a tabela
-        ObservableList<Storable> obl = FXCollections.observableArrayList();
-        
-        warehouses.stream().forEach((warehouse) -> {
-            obl.add(warehouse);
-        });
-        
-        transports.stream().forEach((transport) -> {
-            obl.add(transport);
-        });
-        
-        return obl;
+    public ObservableList<Storable> getStorableObl() {
+        return allStorages;
     }
 
     
@@ -245,7 +215,7 @@ public class PlayerCharacter extends GameCharacter{
      * Utilizada para montar a comboBox de "Mover" do inventário.
      * @return lista Observavel de todos os Storables em uma determinada região, com a exceção de um.
      */
-    public ObservableList<Storable>getStorableObl(Region reg, Storable sto) {//Retorna uma observable list para montar a tabela
+    public ObservableList<Storable>getStorableObl (Region reg, Storable sto) {//Retorna uma observable list para montar a tabela
         ObservableList<Storable> obl = FXCollections.observableArrayList();
         
         warehouses.stream()
@@ -262,15 +232,8 @@ public class PlayerCharacter extends GameCharacter{
     }
     
     
-    public ObservableList<Transport>getTransportObl() {//Retorna uma observable list para montar a tabela da tab de transportes
-        ObservableList<Transport> obl = FXCollections.observableArrayList();
-        
-        transports.stream()
-                .forEach((transport) -> {
-                    obl.add(transport);
-                });
-        
-        return obl;
+    public ObservableList<Transport> getTransportObl() {//Retorna uma observable list para montar a tabela da tab de transportes
+        return transports;
     }
     
     
@@ -282,6 +245,8 @@ public class PlayerCharacter extends GameCharacter{
     public void addTransport(Transport trnsp){
         this.transports.add(trnsp);
         this.transportUpkeep += trnsp.getUpkeep();
+		// atualiza lista pra printar na tabela
+		updateAllStorages ();
     }
     
     
@@ -293,7 +258,18 @@ public class PlayerCharacter extends GameCharacter{
     public void addWarehouse(Warehouse wareh){
         this.warehouses.add(wareh);
         this.warehouseUpkeep += wareh.getUpkeep();
+		// atualiza lista pra printar na tabela
+		updateAllStorages ();
     }
+	
+	/**
+	 * Atualiza ObservableList de Storages, pra printar na tabela bonitim
+	 */
+	private void updateAllStorages () {
+		allStorages.clear ();
+		allStorages.addAll (warehouses);
+		allStorages.addAll (transports);
+	}
     
     /*
     Construtor para NEW GAME
@@ -309,9 +285,12 @@ public class PlayerCharacter extends GameCharacter{
         this.name = name;
         this.currentPos = startingPos;
         
-        this.warehouses = new ArrayList<Warehouse>();
-        this.agents = new ArrayList<GameCharacter>();
-        this.transports = new ArrayList<Transport>();
+        this.warehouses = FXCollections.observableArrayList ();
+        this.transports = FXCollections.observableArrayList ();
+		this.allStorages = FXCollections.observableArrayList ();
+		this.agents = FXCollections.observableArrayList ();
+		// adiciona o próprio personagem
+		this.agents.add (this);
         
         //Constroi a warehouse da regiao inicial do jogador e a inclui na lista de Warehouses
         boolean buildWarehouse = startingPos.buildWarehouse(); 

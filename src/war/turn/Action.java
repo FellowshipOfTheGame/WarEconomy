@@ -22,6 +22,7 @@ public abstract class Action {
 	/**
 	 * Ctor
 	 *
+	 * @param player Jogador
 	 * @param actor Qual personagem que tá executando a ação
 	 */
 	public Action (PlayerCharacter player, GameCharacter actor) {
@@ -45,11 +46,16 @@ public abstract class Action {
 
 	/**
 	 * Obriga ações a serem Stringificáveis, pra descrição
+	 * 
+	 * @return String representando ação
 	 */
+	@Override
 	public abstract String toString ();
         
-        /***
-         * Getter para pegar a descrição curta da ação usada na tabela de ações do turno.
-         */
-        public abstract String getShortDesc();
+	/***
+	 * Getter para pegar a descrição curta da ação usada na tabela de ações do turno.
+	 * 
+	 * @return Descrição curta da ação
+	 */
+	public abstract String getShortDesc();
 }

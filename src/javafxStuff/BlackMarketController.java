@@ -115,7 +115,7 @@ public class BlackMarketController {
         purchaseDestination.setItems(storableObl);
         saleSource.setItems(storableObl);
         
-        ObservableList<GameCharacter> agents = gc.player.getAgentObl(region);
+        ObservableList<GameCharacter> agents = gc.player.getAgents (region);
         agentBox.setItems(agents);
     }    
     
