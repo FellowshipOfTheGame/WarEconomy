@@ -9,32 +9,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.NewGameController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" spacing="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.NewGameController">
    <children>
-      <Label layoutX="37.0" layoutY="33.0" text="The year is 2001" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="33.0">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <HBox layoutX="3.0" layoutY="371.0" prefHeight="29.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane prefHeight="154.0" prefWidth="2025.0">
          <children>
-            <Label text="Enter your name" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="txt" prefHeight="28.0" prefWidth="297.0" HBox.hgrow="ALWAYS" />
-            <VBox prefHeight="58.0" prefWidth="161.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="&#9;The year is 2001.&#10;&#10;&#9;The world has become a very dangerous place. All over the globe, the flames of war burn bright, fueled by those such as yourself.&#10;&#10;&#9;You are an war economist, a gun runner, an opportunist. Your job, to sell weaponry to anyone willing to pay, regardless of their motivations or methods.&#10;To escape the eyes of the law and governments, the hypocrites who blame merchants such as yourself for their incompetence in maintaining peace, is mere routine.&#10;&#10;&#9;Your motto: Death is profitable&#10;" wrappingWidth="764.13671875" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="145.0" />
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" prefHeight="124.0" prefWidth="1920.0" spacing="30.0">
+         <children>
+            <VBox alignment="BOTTOM_CENTER">
                <children>
-                  <Button fx:id="newGamebtn" mnemonicParsing="false" onAction="#startGame" prefHeight="28.0" prefWidth="159.0" text="Let's make some cash">
+                  <Separator prefHeight="56.0" prefWidth="200.0" visible="false" />
+                  <Button fx:id="mainMenubtn" mnemonicParsing="false" onAction="#switchToMainMenu" prefHeight="28.0" prefWidth="175.0" text="No, I can't do it!">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Separator prefWidth="200.0" />
-                  <Button fx:id="mainMenubtn" mnemonicParsing="false" onAction="#switchToMainMenu" prefHeight="28.0" prefWidth="175.0" text="No, I can't do it!">
+               </children>
+            </VBox>
+            <VBox prefHeight="65.0" prefWidth="267.0">
+               <children>
+                  <Label text="ENTER YOUR NAME" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="txt" prefHeight="28.0" prefWidth="297.0" HBox.hgrow="ALWAYS" />
+                  <Separator prefHeight="56.0" prefWidth="200.0" visible="false" />
+               </children>
+            </VBox>
+            <VBox alignment="BOTTOM_CENTER">
+               <children>
+                  <Separator prefHeight="56.0" prefWidth="200.0" visible="false" />
+                  <Button fx:id="newGamebtn" mnemonicParsing="false" onAction="#startGame" prefHeight="28.0" prefWidth="170.0" text="Let's make some cash">
                      <cursor>
                         <Cursor fx:constant="HAND" />
-                     </cursor></Button>
+                     </cursor>
+                  </Button>
                </children>
             </VBox>
          </children>
+         <VBox.margin>
+            <Insets bottom="30.0" />
+         </VBox.margin>
       </HBox>
    </children>
-</AnchorPane>
+</VBox>

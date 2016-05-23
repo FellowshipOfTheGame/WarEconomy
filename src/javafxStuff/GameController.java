@@ -60,7 +60,7 @@ import war.turn.SellAction;
  * @phase I
  */
 
-public class GameController implements Initializable {
+public class GameController{
     
     /*ELEMENTOS DE FXML*/
     //GERAIS
@@ -695,17 +695,17 @@ public class GameController implements Initializable {
             whereTo = world.getRegion(5);
         
         try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("BlackMarketFXML.fxml"));
-                Parent root1 = (Parent) fxmlLoader.load();
-                Stage stage = new Stage();
-               
-                //Referencia o controlador do blackmarket para passar a região para inicializar a tabela e valores
-                BlackMarketController controller = fxmlLoader.<BlackMarketController>getController();
-                controller.initialize(this, whereTo);
-                
-                stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
-                stage.setScene(new Scene(root1));  
-                stage.showAndWait();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("BlackMarketFXML.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+
+            //Referencia o controlador do blackmarket para passar a região para inicializar a tabela e valores
+            BlackMarketController controller = fxmlLoader.<BlackMarketController>getController();
+            controller.initialize(this, whereTo);
+
+            stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
+            stage.setScene(new Scene(root1));  
+            stage.showAndWait();
         } catch(Exception e) {
            e.printStackTrace();
           }
@@ -768,8 +768,7 @@ public class GameController implements Initializable {
      * Incializa o jogador e outras informações baseada na string que será passada do menu de new/load game. A string é o nome do arquivo de save
      *
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(String name) {
        /* mapTabText = new Label();
         mapTabText.setText("MAP");
         mapTabText.setRotate(90);
@@ -790,7 +789,7 @@ public class GameController implements Initializable {
         selectedAction = null;
         
         world = new World();
-        player = new PlayerCharacter("default",this.world.getRegion(0));
+        player = new PlayerCharacter(name,this.world.getRegion(0));
 		turn = new Turn ();
         
         currentTurn = 0;

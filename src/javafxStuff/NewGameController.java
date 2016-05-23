@@ -33,12 +33,14 @@ public class NewGameController implements Initializable {
     @FXML
     TextField txt;
     
+    String name = "Dealer";//Nome padrão para o jogador.
+    
     @FXML
     /**
      * Cria um novo arquivo de save (xml, talvez). Então muda para a cena do jogo em si.
      * O metodo de Initialize do controlador da cena de jogo então lerá o arquivo e criará o objeto do jogador.
      */
-    void startGame(){
+    private void startGame(){
         /*TODO - Criação de save*/
         /*Switch para o jogo em si*/
         Parent root = null;
@@ -46,7 +48,21 @@ public class NewGameController implements Initializable {
         String filename = "Game.fxml";
         
         try {
-        root = FXMLLoader.load(getClass().getResource(filename));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filename));
+
+            root = (Parent) fxmlLoader.load();
+            //Referencia para o controlador da classe Game Controller
+            GameController controller = fxmlLoader.<GameController>getController();
+            
+            if(txt.getText().compareTo("") != 0){//Colocou nome próprio
+                name = txt.getText();
+            }
+            
+            controller.initialize(name);
+            
+            stg.getScene().setRoot(root);
+
+            
         } catch (IOException ex) {
             Logger.getLogger(MainMenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,8 +72,6 @@ public class NewGameController implements Initializable {
         stg.hide();
         stg.setScene(game);
         stg.show();*/
-        
-        stg.getScene().setRoot(root);
     }
     
 

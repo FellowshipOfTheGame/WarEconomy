@@ -81,68 +81,72 @@
           </Tab>
             <Tab fx:id="inventory" text="Inventory Manegement">
                <content>
-                  <HBox prefHeight="971.0" prefWidth="1804.0">
+                  <AnchorPane>
                      <children>
-                        <VBox layoutX="1304.0" minWidth="-Infinity" prefHeight="917.0" prefWidth="205.0" spacing="10.0">
+                        <HBox prefHeight="994.0" prefWidth="1891.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <ComboBox fx:id="invLeftStorable" onAction="#invSelectStorable" prefHeight="33.0" prefWidth="205.0" />
-                              <Label fx:id="invLeftDesc" minHeight="-Infinity" prefHeight="103.0" prefWidth="205.0" text="Label" />
-                              <TableView fx:id="invLeftTable" onMouseClicked="#invSelectWeaponsLeft" prefHeight="732.0" prefWidth="205.0">
-                                 <columns>
-                                    <TableColumn fx:id="invLeftCol" prefWidth="204.0" resizable="false" text="ITENS" />
-                                 </columns>
-                              </TableView>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="5.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <VBox prefHeight="989.0" prefWidth="768.0" style="-fx-border-color: 000000;">
-                           <children>
-                              <VBox alignment="BASELINE_CENTER" prefHeight="334.0" prefWidth="1027.0" spacing="20.0">
+                              <VBox layoutX="1304.0" minWidth="-Infinity" prefHeight="917.0" prefWidth="205.0" spacing="10.0">
                                  <children>
-                                    <ImageView fx:id="invWpnImg" fitHeight="171.0" fitWidth="743.0" layoutX="440.0" layoutY="26.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
-                                    <Text fx:id="invWpnDes" layoutX="411.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="926.13671875" />
+                                    <ComboBox fx:id="invLeftStorable" onAction="#invSelectStorable" prefHeight="33.0" prefWidth="205.0" />
+                                    <Label fx:id="invLeftDesc" minHeight="-Infinity" prefHeight="103.0" prefWidth="205.0" text="Label" />
+                                    <TableView fx:id="invLeftTable" onMouseClicked="#invSelectWeaponsLeft" prefHeight="732.0" prefWidth="205.0">
+                                       <columns>
+                                          <TableColumn fx:id="invLeftCol" prefWidth="204.0" resizable="false" text="ITENS" />
+                                       </columns>
+                                    </TableView>
                                  </children>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
                               </VBox>
-                              <VBox alignment="CENTER">
+                              <VBox prefHeight="966.0" prefWidth="1565.0" style="-fx-border-color: 000000;">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="559.0" layoutY="426.0" prefHeight="66.0" prefWidth="133.0" text="REORGANIZE" textAlignment="CENTER" AnchorPane.bottomAnchor="425.0" AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="501.0">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                    </Label>
-                                    <HBox alignment="CENTER" layoutX="163.0" layoutY="538.0" prefHeight="25.0" prefWidth="719.0" spacing="15.0" style="-fx-border-color: 000000;">
+                                    <VBox alignment="BASELINE_CENTER" prefHeight="334.0" prefWidth="1027.0" spacing="20.0">
                                        <children>
-                                          <Button fx:id="invMoveBtn" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#invMoveWeapons" prefHeight="25.0" prefWidth="100.0" text="MOVE" />
-                                          <TextField fx:id="invOpQty" prefHeight="25.0" prefWidth="208.0" promptText="QUANTITY" />
-                                          <Button fx:id="invDestBtn" mnemonicParsing="false" onAction="#invDestroyWeapons" prefHeight="25.0" prefWidth="100.0" text="DESTROY" />
+                                          <ImageView fx:id="invWpnImg" fitHeight="171.0" fitWidth="743.0" layoutX="440.0" layoutY="26.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
+                                          <Text fx:id="invWpnDes" layoutX="411.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="926.13671875" />
                                        </children>
-                                    </HBox>
+                                    </VBox>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label alignment="CENTER" layoutX="559.0" layoutY="426.0" prefHeight="66.0" prefWidth="133.0" text="REORGANIZE" textAlignment="CENTER" AnchorPane.bottomAnchor="425.0" AnchorPane.leftAnchor="559.0" AnchorPane.rightAnchor="501.0">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                          </Label>
+                                          <HBox alignment="CENTER" layoutX="163.0" layoutY="538.0" prefHeight="25.0" prefWidth="719.0" spacing="15.0" style="-fx-border-color: 000000;">
+                                             <children>
+                                                <Button fx:id="invMoveBtn" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#invMoveWeapons" prefHeight="25.0" prefWidth="100.0" text="MOVE" />
+                                                <TextField fx:id="invOpQty" prefHeight="25.0" prefWidth="208.0" promptText="QUANTITY" />
+                                                <Button fx:id="invDestBtn" mnemonicParsing="false" onAction="#invDestroyWeapons" prefHeight="25.0" prefWidth="100.0" text="DESTROY" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
                                  </children>
                               </VBox>
+                              <VBox minWidth="-Infinity" prefHeight="1018.0" prefWidth="205.0" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="invRightStorable" onAction="#invSelectStorable" prefHeight="33.0" prefWidth="205.0" />
+                                    <Label fx:id="invRightDesc" minHeight="-Infinity" prefHeight="103.0" prefWidth="205.0" text="Label" />
+                                    <TableView fx:id="invRightTable" onMouseClicked="#invSelectWeaponsRight" prefHeight="732.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
+                                       <columns>
+                                          <TableColumn fx:id="invRightCol" prefWidth="204.0" resizable="false" text="ITENS" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </VBox>
+                              <Separator opacity="0.0" orientation="VERTICAL" prefHeight="200.0" visible="false" />
                            </children>
-                        </VBox>
-                        <VBox minWidth="-Infinity" prefHeight="1018.0" prefWidth="205.0" spacing="10.0">
-                           <children>
-                              <ComboBox fx:id="invRightStorable" onAction="#invSelectStorable" prefHeight="33.0" prefWidth="205.0" />
-                              <Label fx:id="invRightDesc" minHeight="-Infinity" prefHeight="103.0" prefWidth="205.0" text="Label" />
-                              <TableView fx:id="invRightTable" onMouseClicked="#invSelectWeaponsRight" prefHeight="732.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
-                                 <columns>
-                                    <TableColumn fx:id="invRightCol" prefWidth="204.0" resizable="false" text="ITENS" />
-                                 </columns>
-                              </TableView>
-                           </children>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </VBox>
-                        <Separator opacity="0.0" orientation="VERTICAL" prefHeight="200.0" visible="false" />
+                           <padding>
+                              <Insets left="5.0" right="-5.0" top="5.0" />
+                           </padding>
+                        </HBox>
                      </children>
-                     <padding>
-                        <Insets left="5.0" right="-5.0" top="5.0" />
-                     </padding>
-                  </HBox>
+                  </AnchorPane>
                </content>
             </Tab>
             <Tab fx:id="transports" text="Transport Manegement">
@@ -168,7 +172,7 @@
                         </VBox>
                         <AnchorPane prefHeight="901.0" prefWidth="1220.0">
                            <children>
-                              <HBox layoutX="35.0" layoutY="684.0" spacing="30.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="385.0">
+                              <HBox layoutX="35.0" layoutY="684.0" spacing="30.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="232.0">
                                  <children>
                                     <VBox layoutX="36.0" layoutY="704.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" spacing="30.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="35.0">
                                        <children>
@@ -327,7 +331,7 @@
       </TabPane>
       <HBox minHeight="-Infinity" prefHeight="60.0">
          <children>
-            <TextArea fx:id="guiPlayerOutput" editable="false" prefHeight="60.0" prefWidth="1759.0" wrapText="true" />
+            <TextArea fx:id="guiPlayerOutput" editable="false" prefHeight="60.0" prefWidth="1963.0" wrapText="true" />
             <Button fx:id="endTurnBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#endTurn" prefHeight="81.0" prefWidth="80.0" text="End Turn" />
          </children>
       </HBox>

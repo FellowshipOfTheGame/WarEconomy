@@ -85,6 +85,8 @@ public class BlackMarketController {
                 this.selectedWpnImg.setImage(updatedWpnImg);
                 //Seta o texto da descrição para a arma clicada
                 this.selectedWpnDescr.setText(this.selectedWeapon.getWpn().getDescription());
+                updateSellInfo();
+                updateBuyInfo();                  
             }
         }
     }
@@ -314,11 +316,6 @@ public class BlackMarketController {
         // TODO Auto-generated method stub
         KeyCode pressed = k.getCode();
         
-        //close window
-        if(pressed == KeyCode.T){
-            Stage sb = (Stage)marketTable.getScene().getWindow();//use any one object
-            sb.close();
-        }
         //Up na tab
         if(pressed == KeyCode.W || pressed == KeyCode.KP_UP || pressed == KeyCode.UP){
             System.out.println("UP");
@@ -333,7 +330,9 @@ public class BlackMarketController {
                 String imagePath = "/images/" + this.selectedWeapon.getWpnCat() + "/" + this.selectedWeapon.getWpnName() + ".png";
                 Image updatedWpnImg = new Image(imagePath, false);
                 this.selectedWpnImg.setImage(updatedWpnImg);
-                this.selectedWpnDescr.setText(this.selectedWeapon.getWpn().getDescription());                
+                this.selectedWpnDescr.setText(this.selectedWeapon.getWpn().getDescription());            
+                updateSellInfo();
+                updateBuyInfo();
             }
         }
         //down na tab
@@ -350,7 +349,9 @@ public class BlackMarketController {
                 String imagePath = "/images/" + this.selectedWeapon.getWpnCat() + "/" + this.selectedWeapon.getWpnName() + ".png";
                 Image updatedWpnImg = new Image(imagePath, false);
                 this.selectedWpnImg.setImage(updatedWpnImg);
-                this.selectedWpnDescr.setText(this.selectedWeapon.getWpn().getDescription());                
+                this.selectedWpnDescr.setText(this.selectedWeapon.getWpn().getDescription());  
+                updateSellInfo();
+                updateBuyInfo();                
             }
         }
     }
