@@ -9,11 +9,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" spacing="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.NewGameController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" spacing="200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.NewGameController">
    <children>
       <AnchorPane prefHeight="154.0" prefWidth="2025.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="&#9;The year is 2001.&#10;&#10;&#9;The world has become a very dangerous place. All over the globe, the flames of war burn bright, fueled by those such as yourself.&#10;&#10;&#9;You are an war economist, a gun runner, an opportunist. Your job, to sell weaponry to anyone willing to pay, regardless of their motivations or methods.&#10;To escape the eyes of the law and governments, the hypocrites who blame merchants such as yourself for their incompetence in maintaining peace, is mere routine.&#10;&#10;&#9;Your motto: Death is profitable&#10;" wrappingWidth="764.13671875" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="145.0" />
+            <Text fill="#1aff00" strokeType="OUTSIDE" strokeWidth="0.0" text="&#9;The year is 2001.&#10;&#10;&#9;The world has become a very dangerous place. All over the globe, the flames of war burn bright, fueled by those such as yourself.&#10;&#10;&#9;You are an war economist, a gun runner, an opportunist. Your job, to sell weaponry to anyone willing to pay, regardless of their motivations or methods.&#10;To escape the eyes of the law and governments, the hypocrites who blame merchants such as yourself for their incompetence in maintaining peace, is mere routine.&#10;&#10;&#9;Your motto: Death is profitable&#10;" wrappingWidth="764.13671875" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="145.0" />
          </children>
       </AnchorPane>
       <HBox alignment="CENTER" prefHeight="124.0" prefWidth="1920.0" spacing="30.0">

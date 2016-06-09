@@ -38,7 +38,7 @@
                            <children>
                               <ImageView fitHeight="1106.0" fitWidth="2128.0" layoutX="-6.0" layoutY="-5.0">
                                  <image>
-                                    <Image url="@../images/WE-WorldMap.png" />
+                                    <Image url="@../images/WE-WorldMap.jpg" />
                                  </image>
                               </ImageView>
                               <MenuButton layoutX="224.0" layoutY="523.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="NAFRAN">
