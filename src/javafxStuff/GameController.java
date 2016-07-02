@@ -5,7 +5,6 @@
  */
 package javafxStuff;
 
-import javafxStuff.orders.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -32,6 +31,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import war.Agent;
@@ -129,7 +129,6 @@ public class GameController{
     @FXML TableColumn<GameCharacter, String> agentNameCol; //Transport, Name Column
     @FXML TableColumn<GameCharacter, String> agentPosCol; //Agent, Position Column
     @FXML TableColumn<GameCharacter, String> agentOrderCol; //Agent, Current Order Column
-    
     @FXML ComboBox<Region> agentChangePos; 
     @FXML Button setMove; 
 
@@ -508,10 +507,11 @@ public class GameController{
         agentNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         agentOrderCol.setCellValueFactory(new PropertyValueFactory<>("endTurnActionDesc"));
         agentPosCol.setCellValueFactory(new PropertyValueFactory<>("currentPos"));
-
+        
         ObservableList obl = player.getAgents ();
         agentTable.setItems(obl);
         
+        //Se há um agente selecionado, prepara a lista de regiões adjacentes
         if(selectedCharacter != null){
             obl = (ObservableList) world.getRegions(selectedCharacter.getCurrentPos());
             agentChangePos.setItems(obl);
@@ -550,7 +550,7 @@ public class GameController{
     
     @FXML
     /***
-     * Método para mover um personagem para outra região.
+     * Método para fazer scheduling de viagem de um personagem para outra região.
      * REDUZIR FUNDOS DA VIAGEM, QUANTO MAIS LONGE, MAIS CARO
      */
     public void changeCharacterLocation(){
@@ -574,6 +574,9 @@ public class GameController{
         }
     }
     
+    
+    
+
     @FXML
     /**
      * Método para abrir a janela de ordem de suborno.
@@ -584,9 +587,9 @@ public class GameController{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgntBribeFXML.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();
                     Stage stage = new Stage();
-
+                    stage.setResizable(false);
                     AgntBribeController controller = fxmlLoader.<AgntBribeController>getController();
-                    controller.initialize();//Por enquanto só seta para NAFRAN
+                    controller.initialize(turn, player, selectedCharacter);//Por enquanto só seta para NAFRAN
 
                     stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
                     stage.setScene(new Scene(root1));  
@@ -598,6 +601,44 @@ public class GameController{
         else
             guiPlayerOutput.appendText("\nPlease, select an agent");
     }
+    
+    @FXML
+    /***
+     * Método para abrir a janela de ordem de assassinato.
+     */
+    public void openAssassinate(){
+        if(selectedCharacter != null){//Clicou em um index valido na tabela esquerda
+            try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgntAssassinateFXML.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    Stage stage = new Stage();
+                    stage.setResizable(false);
+                    AgntAssassinateController controller = fxmlLoader.<AgntAssassinateController>getController();
+                    controller.initialize(turn, player, selectedCharacter);//Por enquanto só seta para NAFRAN
+
+                    stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
+                    stage.setScene(new Scene(root1));  
+                    stage.showAndWait();
+            } catch(Exception e) {
+               e.printStackTrace();
+              }
+        }
+        else
+            guiPlayerOutput.appendText("\nPlease, select an agent");
+    }
+    
+    
+    @FXML
+    public void overwatch(){
+        if(selectedCharacter != null){//Clicou em um index valido na tabela esquerda
+           /*
+            
+            */
+        }
+        else
+            guiPlayerOutput.appendText("\nPlease, select an agent");
+    }
+        
     
 //TAB DE TURNOS--------------------------------------------------------
     
@@ -616,7 +657,7 @@ public class GameController{
      */
     public void selectAction(){
         if(turnTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido na tabela esquerda
-            if(selectedAction != turnTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
+            if(selectedAction != turnTable.getSelectionModel().getSelectedItem()) {
                 //seta a referencia ao personagem clicado
                 selectedAction = turnTable.getSelectionModel().getSelectedItem(); 
                 turnActionDesc.setText(selectedAction.toString());
@@ -798,7 +839,7 @@ public class GameController{
         initializeTransportsTab();
         initializeInventoryTab();
         initializeAgentTab();
-		player.addAgent (new Agent (player.getCurrentPos ()));
+        player.addAgent (new Agent (player.getCurrentPos ()));
         initializeTurnTab();
     }    
     

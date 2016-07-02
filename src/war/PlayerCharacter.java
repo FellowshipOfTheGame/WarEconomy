@@ -28,8 +28,8 @@ public class PlayerCharacter extends GameCharacter{
     private ObservableList<Warehouse> warehouses;
     private ObservableList<GameCharacter> agents;
     private ObservableList<Transport> transports;
-	// ObservableList com todos os Storages, nada mais que `transports ++ warehouses`
-	private ObservableList<Storable> allStorages;
+    // ObservableList com todos os Storages, nada mais que `transports ++ warehouses`
+    private ObservableList<Storable> allStorages;
     
     public int getNotoriety() {
         return notoriety;

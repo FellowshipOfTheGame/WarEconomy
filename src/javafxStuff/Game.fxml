@@ -270,11 +270,11 @@
                               </VBox>
                               <HBox layoutX="225.0" layoutY="895.0" prefHeight="79.0" prefWidth="659.0" spacing="25.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="486.0">
                                  <children>
-                                    <ComboBox fx:id="agentChangePos" prefHeight="33.0" prefWidth="205.0" promptText="CHANGE LOCATION" />
+                                    <ComboBox fx:id="agentChangePos" prefHeight="35.0" prefWidth="205.0" promptText="CHANGE LOCATION" />
                                     <Button fx:id="setMove" mnemonicParsing="false" onAction="#changeCharacterLocation" text="MOVE" />
-                                    <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="271.0" text="SELECT ORDER">
+                                    <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="271.0" text="SELECT ORDER">
                                       <items>
-                                        <MenuItem mnemonicParsing="false" text="Assassinate" />
+                                        <MenuItem mnemonicParsing="false" onAction="#openAssassinate" text="Assassinate" />
                                         <MenuItem mnemonicParsing="false" onAction="#openBribe" text="Bribe" />
                                           <MenuItem mnemonicParsing="false" text="Destroy Evidences" />
                                           <MenuItem mnemonicParsing="false" text="Improve Relations" />
