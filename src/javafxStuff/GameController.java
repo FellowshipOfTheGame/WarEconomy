@@ -49,6 +49,7 @@ import war.turn.Action;
 import war.turn.Turn;
 import war.turn.TravelAction;
 import war.turn.BuyAction;
+import war.turn.OverwatchAction;
 import war.turn.SellAction;
 
 /**
@@ -631,9 +632,8 @@ public class GameController{
     @FXML
     public void overwatch(){
         if(selectedCharacter != null){//Clicou em um index valido na tabela esquerda
-           /*
-            
-            */
+           turn.scheduleAction(new OverwatchAction (player, selectedCharacter));
+           updateAgentTab();           
         }
         else
             guiPlayerOutput.appendText("\nPlease, select an agent");
@@ -680,14 +680,12 @@ public class GameController{
      * No início de cada turno, os fundos do jogador sofrem um decremento igual ao Upkeep de Agentes e Transportes, além disso Eventos podem ocorrer.
      */
     public void endTurn(){
-        // finaliza Turn, e o reseta pro próximo
-        turn.endTurn ();
-        turn.reset ();
-        
+
         //world:
         currentTurn ++;
         world.updateMarkets();
         //world.updateFactions();
+        world.updateRegions();
         
         //player:
         player.setFunds(false, player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
@@ -707,7 +705,13 @@ public class GameController{
         //initializeAgentTab();
         updateAgentTab();
         updateTransportTab();
+       
         //updateInventoryTab();
+        
+        // finaliza Turn, e o reseta pro próximo
+        turn.endTurn ();
+        turn.reset ();
+                
         
         updateEssentialInfo();
     }

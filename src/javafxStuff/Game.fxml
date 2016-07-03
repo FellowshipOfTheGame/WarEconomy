@@ -280,7 +280,7 @@
                                           <MenuItem mnemonicParsing="false" text="Improve Relations" />
                                           <MenuItem mnemonicParsing="false" text="Sabotage Relations" />
                                           <MenuItem mnemonicParsing="false" text="Safeguard" />
-                                          <MenuItem mnemonicParsing="false" text="Overwatch" />
+                                          <MenuItem mnemonicParsing="false" onAction="#overwatch" text="Overwatch" />
                                       </items>
                                     </MenuButton>
                                     <Button mnemonicParsing="false" text="ABORT" />

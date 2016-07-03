@@ -64,6 +64,17 @@ public final class World {
     
     
     */
+    
+    /**
+     * Método que atualizará o estado dos mercados e produtos ao se passar o turno
+     */
+    public void updateRegions(){
+        regions.stream()
+                .forEach(region -> {
+                    region.updateRegion();
+                });      
+    }
+    
     public World() {
         
         this.regions = FXCollections.observableArrayList ();
