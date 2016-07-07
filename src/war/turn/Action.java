@@ -18,16 +18,20 @@ public abstract class Action {
 	protected GameCharacter actor;
 	/// O player, que é pra descontar os dinheiros e talz
 	protected PlayerCharacter player;
+        /// Indicador se a ação deve ser re-agendada no próximo turno.
+        protected Boolean reschedule;
 	
 	/**
 	 * Ctor
 	 *
 	 * @param player Jogador
 	 * @param actor Qual personagem que tá executando a ação
+         * @param reschedule true se a ação deve ser reagendada no próximo turno
 	 */
-	public Action (PlayerCharacter player, GameCharacter actor) {
+	public Action (PlayerCharacter player, GameCharacter actor, Boolean reschedule) {
 		this.actor = actor;
 		this.player = player;
+                this.reschedule = reschedule;
 	}
 
 	/**
@@ -38,6 +42,10 @@ public abstract class Action {
 	public GameCharacter getCharacter () {
 		return this.actor;
 	}
+
+        public Boolean getReschedule() {
+            return reschedule;
+        }
 
 	/**
 	 * Executa a ação

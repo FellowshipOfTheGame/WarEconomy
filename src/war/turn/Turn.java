@@ -139,15 +139,23 @@ public class Turn {
 		System.out.println ("[Turn.reset] Ações executadas:");
 		for (Action act : immediateActions) {
 			System.out.println ("  - " + act);
+                        immediateActions.remove(act);
+                        allActions.remove(act);                        
 		}
 		for (Action act : endTurnActions) {
 			System.out.println ("  + " + act);
-		}
+                        if(! act.getReschedule()){
+                            //Ação não reagendável. Remova das listas e da ligação com o Actor.
+                            endTurnActions.remove(act);
+                            allActions.remove(act);
+                            act.actor.setEndTurnAction(null);
+                        }
+                }
 		// reset nas listas de ações
-		immediateActions.clear ();
-		endTurnActions.clear ();
+		//immediateActions.clear ();
+		//endTurnActions.clear ();
 		// nem precisa chamar 'updateAllActions', já que tamo só limpando tudo
-		allActions.clear ();
+		//allActions.clear ();
 	}
         
 	/**

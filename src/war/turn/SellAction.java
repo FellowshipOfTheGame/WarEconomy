@@ -43,7 +43,7 @@ public class SellAction extends Action {
 	 * @param store De onde arma vendida será retirada
 	 */
 	public SellAction (PlayerCharacter player, GameCharacter actor, MarketWeapon weapon, int quantity, Storable store) {
-		super (player, actor);
+		super (player, actor, false);
 		if (quantity <= 0) {
 			throw new IllegalArgumentException ("[SellAction] Quantidade de armas vendidadas não pode ser menor que 1 (" + quantity + ")");
 		}

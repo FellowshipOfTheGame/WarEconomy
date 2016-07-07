@@ -42,7 +42,7 @@ public class TravelAction extends Action {
 	 * @param newPos Nova posição
 	 */
 	public TravelAction (PlayerCharacter player, GameCharacter actor, Connection travel) {
-		super (player, actor);
+		super (player, actor, false);
 		if (actor.getCurrentPos () != travel.getOrigin ()) {
 			throw new IllegalArgumentException ("[TravelAction] Character \"" + actor.getName () + "\" não está na posição inicial da Connection");
 		}
@@ -59,7 +59,7 @@ public class TravelAction extends Action {
          * @param destination 
          */
         public TravelAction (PlayerCharacter player, GameCharacter actor, Region destination){
-            super (player, actor);
+            super (player, actor, false);
             this.origin = actor.getCurrentPos();
             this.destination = destination;
             

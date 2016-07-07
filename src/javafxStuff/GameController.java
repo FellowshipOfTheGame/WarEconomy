@@ -694,11 +694,6 @@ public class GameController{
         
         guiPlayerOutput.clear();
 
-		// agents: reseta ação marcada de fim de turno
-		for (GameCharacter c : player.getAgents ()) {
-			c.setEndTurnAction (null);
-		}
-        
         //Turns
         turnActionDesc.setText("");
         turnActionName.setText("");

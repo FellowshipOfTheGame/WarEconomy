@@ -51,6 +51,6 @@ public class OverwatchAction extends Action{
      * @param actor Qual personagem que tá executando a ação
      */
     public OverwatchAction(PlayerCharacter player, GameCharacter actor) {
-        super(player, actor);
+        super(player, actor, true);
     }
 }

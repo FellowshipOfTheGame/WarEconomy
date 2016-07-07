@@ -43,7 +43,7 @@ public class BuyAction extends Action {
 	 * @param store Onde compra será armazenada
 	 */
 	public BuyAction (PlayerCharacter player, GameCharacter actor, MarketWeapon weapon, int quantity, Storable store) {
-		super (player, actor);
+		super (player, actor, false);
 		if (quantity <= 0) {
 			throw new IllegalArgumentException ("[BuyAction] Quantidade de armas compradas não pode ser menor que 1 (" + quantity + ")");
 		}
