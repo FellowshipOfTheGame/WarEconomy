@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import static javafxStuff.GameController.checkIntRange;
 
 /**
  *
@@ -116,33 +117,28 @@ public class Region {
         //Atualiza o valor de opRisk, sempre tendendo ao valor de base.
         if(opRisk != opRiskBase) {
             System.out.println("Update opRisk");
+         
             //Gera um valor de 1 a 5 para retornar à base
-            //random.nextInt(max - min + 1) + min
             Random diceRoll = new Random();
+            //random.nextInt(max - min + 1) + min
+            int result = diceRoll.nextInt(5) + 1;
             
             if(opRisk > opRiskBase){
             
-                while(true) {
-                int result = diceRoll.nextInt(5) + 1;
-                
-                    if(opRisk - result > 0){//Valor válido
-                        opRisk = opRisk - result;
-                        System.out.println("Update Region: Updated OP = " + opRisk);
-                        break;
-                    }
+                while( ! checkIntRange(0, 100, opRisk-result, false) ) {
+                    result = diceRoll.nextInt(5) + 1;
                 }
+                opRisk = opRisk - result;
+                System.out.println("Update Region: Updated OP = " + opRisk);
             }
             else {
-            
-                while(true) {
-                int result = diceRoll.nextInt(5) + 1;
-                
-                    if(opRisk + result < 100){//Valor válido
-                        opRisk = opRisk + result;
-                        System.out.println("Update Region: Updated OP = " + opRisk);
-                        break;
-                    }
+                while( ! checkIntRange(0, 100, opRisk+result, false) ) {
+                    result = diceRoll.nextInt(5) + 1;
                 }
+                
+                opRisk = opRisk + result;
+                System.out.println("Update Region: Updated OP = " + opRisk);
+                
             }
         }
         
@@ -150,6 +146,9 @@ public class Region {
         
     }
 
+    
+    
+    
     @Override
     public String toString(){
         return this.name;

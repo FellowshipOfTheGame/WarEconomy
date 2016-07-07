@@ -23,7 +23,7 @@ public class OverwatchAction extends Action{
         System.out.println("Overwatch: origOP = " + origOp);
         int newOp = origOp - this.actor.getIntrigue();
         this.actor.getCurrentPos().setOpRisk(newOp);
-        System.out.println("Overwatch: newOP = " + newOp);
+        System.out.println("Overwatch: newOP = " + actor.getCurrentPos().getOpRisk());
 
     }
 

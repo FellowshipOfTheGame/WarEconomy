@@ -808,6 +808,30 @@ public class GameController{
         guiNotoriety.setText("NOTORIETY: " + player.getNotoriety());
     }
     
+    /***
+     * Método genérico para verificar se um inteiro se encontra dentro da faixa entre min e max.
+     * @param min Valor mínimo
+     * @param max Valor máximo
+     * @param num Número a ser comparado.
+     * @param orEqual Se o valor pode ser igual ao minimo ou máximo
+     * @return TRUE se estiver na faixa
+     */
+    public static boolean checkIntRange(int min, int max, int num, boolean orEqual){
+        if(orEqual){
+            if( min <= num && num <= max)
+                return true;
+            else
+                return false;
+        }
+        else{
+            if( min < num && num < max)
+                return true;
+            else
+                return false;
+        }
+    }
+    
+    
     /**
      * Initializes the controller class.
      * Incializa o jogador e outras informações baseada na string que será passada do menu de new/load game. A string é o nome do arquivo de save
