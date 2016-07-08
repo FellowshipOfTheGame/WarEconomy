@@ -93,7 +93,17 @@ public class Turn {
 		updateAllActions ();
 		return null;
 	}
-
+        
+        /***
+         * Remove uma data ação da lista de ações agendadas.
+         * 
+         * @param a Ação a ser removida. 
+         */
+        public void abortScheduleAction (Action a) {
+            endTurnActions.remove(a);
+            allActions.remove(a);
+        }
+        
 	/**
 	 * Atualiza ObservableList, pra printar na tabela bonitim
 	 */

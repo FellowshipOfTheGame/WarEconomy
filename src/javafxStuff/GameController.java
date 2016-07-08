@@ -7,6 +7,7 @@ package javafxStuff;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -576,7 +577,24 @@ public class GameController{
     }
     
     
-    
+    @FXML
+    /**
+     * Método para abortar uma ação que foi agendada.
+     */
+    public void abortAction(){
+        if(selectedCharacter != null){
+            if(selectedCharacter.getEndTurnAction() != null){
+                turn.abortScheduleAction( selectedCharacter.getEndTurnAction() );
+                selectedCharacter.setEndTurnAction(null);
+                updateAgentTab();
+            }
+            else
+                guiPlayerOutput.appendText("\nCharacter has no orders !");
+        }
+        else{
+            guiPlayerOutput.appendText("\nSelect a Character !");
+        }
+    }
 
     @FXML
     /**
@@ -826,6 +844,41 @@ public class GameController{
         }
     }
     
+    /***
+     * Método que realiza o retorno de um número dado ao seu valor base através
+     * de incrementos ou decrementos de valores aleatórios.
+     * @param min Menor valor que o número pode assumir
+     * @param max Maior valor que o número pode assumir
+     * @param num Número a ser modificado
+     * @param numBase Valro base do número
+     * @param orEqual Se ele pode ser igual aos limites da faixa de valor
+     * @param diceType Número máximo do valor do "dado" a 
+     * ser incrementado/decrementado Considerando o valor mínimo do dado como 1
+     * @return num+resultado do dado.
+     */
+    public static int returnToBase(int min, int max, int num, int numBase, boolean orEqual, int diceType){
+        Random dice = new Random();
+        //random.nextInt(maxDoDado - minDoDado + 1) + min
+        int diceRoll = dice.nextInt(diceType) + 1;
+        
+        if(num < numBase) {
+            while( ! checkIntRange(min, max, num + diceRoll, orEqual) ) {
+                    diceRoll = dice.nextInt(diceType) + 1;
+            }
+            return num + diceRoll;
+        }
+        
+        else if(num > numBase) {
+            while( ! checkIntRange(min, max, num - diceRoll, orEqual) ) {
+                    diceRoll = dice.nextInt(diceType) + 1;
+            }
+            return num - diceRoll;
+        }
+        
+        else{
+            return num;
+        }
+    }
     
     /**
      * Initializes the controller class.
