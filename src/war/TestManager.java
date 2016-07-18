@@ -28,14 +28,14 @@ public class TestManager {
      * @return True se passou no teste, false se falhou no teste
      */
     public static boolean successTest(int atr, int posMod, int negMod){
-        
-        if( GameController.checkIntRange(atr, 1, 100, true) ){//Verificando se o número está dentro do limite estabelecido.
+                
+        if( GameController.checkIntRange(1, 100, atr, true) ){//Verificando se o número está dentro do limite estabelecido.
         
             Random diceRoll = new Random();
             //random.nextInt(max - min + 1) + min
             int result = diceRoll.nextInt(100) + 0;
 
-            System.out.println("Jogou dado!\t RESULT: " + result + " atr: " + atr);
+            System.out.println("Jogou dado!\t RESULT: " + result + " atr+mods: " + (atr+posMod-negMod));
             if(result <= atr + posMod - negMod){
                 return true;//Sucesso
             }
@@ -47,8 +47,53 @@ public class TestManager {
             return false;
     }
     
-    public static boolean opositeTest(){
-        return false;
+    /**
+     * INCOMPLETO.
+     * Realiza um teste oposto entre duas entidades.
+     * @param atr1 Atributo da entidade 1
+     * @param posMod1 Modificador positivo da entidade 1
+     * @param negMod1 Modificador negativo da entidade 1
+     * @param atr2 Atributo da entidade 2
+     * @param posMod2 Modificador positivo da entidade 2
+     * @param negMod2 Modificador negativo da entidade 2
+     * @return 
+     */
+    public static boolean opositeTest(int atr1, int posMod1, int negMod1 , int atr2, int posMod2, int negMod2){
+       
+        if( GameController.checkIntRange(1, 100, atr1, true) && GameController.checkIntRange(1, 100, atr2, true)){//Verificando se o número está dentro do limite estabelecido.
+        
+            Random diceRoll = new Random();
+            //random.nextInt(max - min + 1) + min
+            int result1 = diceRoll.nextInt(100) + 0;
+            int result2 = diceRoll.nextInt(100) + 0;
+
+            //Entidade 1 passou no teste e a entidade 2 falhou
+            if(result1 <= atr1 + posMod1 - negMod1 && result2 > atr2 + posMod2 - negMod2)
+                return false;
+            
+            //Entidade 2 passou no teste e a entidade 1 falhou
+            else if(result1 > atr1 + posMod1 - negMod1 && result2 <= atr2 + posMod2 - negMod2)
+                return true;
+            
+            //Ambos passaram, seleciona o menor, em caso de empate, seleciona o 1
+            else if (result1 <= atr1 + posMod1 - negMod1 && result2 <= atr2 + posMod2 - negMod2) {
+                
+                if(result1 < result2)
+                    return false;
+                else if(result2 < result1)
+                    return true;
+                else if(result1 == result2)
+                    return false;
+            }
+            
+            //Ambos falharam
+            else{
+                
+            }
+        }
+        else
+            System.err.println("Atr fora de Range");
+            return false;
     }
     
     public static boolean prolongedTest(){
@@ -74,7 +119,7 @@ public class TestManager {
         System.out.println("Making Noise Test");
         //Se o transporte está se movendo e tem carga
         if(t.getCurrentConnection() != null && t.getUsedCapacity() != 0){
-            //random.nextInt(max - min + 1) + min
+
             int atr = t.getCurrentConnection().getTravelRisk();
             int posMod = t.getNoise(); //Noise pode ser negativo também nesse caso.
             int negMod = 0 ;//+ t.getCurrentConnection().getTravelRiskDebuff();

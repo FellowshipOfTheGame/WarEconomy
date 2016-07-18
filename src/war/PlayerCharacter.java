@@ -189,9 +189,8 @@ public class PlayerCharacter extends GameCharacter{
                 
                 //SE O TRANSPORTE FALHOU NO TESTE DE NOISE
                 if(!success){
-                    /***
-                     * Rodar testes de geração de pista em uma das regiões.
-                     */
+                    //Gerar evidência na posição do transporte.
+                    Evidence evi = new Evidence(transport.getCurrentPos(), null);
                 }
             }
             
@@ -298,7 +297,7 @@ public class PlayerCharacter extends GameCharacter{
         this.addWarehouse(startingPos.getLocalWarehouse());
         
         //Constroi e insere o primeiro transporte do jogador.
-        Transport t = new Transport("Teco Teco",0,"air",1, 1, 1, startingPos, 1);//TEMPORARIO
+        Transport t = new Transport("Teco Teco",0,"air",1, 10, 1, startingPos, 1);//TEMPORARIO
         this.transports.add(t);
         
         System.out.println("New player " + name + " character chreated at " + startingPos.getName());

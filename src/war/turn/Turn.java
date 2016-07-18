@@ -8,6 +8,7 @@ import war.GameCharacter;
 
 import java.util.ArrayList;
 import java.lang.RuntimeException;
+import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -149,9 +150,21 @@ public class Turn {
 		System.out.println ("[Turn.reset] Ações executadas:");
 		for (Action act : immediateActions) {
 			System.out.println ("  - " + act);
-                        immediateActions.remove(act);
-                        allActions.remove(act);                        
 		}
+                
+                allActions.removeAll(immediateActions);
+                immediateActions.clear();
+                
+                for (Iterator<Action> it = endTurnActions.iterator(); it.hasNext();){
+                    Action act = it.next();
+                    if(! act.getReschedule()){
+                        allActions.remove(act);
+                        act.actor.setEndTurnAction(null);
+                        it.remove();
+                    }
+                }
+                
+                /*
 		for (Action act : endTurnActions) {
 			System.out.println ("  + " + act);
                         if(! act.getReschedule()){
@@ -160,7 +173,7 @@ public class Turn {
                             allActions.remove(act);
                             act.actor.setEndTurnAction(null);
                         }
-                }
+                }*/
 		// reset nas listas de ações
 		//immediateActions.clear ();
 		//endTurnActions.clear ();

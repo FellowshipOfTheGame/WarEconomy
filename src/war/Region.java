@@ -10,6 +10,7 @@ import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import static javafxStuff.GameController.returnToBase;
+import war.turn.Action;
 
 /**
  *
@@ -37,6 +38,9 @@ public class Region {
     /*private ArrayList factions
     private ArrayList factionRelations */
     private Warehouse localWarehouse;
+
+    /*Lista de todas as evidências */
+    private ArrayList<Evidence> evidences;
 
     
     //GETTERS
@@ -78,6 +82,21 @@ public class Region {
         return null;        
     }
    
+    /***
+     * Método que retorna a evidência na região causada por uma determinada ação.
+     * Apenas deve existir uma evidência por causa em uma determinada região.
+     * @param act Ação que causou a evidência
+     * @return Retorna a evidência se ela existir, ou nulo se ela não existir.
+     */
+    public Evidence getEvidenceByCause (Action act){
+       for (Evidence e : evidences){
+           if(e.getCauseType() == act.getClass())
+               return e;
+       }
+       return null;
+    }
+    
+    
     public boolean buildWarehouse() {
         if(this.localWarehouse == null){
             Warehouse w = new Warehouse(this);
