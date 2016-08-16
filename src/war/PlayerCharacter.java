@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import static war.Evidence.generateEvidence;
 
 /**
  * FXML Controller class
@@ -190,7 +191,7 @@ public class PlayerCharacter extends GameCharacter{
                 //SE O TRANSPORTE FALHOU NO TESTE DE NOISE
                 if(!success){
                     //Gerar evidência na posição do transporte.
-                    Evidence evi = new Evidence(transport.getCurrentPos(), null);
+                    generateEvidence(transport.getCurrentPos(), null);
                 }
             }
             
@@ -276,7 +277,7 @@ public class PlayerCharacter extends GameCharacter{
     @param Posicao de inicio do jogador
     */
     public PlayerCharacter(String name, Region startingPos) {
-        this.funds = 200;
+        this.funds = 500;
         this.investigation = 2;
         this.heat = 0;
         this.intrigue = 30;
@@ -297,7 +298,7 @@ public class PlayerCharacter extends GameCharacter{
         this.addWarehouse(startingPos.getLocalWarehouse());
         
         //Constroi e insere o primeiro transporte do jogador.
-        Transport t = new Transport("Teco Teco",0,"air",1, 10, 1, startingPos, 1);//TEMPORARIO
+        Transport t = new Transport("Teco Teco",0,"air",1, 10, 1, startingPos, 6);//TEMPORARIO
         this.transports.add(t);
         
         System.out.println("New player " + name + " character chreated at " + startingPos.getName());

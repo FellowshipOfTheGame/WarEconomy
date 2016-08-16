@@ -99,12 +99,12 @@ public final class World {
                 
         boolean[] marketStatusTest = {true, false};
         
-        Region naf = new Region("Nafran", 5, 5, marketStatusTest, this.weapons);
-        Region col = new Region("Columbia",4, 4, marketStatusTest, this.weapons);
-        Region cal = new Region("Callisto", 3, 3, marketStatusTest, this.weapons);
-        Region ura = new Region("Uraliya", 2, 2, marketStatusTest, this.weapons);
-        Region rut = new Region("Ruthenia", 2, 2, marketStatusTest, this.weapons);
-        Region aur = new Region("Auria", 2, 2, marketStatusTest, this.weapons);
+        Region naf = new Region("Nafran", 5, 30, marketStatusTest, this.weapons);
+        Region col = new Region("Columbia",4, 40, marketStatusTest, this.weapons);
+        Region cal = new Region("Callisto", 3, 80, marketStatusTest, this.weapons);
+        Region ura = new Region("Uraliya", 2, 30, marketStatusTest, this.weapons);
+        Region rut = new Region("Ruthenia", 2, 45, marketStatusTest, this.weapons);
+        Region aur = new Region("Auria", 2, 30, marketStatusTest, this.weapons);
         
         
         /*Seta as conexoes entre as regios*/

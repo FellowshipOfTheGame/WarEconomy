@@ -339,7 +339,17 @@ public class Transport implements Storable{
     public String toString() {
         return this.name;
     }
-    
+    /**
+     * ctor.
+     * @param name
+     * @param price
+     * @param type
+     * @param speed
+     * @param noise
+     * @param upkeep
+     * @param currentPos
+     * @param totalCapacity 
+     */
     public Transport(String name, int price, String type, int speed, int noise, int upkeep, Region currentPos, int totalCapacity){
         this.name = name;
         this.price = price;

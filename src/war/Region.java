@@ -110,6 +110,10 @@ public class Region {
     public void addAdjacent(Connection c){
         this.adjacent.add(c);
     }
+    
+    public void addEvidence(Evidence e){
+        this.evidences.add(e);
+    }
 
     /*
         ter uma variável que armazena um valor "base" de OpRisk. Esse valor é determinado pelo estado geopolítico da região.
@@ -162,6 +166,7 @@ public class Region {
         
         
         this.adjacent = new ArrayList<>();
+        this.evidences = new ArrayList<>();
         this.localWarehouse = null;//Inicialmente, todas as regiões não tem warehouses
         
         this.marketStatus = mrkStatus;

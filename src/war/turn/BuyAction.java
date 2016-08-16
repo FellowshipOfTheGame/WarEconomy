@@ -9,6 +9,8 @@ import war.MarketWeapon;
 import war.Storable;
 
 import java.lang.IllegalArgumentException;
+import static war.Evidence.generateEvidence;
+import static war.TestManager.successTest;
 
 /**
  * @briefing Classe da ação de comprar armas no mercado negro
@@ -62,6 +64,10 @@ public class BuyAction extends Action {
                 int standard = quantity * wpn.getSellPrice();
                 int bonus = (actor.getBarter() * standard)/100; //Porcentagem do barter
 		player.setFunds (false, standard - bonus );
+                
+                //Teste para gerar ou nao evidencias
+                if(successTest(actor.getCurrentPos().getOpRisk(), 0, actor.getIntrigue()))
+                    generateEvidence(actor.getCurrentPos(), this);
 	}
 
 	@Override
