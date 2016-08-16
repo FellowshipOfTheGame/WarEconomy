@@ -89,7 +89,20 @@ public class Evidence {
                 + " HeatInc " + this.heatInc
                 + " RH " + this.requiredHits);
     }
-        
+    
+    /***
+     * Método utilizado para decrementar o timer da evidência.
+     * @return boolean para manter(true) ou não na lista de evidências da região
+     */
+    public boolean decrementTimer(){
+        this.timer--;
+        if(timer > 0) {
+            this.printEvidence();
+            return true;
+        }
+        else
+            return false;
+    }
     
     /**
      * Método chamado para gerar ou não uma evidência.

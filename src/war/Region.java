@@ -6,6 +6,7 @@
 package war;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -96,6 +97,22 @@ public class Region {
        return null;
     }
     
+    /***
+     * Método a ser usado no update region para decrementar o timer de todas as 
+     * evidencias na região e remove-las caso o timer zere.
+     */
+    private void decrementEvidenceTimer(){
+    
+        for (Iterator<Evidence> it = evidences.iterator(); it.hasNext();){
+            Evidence e = it.next();
+            if(! e.decrementTimer()){
+                
+                e.setReg(null);
+                it.remove();
+                System.out.println("Timer zerado, removendo evidencia");
+            }
+        }
+    }
     
     public boolean buildWarehouse() {
         if(this.localWarehouse == null){
@@ -145,7 +162,8 @@ public class Region {
         }
         
         //-----------------------
-        
+        //reduz timer em todas as evidências.
+        decrementEvidenceTimer();
     }
 
     
