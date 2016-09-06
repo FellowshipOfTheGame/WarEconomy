@@ -41,7 +41,7 @@ public class Region {
     private Warehouse localWarehouse;
 
     /*Lista de todas as evidências */
-    private ArrayList<Evidence> evidences;
+    private ObservableList<Evidence> evidences;
 
     
     //GETTERS
@@ -96,6 +96,12 @@ public class Region {
        }
        return null;
     }
+    
+    
+    public ObservableList<Evidence> getEvidences () {
+        return evidences;
+    }
+    
     
     /***
      * Método a ser usado no update region para decrementar o timer de todas as 
@@ -167,8 +173,6 @@ public class Region {
     }
 
     
-    
-    
     @Override
     public String toString(){
         return this.name;
@@ -184,7 +188,7 @@ public class Region {
         
         
         this.adjacent = new ArrayList<>();
-        this.evidences = new ArrayList<>();
+        this.evidences = FXCollections.observableArrayList ();
         this.localWarehouse = null;//Inicialmente, todas as regiões não tem warehouses
         
         this.marketStatus = mrkStatus;

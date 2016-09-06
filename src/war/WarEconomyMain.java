@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  * @phase I
  */
 
-public class WarEconomyBeta extends Application {
+public class WarEconomyMain extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.EvidenceController">
+   <children>
+      <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="509.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label prefHeight="45.0" prefWidth="516.0" text="Label" textAlignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <TableView fx:id="evidenceTable" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="516.0" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn minWidth="107.0" prefWidth="107.0" text="Cause" />
+                  <TableColumn minWidth="91.0" prefWidth="130.0" text="Difficulty" />
+                  <TableColumn maxWidth="175.0" minWidth="50.0" prefWidth="132.0" resizable="false" text="Posed Risk" />
+                  <TableColumn maxWidth="229.0" minWidth="50.0" prefWidth="146.0" resizable="false" text="Time Remaning" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="543.0" layoutY="62.0" prefHeight="600.0" prefWidth="657.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="543.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

@@ -356,13 +356,10 @@ public class BlackMarketController {
         }
     }
     
-     /**
-     * Initializes the controller class.
-     * Incializa o jogador e outras informações baseada na string que será passada do menu de new/load game. A string é o nome do arquivo de save
-     *
-     * @param player referencia ao jogador
-     * @param region referencia a região do mercado negro
-     * @param turn referencia ao turno
+    /***
+     * Método para inicializar a janela do mercado negro, chamada por GameController.
+     * @param gc Referencia a gamecontroller, usada para atualizar dados do jogador e mundo após compras/vendas
+     * @param region referencia a qual região é o mercado negro
      */
     public void initialize(GameController gc, Region region) {
         

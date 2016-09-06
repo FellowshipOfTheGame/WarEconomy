@@ -170,7 +170,11 @@ public class Evidence {
         this.heatInc = heatInc;
         this.requiredHits = requiredHits;
         
-        System.out.println("Nova Evidencia: REG " + reg.getName() + " CAUSE: " + cause.getShortDesc());
+        if(cause != null)
+            System.out.println("Nova Evidencia: REG " + reg.getName() + " CAUSE: " + cause.getShortDesc());
+        else
+            System.out.println("Nova Evidencia: REG " + reg.getName() + " CAUSE: Mov de transporte");
+
         this.printEvidence();
     }
     

@@ -67,6 +67,7 @@ public class TravelAction extends Action {
         
 	@Override
 	public void execute () {
+            if(destination!=null){
 		if(travel != null){//Alternativa em que o personagem percorre as conexões
 			player.setFunds (false, travel.getWeight ());
 			actor.setCurrentPos (destination);
@@ -77,6 +78,7 @@ public class TravelAction extends Action {
 			actor.setCurrentPos(destination);
 			actor.setEndTurnAction(null);
 		}
+            }
 	}
 
 	@Override

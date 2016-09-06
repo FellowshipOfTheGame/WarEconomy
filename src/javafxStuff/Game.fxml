@@ -43,13 +43,11 @@
                               </ImageView>
                               <MenuButton layoutX="224.0" layoutY="523.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="NAFRAN">
                                 <items>
-                                  <MenuItem fx:id="trvNaf" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
                                     <MenuItem fx:id="blNaf" mnemonicParsing="false" onAction="#openBL" text="Market" />
                                 </items>
                               </MenuButton>
                               <MenuButton layoutX="726.0" layoutY="577.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="COLUMBIA">
                                  <items>
-                                    <MenuItem fx:id="trvCol" mnemonicParsing="false" onAction="#playerTravel" text="Travel" />
                                     <MenuItem fx:id="blCol" mnemonicParsing="false" onAction="#openBL" text="Market" />
                                  </items>
                               </MenuButton>
@@ -271,16 +269,16 @@
                               <HBox layoutX="225.0" layoutY="895.0" prefHeight="79.0" prefWidth="659.0" spacing="25.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="486.0">
                                  <children>
                                     <ComboBox fx:id="agentChangePos" prefHeight="35.0" prefWidth="200.0" promptText="CHANGE LOCATION" />
-                                    <Button fx:id="setMove" mnemonicParsing="false" onAction="#changeCharacterLocation" prefHeight="35.0" prefWidth="50.0" text="MOVE" />
+                                    <Button fx:id="setMove" mnemonicParsing="false" onAction="#scheduleTravelAction" prefHeight="35.0" prefWidth="50.0" text="MOVE" />
                                     <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="200.0" text="SELECT ORDER">
                                       <items>
                                         <MenuItem mnemonicParsing="false" onAction="#openAssassinate" text="Assassinate" />
                                         <MenuItem mnemonicParsing="false" onAction="#openBribe" text="Bribe" />
-                                          <MenuItem mnemonicParsing="false" text="Destroy Evidences" />
+                                          <MenuItem mnemonicParsing="false" onAction="#scheduleSearchDestroyEviAction" text="Destroy Evidences" />
                                           <MenuItem mnemonicParsing="false" text="Improve Relations" />
                                           <MenuItem mnemonicParsing="false" text="Sabotage Relations" />
                                           <MenuItem mnemonicParsing="false" text="Safeguard" />
-                                          <MenuItem mnemonicParsing="false" onAction="#overwatch" text="Overwatch" />
+                                          <MenuItem mnemonicParsing="false" onAction="#scheduleOverwatchAction" text="Overwatch" />
                                       </items>
                                     </MenuButton>
                                     <Button mnemonicParsing="false" onAction="#abortAction" prefHeight="35.0" prefWidth="54.0" text="ABORT" />

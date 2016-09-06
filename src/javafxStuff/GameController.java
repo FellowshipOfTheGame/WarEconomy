@@ -35,23 +35,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import war.Agent;
-import war.GameCharacter;
-import war.MarketWeapon;
-import war.PlayerCharacter;
-import war.PlayerWeapon;
-import war.Region;
-import war.Connection;
-import war.Storable;
-import war.Transport;
-import war.Warehouse;
-import war.World;
-import war.turn.Action;
-import war.turn.Turn;
-import war.turn.TravelAction;
-import war.turn.BuyAction;
-import war.turn.OverwatchAction;
-import war.turn.SellAction;
+import war.*;
+import war.turn.*;
 
 /**
  * FXML Controller class
@@ -457,22 +442,7 @@ public class GameController{
      * Abre a janela de mercado de transportes
      */
     public void openTransMarket(){
-        try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TransportMarketFXML.fxml"));
-                Parent root1 = (Parent) fxmlLoader.load();
-                Stage stage = new Stage();
-               
-                //Referencia o controlador do blackmarket para passar a região para inicializar a tabela e valores
-                TransportMarketController controller = fxmlLoader.<TransportMarketController>getController();
-                controller.initialize();//Por enquanto só seta para NAFRAN
-                
-                stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
-                stage.setScene(new Scene(root1));  
-                stage.showAndWait();
-                
-        } catch(Exception e) {
-           e.printStackTrace();
-		}
+       /*chamar método no JavafxManager*/
     }
 /*
     @FXML
@@ -501,7 +471,21 @@ public class GameController{
         agentTable.setItems(obl);
         
     }
+     
+    /**
+     * Método para printar os stats do personagem selecionado.
+     */
+    public void printCharacterStats() {
+        agentStats.setText(selectedCharacter.getStatsString());
+        if(selectedCharacter.getEndTurnAction() != null)
+            agentOrder.setText(selectedCharacter.getEndTurnAction().toString());
+        else
+            agentOrder.setText("Standing By");    
+    }
     
+    /***
+     * Método para atualizar a Tab de agente
+     */
     public void updateAgentTab(){
         agentTable.getColumns().clear();
         agentTable.getColumns().addAll(agentNameCol, agentPosCol, agentOrderCol);
@@ -515,15 +499,14 @@ public class GameController{
         
         //Se há um agente selecionado, prepara a lista de regiões adjacentes
         if(selectedCharacter != null){
+            
+            printCharacterStats();
+            
             obl = (ObservableList) world.getRegions(selectedCharacter.getCurrentPos());
             agentChangePos.setItems(obl);
-            
-                if(selectedCharacter.getEndTurnAction() != null)
-                    agentOrder.setText(selectedCharacter.getEndTurnAction().toString());
-                else
-                    agentOrder.setText("Standing By");
         }
     }
+
     
     @FXML
     /**
@@ -538,14 +521,7 @@ public class GameController{
                 //Seta regiões viajáveis
                 ObservableList obl = (ObservableList) world.getRegions(selectedCharacter.getCurrentPos());
                 agentChangePos.setItems(obl);
-                
-                //
-                agentStats.setText(selectedCharacter.getStatsString());
-                if(selectedCharacter.getEndTurnAction() != null)
-                    agentOrder.setText(selectedCharacter.getEndTurnAction().toString());
-                else
-                    agentOrder.setText("Standing By");
-                
+                printCharacterStats();
             }
         }
     }
@@ -555,17 +531,16 @@ public class GameController{
      * Método para fazer scheduling de viagem de um personagem para outra região.
      * REDUZIR FUNDOS DA VIAGEM, QUANTO MAIS LONGE, MAIS CARO
      */
-    public void changeCharacterLocation(){
+    public void scheduleTravelAction(){
         if (selectedCharacter != null) {
             if(agentChangePos!=null){
                 Region destination = agentChangePos.getValue();
-                //turn.addAction (new TravelAction (player, player, con));
-                
-                turn.scheduleAction(new TravelAction (player, selectedCharacter, destination));
-                
-                agentChangePos.setValue(null);
-                updateAgentTab();
+                if(destination!=null){
+                    turn.scheduleAction(new TravelAction (player, selectedCharacter, destination));
 
+                    agentChangePos.setValue(null);
+                    updateAgentTab();
+                }
             }
             else{
                 guiPlayerOutput.appendText("\nSelect a Region");
@@ -646,9 +621,25 @@ public class GameController{
             guiPlayerOutput.appendText("\nPlease, select an agent");
     }
     
-    
     @FXML
-    public void overwatch(){
+    /***
+     * Usado no menu para agendar uma ação de busca e destruição de evidências.
+     */
+    public void scheduleSearchDestroyEviAction(){
+        if(selectedCharacter != null){
+            turn.scheduleAction(new SearchDestroyAction(player, selectedCharacter));
+            updateAgentTab();
+        }
+        else
+            guiPlayerOutput.appendText("\nPlease, select an agent");
+    }
+    
+    
+    /***
+     * Usado no menu para agendar uma ação de Overwatch.
+     */
+    @FXML
+    public void scheduleOverwatchAction(){
         if(selectedCharacter != null){//Clicou em um index valido na tabela esquerda
            turn.scheduleAction(new OverwatchAction (player, selectedCharacter));
            updateAgentTab();           
@@ -752,21 +743,7 @@ public class GameController{
         else if(ev.getSource()==blAur)
             whereTo = world.getRegion(5);
         
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("BlackMarketFXML.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-
-            //Referencia o controlador do blackmarket para passar a região para inicializar a tabela e valores
-            BlackMarketController controller = fxmlLoader.<BlackMarketController>getController();
-            controller.initialize(this, whereTo);
-
-            stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
-            stage.setScene(new Scene(root1));  
-            stage.showAndWait();
-        } catch(Exception e) {
-           e.printStackTrace();
-          }
+        JavafxManager.openBlackMarketWindow(this, whereTo);
         
     }
     
