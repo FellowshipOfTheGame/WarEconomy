@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * @author João Victor L. da S. Guimarães
@@ -32,6 +33,9 @@ public class WarEconomyMain extends Application {
         //stage.setFullScreen(true);//Seta fullscreen
         //stage.setFullScreenExitHint("");//Seta a mensagem de ESC para vazio. ESC ainda tira do fullscreen
         //stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH); Desabilita o Esc para sair do fullscreen
+        
+        stage.initStyle(StageStyle.UNDECORATED); //Remove botões de minimizar, fechar, etc.
+
         stage.show();
     }
 

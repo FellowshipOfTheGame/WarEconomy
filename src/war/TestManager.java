@@ -23,11 +23,10 @@ public class TestManager {
      * Realiza um teste de sucesso padrão. 
      * Joga 1d100 e verifica se o valor esta baixo de atr +- modifiers
      * @param atr Atributo a ser testado
-     * @param posMod Modificadores positivos, aumentam atr para o teste.
-     * @param negMod Modificadores negativos, diminuem atr para o teste.
+     * @param mod modificadores situacionais. Somar é deixar o teste mais fácil ao aumentar o número alvo
      * @return True se passou no teste, false se falhou no teste
      */
-    public static boolean successTest(int atr, int posMod, int negMod){
+    public static boolean successTest(int atr, int mod){
                 
         if( GameController.checkIntRange(1, 100, atr, true) ){//Verificando se o número está dentro do limite estabelecido.
         
@@ -35,8 +34,8 @@ public class TestManager {
             //random.nextInt(max - min + 1) + min
             int result = diceRoll.nextInt(100) + 0;
 
-            System.out.println("Jogou dado!\t RESULT: " + result + " atr+mods: " + (atr+posMod-negMod));
-            if(result <= atr + posMod - negMod){
+            System.out.println("Jogou dado!\t RESULT: " + result + " atr+mods: " + (atr+mod));
+            if(result <= atr + mod){
                 return true;//Sucesso
             }
             else
@@ -125,7 +124,7 @@ public class TestManager {
             int negMod = 0 ;//+ t.getCurrentConnection().getTravelRiskDebuff();
             
             //Conexão passou no teste.
-            if( successTest(atr, posMod, negMod) ){
+            if( successTest(atr, posMod - negMod) ){
                 System.out.println("Transporte Falhou teste de noise, pista pode ser gerada");
                 return false;
             }

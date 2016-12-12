@@ -68,8 +68,8 @@ public class SellAction extends Action {
                 //Aumenta notoriedade
                 player.setNotoriety(true, quantity * wpn.getWpn().getNotInc());
 	
-                //Teste para gerar ou nao evidencias
-                if(successTest(actor.getCurrentPos().getOpRisk(), 0, actor.getIntrigue()))
+                //Teste para gerar ou nao evidencias.
+                if(successTest(actor.getCurrentPos().getOpRisk(), -actor.getIntrigue()))
                     generateEvidence(actor.getCurrentPos(), this);
         }
 

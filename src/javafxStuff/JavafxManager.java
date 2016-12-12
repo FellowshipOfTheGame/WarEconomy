@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import war.Region;
 
 /**
@@ -23,7 +24,7 @@ public class JavafxManager {
 
     public static void openBlackMarketWindow(GameController gc, Region reg){
     
-            try {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(JavafxManager.class.getResource("BlackMarketFXML.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
@@ -34,6 +35,7 @@ public class JavafxManager {
 
             stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
             stage.setScene(new Scene(root1));  
+            stage.initStyle(StageStyle.UTILITY);//Apenas botão de fechar mostra
             stage.showAndWait();
         } catch(Exception e) {
            e.printStackTrace();
@@ -43,7 +45,7 @@ public class JavafxManager {
     
     
     public static void openEvidencesWindow(ObservableList evidences){
-            try {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(JavafxManager.class.getResource("EvidenceFXML.fxml"));
              Parent root1 = (Parent) fxmlLoader.load();
              Stage stage = new Stage();
@@ -53,6 +55,7 @@ public class JavafxManager {
              controller.initialize(evidences); //passa a lista observavel de evidências na região
 
              stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
+             stage.initStyle(StageStyle.UNDECORATED);//Desabilita todos os botões de fechar, minimizar e maximizar
              stage.setScene(new Scene(root1));  
              stage.showAndWait();
 

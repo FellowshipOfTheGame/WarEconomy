@@ -29,7 +29,7 @@ public class SearchDestroyAction extends Action{
         
         if(turn == 0){//Primeiro turno de execução
             turn++;
-            actor.getCurrentPos().getEvidences();
+            //actor.getCurrentPos().getEvidences();
             
             JavafxManager.openEvidencesWindow(actor.getCurrentPos().getEvidences());
             

@@ -1,3 +1,82 @@
+/*
+ *WAR ECONOMY CASCADING STYLE SHEETS
+ *
+ *@author João Victor L. da S. Guimarães
+ *
+ *
+ *
+*/ 
+
+
+.root{
+	  
+	
+	-fx-background-color: black;
+	
+	/*highlighting/accenting objects.  For example: selected
+     * text; selected items in menus, lists, trees, and tables; progress bars;
+     * default buttons.
+     */
+    -fx-accent: white;
+
+    /* Indicator of objects. Typically used as the
+     * first color in -fx-background-color for the "focused" pseudo-class. Also
+     * typically used with insets of -1.4 to provide a glowing effect.
+     *
+     */
+    -fx-focus-color: white;
+	
+	/*
+	 the base color from which other colors are derived, and the background color of the scene.
+	*/
+	-fx-base: #1a1a1a;
+	
+	
+	-fx-font-family: tandysoft;
+	-fx-font-size: 15;
+	-fx-text-fill: #00FF00;
+	/*-fx-border-color: #00FF00;*/
+
+}
+
+/*
+ *CONFIGURAÇÃO DOS DETALHES ABAIXO -> DEIXAR SEMPRE O TEXTO VERDE 00FF00
+ *DEIXAR COR DE SELEÇÃO BRANCA
+ *
+*/
+
+.button{
+	-fx-text-fill: #00FF00;
+}
+
+.label{
+	-fx-font-size: 15;
+	-fx-font-family: tandysoft;
+	-fx-text-fill: #00FF00;
+}
+
+.tab-label {
+	-fx-text-fill: #00FF00;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: 00FF00;
+}
+
+.table-row-cell{
+    -fx-text-fill: 00FF00;
+}
+
+
+/*
+http://stackoverflow.com/questions/19343531/javafx-combobox-styling
+*/
+
+.combo-box.list-cell{
+    -fx-text-fill: 00FF00;
+	-fx-background-colo: 000000;
+}
+
 /*{
 	-fx-background-color: black;
 	-fx-text-fill: #00FF00;
@@ -5,8 +84,19 @@
 	-fx-border-width: #10
 	-fx-font-size: 15;
 	-fx-font-family: tandysoft;
-	
+}*/
+/*
+.button:hover{
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 3px, 3px, 2px, 1px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; // 4 8 4 8 
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
 }
+
+
 .label{
 	-fx-border-color: #000000
 }
@@ -18,3 +108,4 @@
 .tab-label {
 	-fx-rotate: 90;
 }*/
+

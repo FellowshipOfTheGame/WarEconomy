@@ -139,6 +139,7 @@ public class GameController{
     /*ATRIBUTOS*/
     PlayerCharacter player;
     World world;
+    Turn turn; /// Turno atual, que guardará as ações feitas
     
     MarketWeapon selectedWeapon;
     
@@ -151,8 +152,7 @@ public class GameController{
     
     GameCharacter selectedCharacter;
     Action selectedAction;
-	/// Turno atual, que guardará as ações feitas
-	Turn turn;
+
     
     int currentTurn;
 

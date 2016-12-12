@@ -15,17 +15,25 @@
    <children>
       <HBox prefHeight="26.0" prefWidth="1780.0">
          <children>
-            <Separator layoutX="42.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
-            <Label fx:id="guiFunds" text="Funds" />
-            <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
-            <Label fx:id="guiHeat" text="Heat" />
-            <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
-            <Label fx:id="guiNotoriety" text="Notoriety" />
-            <Separator layoutX="38.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
-            <Label fx:id="guiPlayerPos" layoutX="84.0" layoutY="10.0" text="Current Pos" />
-            <Separator layoutX="112.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
-            <Label fx:id="guiCurrentTurn" layoutX="158.0" layoutY="10.0" text="Turn:" />
-            <Separator layoutX="186.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
+            <HBox prefHeight="26.0" prefWidth="1021.0">
+               <children>
+                  <Separator layoutX="42.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
+                  <Label fx:id="guiFunds" text="Funds" />
+                  <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
+                  <Label fx:id="guiHeat" text="Heat" />
+                  <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
+                  <Label fx:id="guiNotoriety" text="Notoriety" />
+                  <Separator layoutX="38.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
+                  <Label fx:id="guiPlayerPos" layoutX="84.0" layoutY="10.0" text="Current Pos" />
+                  <Separator layoutX="112.0" layoutY="10.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="46.0" visible="false" />
+                  <Label fx:id="guiCurrentTurn" layoutX="158.0" layoutY="10.0" text="Turn:" />
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="26.0" prefWidth="885.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Button" />
+               </children>
+            </HBox>
          </children>
       </HBox>
       <TabPane fx:id="pane" prefHeight="973.0" prefWidth="1974.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">

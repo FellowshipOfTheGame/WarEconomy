@@ -9,25 +9,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.EvidenceController">
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.EvidenceController">
    <children>
-      <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="486.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="509.0" AnchorPane.topAnchor="0.0">
+      <Label prefHeight="45.0" prefWidth="516.0" text="Label" textAlignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <TableView fx:id="evidenceTable" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="517.0" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="causeColumn" minWidth="107.0" prefWidth="107.0" text="Cause" />
+            <TableColumn fx:id="diffColumn" minWidth="91.0" prefWidth="132.0" text="Difficulty" />
+            <TableColumn fx:id="riskColumn" maxWidth="176.0" minWidth="50.0" prefWidth="145.0" resizable="false" text="Posed Risk" />
+            <TableColumn fx:id="timeColumn" maxWidth="229.0" minWidth="50.0" prefWidth="132.0" resizable="false" text="Time Remaning" />
+         </columns>
+      </TableView>
+      <HBox prefHeight="43.0" prefWidth="517.0">
          <children>
-            <Label prefHeight="45.0" prefWidth="516.0" text="Label" textAlignment="CENTER">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-            <TableView fx:id="evidenceTable" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="516.0" VBox.vgrow="ALWAYS">
-               <columns>
-                  <TableColumn minWidth="107.0" prefWidth="107.0" text="Cause" />
-                  <TableColumn minWidth="91.0" prefWidth="130.0" text="Difficulty" />
-                  <TableColumn maxWidth="175.0" minWidth="50.0" prefWidth="132.0" resizable="false" text="Posed Risk" />
-                  <TableColumn maxWidth="229.0" minWidth="50.0" prefWidth="146.0" resizable="false" text="Time Remaning" />
-               </columns>
-            </TableView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Stats do Agente / Probablidade" />
          </children>
-      </VBox>
-      <AnchorPane layoutX="543.0" layoutY="62.0" prefHeight="600.0" prefWidth="657.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="543.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      </HBox>
+      <HBox alignment="TOP_CENTER" prefHeight="42.0" prefWidth="517.0" spacing="300.0">
+         <children>
+            <Button mnemonicParsing="false" text="Cancel Order" />
+            <Button mnemonicParsing="false" text="Select Evidence" />
+         </children>
+      </HBox>
    </children>
-</AnchorPane>
+</VBox>

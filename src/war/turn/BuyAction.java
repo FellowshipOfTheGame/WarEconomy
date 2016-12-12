@@ -65,8 +65,8 @@ public class BuyAction extends Action {
                 int bonus = (actor.getBarter() * standard)/100; //Porcentagem do barter
 		player.setFunds (false, standard - bonus );
                 
-                //Teste para gerar ou nao evidencias
-                if(successTest(actor.getCurrentPos().getOpRisk(), 0, actor.getIntrigue()))
+                //Teste para gerar ou nao evidencias: Teste do risco operacional da região - intriga do operador
+                if(successTest(actor.getCurrentPos().getOpRisk(), -actor.getIntrigue()))
                     generateEvidence(actor.getCurrentPos(), this);
 	}
 
