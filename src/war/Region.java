@@ -7,10 +7,11 @@ package war;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import static javafxStuff.GameController.returnToBase;
+import static war.TestManager.rollDie;
+import static war.TestManager.successTest;
 import war.turn.Action;
 
 /**
@@ -154,6 +155,21 @@ public class Region {
 
 
     /**
+     * Método utilizado para testar o encontro de uma evidência pelas autoridades.
+     * Método de teste apenas
+     */
+    public void testEvidenceInvestigation(){
+        if(!evidences.isEmpty()){
+            if(successTest(opRisk, 0)) {
+                Evidence evi = evidences.get(0);
+                evi.getCause().getPlayer().setHeat(true, evi.getHeatInc());
+                evidences.remove(evi);
+            }
+        }
+    }
+    
+    
+    /**
      * Método usado para atualizar todos os valores de uma região após o fim de turno.
      * Estado geopolítico varia de acordo com relacionamentos entre facções.
      * Modifica os valores de opRiskBase baseado em mudanças no estado geoPolítico.
@@ -167,6 +183,9 @@ public class Region {
             opRisk = returnToBase(0, 100, opRisk, opRiskBase, false, 5);
         }
         
+        //-----------------------
+        //teste
+        testEvidenceInvestigation();
         //-----------------------
         //reduz timer em todas as evidências.
         decrementEvidenceTimer();

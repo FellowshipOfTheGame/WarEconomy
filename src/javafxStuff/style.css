@@ -26,16 +26,16 @@
      */
     -fx-focus-color: white;
 	
-	/*
-	 the base color from which other colors are derived, and the background color of the scene.
-	*/
-	-fx-base: #1a1a1a;
-	
-	
-	-fx-font-family: tandysoft;
-	-fx-font-size: 15;
-	-fx-text-fill: #00FF00;
-	/*-fx-border-color: #00FF00;*/
+    /*
+     the base color from which other colors are derived, and the background color of the scene.
+    */
+    -fx-base: #1a1a1a;
+
+
+    -fx-font-family: tandysoft;
+    -fx-font-size: 15;
+    -fx-text-fill: #00FF00;
+    /*-fx-border-color: #00FF00;*/
 
 }
 
@@ -46,8 +46,11 @@
 */
 
 .button{
+        -fx-font-family: tandysoft;
+    	-fx-font-size: 12;
 	-fx-text-fill: #00FF00;
 }
+
 
 .label{
 	-fx-font-size: 15;

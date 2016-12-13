@@ -56,14 +56,14 @@ public final class World {
      * Método que atualizará o estado dos mercados e produtos ao se passar o turno
      */
     public void updateMarkets(){
-        
     }
     
-    /*
-    public void updateFactions
+    
+    public void updateFactions(){
+    }
     
     
-    */
+    
     
     /**
      * Método que atualizará o estado dos mercados e produtos ao se passar o turno
@@ -132,6 +132,7 @@ public final class World {
         
         System.out.println(regions);
     }
-    
+
+
     
 }

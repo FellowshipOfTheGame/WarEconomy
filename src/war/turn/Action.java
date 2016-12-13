@@ -42,7 +42,19 @@ public abstract class Action {
 	public GameCharacter getCharacter () {
 		return this.actor;
 	}
-
+        
+        /**
+         * GETTER pro jogador
+         * @return PlayerCharacter player
+         */
+        public PlayerCharacter getPlayer() {
+            return player;
+        }
+        
+        /**
+         * Getter para saber se uma ação é ou não remarcável automaticamente.
+         * @return 
+         */
         public Boolean getReschedule() {
             return reschedule;
         }

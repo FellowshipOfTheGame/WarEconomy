@@ -5,16 +5,13 @@
  */
 package javafxStuff;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -32,10 +29,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import war.*;
+import static war.TestManager.rollDie;
 import war.turn.*;
 
 /**
@@ -49,7 +50,7 @@ import war.turn.*;
 
 public class GameController{
     
-    /*ELEMENTOS DE FXML*/
+/*ELEMENTOS DE FXML*/
     //GERAIS
     @FXML TabPane pane;
     @FXML Tab map;
@@ -58,7 +59,7 @@ public class GameController{
     @FXML Tab transports;
     Label mapTabText;
     StackPane stp;
-    
+    @FXML VBox wnd; //Container principal da janela do jogo
     
     
     //TAB do INVENTÁRIO
@@ -106,8 +107,8 @@ public class GameController{
     @FXML Button transSell;
     
     @FXML ComboBox<Region> adjacentRegions;
-    @FXML Text tranCargo;
-    @FXML Text tranRoute;
+    @FXML Label tranCargo;
+    @FXML Label tranRoute;
     
     //TAB de AGENTES
     @FXML Label agentStats;
@@ -135,8 +136,9 @@ public class GameController{
     @FXML Label guiCurrentTurn;
     @FXML Button endTurnBtn;
     
-/*------------------------------------------------------------------------------*/    
-    /*ATRIBUTOS*/
+//==============================================================================    
+/*ATRIBUTOS*/
+    
     PlayerCharacter player;
     World world;
     Turn turn; /// Turno atual, que guardará as ações feitas
@@ -156,12 +158,13 @@ public class GameController{
     
     int currentTurn;
 
-/*------------------------------------------------------------------------------*/    
-    /*METODOS*/
+//==============================================================================    
+/*METODOS*/
     
     
-    
+    //==========================================================================
     //TAB DE INVENTÁRIO---------------------------------------------------------
+    //==========================================================================
     
     public void initializeInventoryTab(){
 
@@ -192,29 +195,32 @@ public class GameController{
     @FXML
     public void invSelectStorable(ActionEvent e){
 
-        if(e.getSource() == invLeftStorable && invLeftStorable!=null){
+        if(e.getSource() == invLeftStorable && invLeftStorable!=null ){
             invSelectLeft = invLeftStorable.getValue();
-            System.out.println(invSelectLeft);
-            ObservableList obl = (ObservableList) invSelectLeft.getWeapons();
-            invLeftCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
-            invLeftTable.setItems(obl);
-            invLeftDesc.setText(invSelectLeft.getDescriptionInfo());
+            //System.out.println(invSelectLeft);
+            if(invSelectLeft != null) {
+                ObservableList obl = (ObservableList) invSelectLeft.getWeapons();
+                invLeftCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
+                invLeftTable.setItems(obl);
+                invLeftDesc.setText(invSelectLeft.getDescriptionInfo());
+            }
         }
         else if(e.getSource() == invRightStorable && invRightStorable != null){
             invSelectRight = invRightStorable.getValue();
-            System.out.println(invSelectRight);
-            ObservableList obl = (ObservableList) invSelectRight.getWeapons();
-            invRightCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
-            invRightTable.setItems(obl);
-            invRightDesc.setText(invSelectRight.getDescriptionInfo());
+            //System.out.println(invSelectRight);
+            if(invSelectRight != null) {
+                ObservableList obl = (ObservableList) invSelectRight.getWeapons();
+                invRightCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
+                invRightTable.setItems(obl);
+                invRightDesc.setText(invSelectRight.getDescriptionInfo());
+            }
         }        
     }
-    
+    @FXML
     /**
      * Método para seleção de armas na tabela Esquerda.
      */
-    
-    @FXML
+
     public void invSelectWeaponsLeft(){
         if(invLeftTable.getSelectionModel().getSelectedIndex() >=0 ){//Clicou em um index valido na tabela esquerda
             if(invSelectedWpn != invLeftTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
@@ -235,10 +241,12 @@ public class GameController{
             }
         }
     }
+
+    
+    @FXML
     /**
      * Método para seleção de armas na tabela Direita.
      */
-    @FXML
     public void invSelectWeaponsRight(){
         if (invRightTable.getSelectionModel().getSelectedIndex() >= 0){
             if(invSelectedWpn != invRightTable.getSelectionModel().getSelectedItem()) {//Arma diferente da 
@@ -264,25 +272,29 @@ public class GameController{
     /**
      * Método a ser chamado após mover ou destruir armas. Atualiza todos os elementos relevantes da tab
      */
-    
+    @FXML
     public void updateInventoryTab(){
-        System.out.println("ATUALIZANDO");
-        
+        ObservableList obl;
         invOpQty.setText(null);
         
         invLeftTable.getColumns().clear();
         invLeftTable.getColumns().addAll(invLeftCol);
-        ObservableList obl = (ObservableList) invSelectLeft.getWeapons();
-        invLeftCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
-        invLeftTable.setItems(obl);         
-        invLeftDesc.setText(invSelectLeft.getDescriptionInfo());
+        if(invSelectLeft != null){
+            obl = (ObservableList) invSelectLeft.getWeapons();
+            invLeftCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
+            invLeftTable.setItems(obl);         
+            invLeftDesc.setText(invSelectLeft.getDescriptionInfo());
+        }
         
         invRightTable.getColumns().clear();
         invRightTable.getColumns().addAll(invRightCol);
-        obl = (ObservableList) invSelectRight.getWeapons();
-        invRightCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
-        invRightTable.setItems(obl);        
-        invRightDesc.setText(invSelectRight.getDescriptionInfo());
+        
+        if(invSelectRight != null) {
+            obl = (ObservableList) invSelectRight.getWeapons();
+            invRightCol.setCellValueFactory(new PropertyValueFactory<>("InventoryInfo"));
+            invRightTable.setItems(obl);        
+            invRightDesc.setText(invSelectRight.getDescriptionInfo());
+        }
 
     }
 
@@ -376,8 +388,11 @@ public class GameController{
         }
     }
     
+    //==========================================================================
     //TAB DE TRANSPORTES--------------------------------------------------------
-
+    //==========================================================================
+    
+    
     public void initializeTransportsTab(){
     //    transportsTable;
         tranLocCol.setCellValueFactory(new PropertyValueFactory<>("currentPos")); // Transport, Location Column
@@ -419,6 +434,7 @@ public class GameController{
         updateTransportTab();        
     }
     
+    @FXML
     public void updateTransportTab(){
     
         tranSelectedTransport = transportsTable.getSelectionModel().getSelectedItem(); 
@@ -444,22 +460,33 @@ public class GameController{
     public void openTransMarket(){
        /*chamar método no JavafxManager*/
     }
-/*
+
     @FXML
     public void editCargo(){
         if(tranSelectedTransport != null){
-            invSelectedStorable = tranSelectedTransport;
             
-            updateInventoryTab();       
+            invSelectLeft = tranSelectedTransport;
+            invSelectRight = null;
             
-            inventoryTable.getSelectionModel().select(invSelectedStorable);           
-            pane.getSelectionModel().select(inventory);
+            SingleSelectionModel<Storable> sm = invLeftStorable.getSelectionModel();
+            sm.select(tranSelectedTransport);
+            invLeftStorable.setSelectionModel(sm);
+            
+            //Deixa o item da direita como vazio para ser selecionado pelo jogador
+            sm = invRightStorable.getSelectionModel();
+            sm.select(null);
+            invRightStorable.setSelectionModel(sm);
+            invRightDesc.setText("");
+            switchTab(inventory);    
+            
+            invRightTable.setItems(null);
         }
-    }*/
+    }
     
 
-    
-//TAB DE AGENTES--------------------------------------------------------
+    //==========================================================================
+    //TAB DE AGENTES------------------------------------------------------------
+    //==========================================================================
     
     public void initializeAgentTab(){
             //Inicializa a tabela
@@ -486,6 +513,7 @@ public class GameController{
     /***
      * Método para atualizar a Tab de agente
      */
+    @FXML
     public void updateAgentTab(){
         agentTable.getColumns().clear();
         agentTable.getColumns().addAll(agentNameCol, agentPosCol, agentOrderCol);
@@ -576,7 +604,7 @@ public class GameController{
      * Método para abrir a janela de ordem de suborno.
      */
     public void openBribe(){
-        if(selectedCharacter != null){//Clicou em um index valido na tabela esquerda
+        /*if(selectedCharacter != null){//Clicou em um index valido na tabela esquerda
             try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgntBribeFXML.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();
@@ -593,14 +621,14 @@ public class GameController{
               }
         }
         else
-            guiPlayerOutput.appendText("\nPlease, select an agent");
+            guiPlayerOutput.appendText("\nPlease, select an agent");*/
     }
     
     @FXML
     /***
      * Método para abrir a janela de ordem de assassinato.
      */
-    public void openAssassinate(){
+    public void openAssassinate(){/*
         if(selectedCharacter != null){//Clicou em um index valido na tabela esquerda
             try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgntAssassinateFXML.fxml"));
@@ -618,7 +646,7 @@ public class GameController{
               }
         }
         else
-            guiPlayerOutput.appendText("\nPlease, select an agent");
+            guiPlayerOutput.appendText("\nPlease, select an agent");*/
     }
     
     @FXML
@@ -648,8 +676,9 @@ public class GameController{
             guiPlayerOutput.appendText("\nPlease, select an agent");
     }
         
-    
-//TAB DE TURNOS--------------------------------------------------------
+    //==========================================================================
+    //TAB DE TURNOS-------------------------------------------------------------
+    //==========================================================================
     
     public void initializeTurnTab(){
         //Inicializa a tabela
@@ -675,7 +704,28 @@ public class GameController{
         }
     }
     
-//GERAIS--------------------------------------------------------------------
+    
+    //==========================================================================
+    //GERAIS--------------------------------------------------------------------
+    //==========================================================================
+    
+    
+    /**
+     * Método usado para trocar a Tab selecionada.
+     * @param tab Tab destino
+     */
+    private void switchTab(Tab tab) {
+        //pane.getSelectionModel().select(inventory);
+        SingleSelectionModel<Tab> selectionModel = pane.getSelectionModel();
+        selectionModel.select(inventory);
+    }
+    
+    
+    @FXML
+    public void openPauseMenu(){
+        JavafxManager.openPauseMenu(this);
+    }
+    
     
     @FXML
     /**
@@ -690,22 +740,28 @@ public class GameController{
      */
     public void endTurn(){
 
-        //world:
+        //world:----------------------------------------------------------------
         currentTurn ++;
         world.updateMarkets();
-        //world.updateFactions();
         world.updateRegions();
         
-        //player:
-        player.setFunds(false, player.getAgentUpkeep() + player.getTransportUpkeep() + player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
+        //player:---------------------------------------------------------------
+        player.setFunds(false, player.getAgentUpkeep() + 
+                player.getTransportUpkeep() + 
+                player.getWarehouseUpkeep());//Subtrai os upkeeps dos fundos do jogador.
         player.decrementNotoriety();
         player.moveTransports();
         
         guiPlayerOutput.clear();
 
-        //Turns
+        //Autoridades:----------------------------------------------------------
+        //Rodar ações das autoridades
+        
+        
+        //Turns:----------------------------------------------------------------
         turnActionDesc.setText("");
         turnActionName.setText("");
+        
         //initializeAgentTab();
         updateAgentTab();
         updateTransportTab();
@@ -834,20 +890,18 @@ public class GameController{
      * @return num+resultado do dado.
      */
     public static int returnToBase(int min, int max, int num, int numBase, boolean orEqual, int diceType){
-        Random dice = new Random();
-        //random.nextInt(maxDoDado - minDoDado + 1) + min
-        int diceRoll = dice.nextInt(diceType) + 1;
+        int diceRoll = rollDie(diceType);
         
         if(num < numBase) {
             while( ! checkIntRange(min, max, num + diceRoll, orEqual) ) {
-                    diceRoll = dice.nextInt(diceType) + 1;
+                    diceRoll = rollDie(diceType);
             }
             return num + diceRoll;
         }
         
         else if(num > numBase) {
             while( ! checkIntRange(min, max, num - diceRoll, orEqual) ) {
-                    diceRoll = dice.nextInt(diceType) + 1;
+                    diceRoll = rollDie(diceType);
             }
             return num - diceRoll;
         }
@@ -861,6 +915,7 @@ public class GameController{
      * Initializes the controller class.
      * Incializa o jogador e outras informações baseada na string que será passada do menu de new/load game. A string é o nome do arquivo de save
      *
+     * @param name nome do jogador
      */
     public void initialize(String name) {
        /* mapTabText = new Label();
@@ -884,7 +939,7 @@ public class GameController{
         
         world = new World();
         player = new PlayerCharacter(name,this.world.getRegion(0));
-		turn = new Turn ();
+        turn = new Turn ();
         
         currentTurn = 0;
         
@@ -894,6 +949,15 @@ public class GameController{
         initializeAgentTab();
         player.addAgent (new Agent (player.getCurrentPos ()));
         initializeTurnTab();
+        
+        
+        //Detecta o ESC e abre o pause
+        wnd.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent k) -> {
+            //close window
+            if(k.getCode() == KeyCode.ESCAPE){
+                JavafxManager.openPauseMenu(this);
+            }
+        });
     }    
     
 }

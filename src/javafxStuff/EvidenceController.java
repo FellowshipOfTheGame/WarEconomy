@@ -34,6 +34,7 @@ public class EvidenceController {
 
     /**myTableView.setPlaceholder(new Label("My table is empty message"));
      * Initializes the controller class.
+     * @param evidences
      */
     public void initialize(ObservableList<Evidence> evidences) {
         target = null;

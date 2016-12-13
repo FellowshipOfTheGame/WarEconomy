@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.GameController">
+<VBox fx:id="wnd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxStuff.GameController">
    <children>
       <HBox prefHeight="26.0" prefWidth="1780.0">
          <children>
@@ -31,7 +31,7 @@
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="26.0" prefWidth="885.0">
                <children>
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#openPauseMenu" text="Button" />
                </children>
             </HBox>
          </children>
@@ -85,7 +85,7 @@
                   </ScrollPane>
                </content>
           </Tab>
-            <Tab fx:id="inventory" text="Inventory Manegement">
+            <Tab fx:id="inventory" onSelectionChanged="#updateInventoryTab" text="Inventory Manegement">
                <content>
                   <AnchorPane>
                      <children>
@@ -155,7 +155,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="transports" text="Transport Manegement">
+            <Tab fx:id="transports" onSelectionChanged="#updateTransportTab" text="Transport Manegement">
                <content>
                   <HBox prefHeight="901.0" prefWidth="1780.0" AnchorPane.bottomAnchor="108.0" AnchorPane.rightAnchor="134.0" AnchorPane.topAnchor="-1.0">
                      <children>
@@ -178,58 +178,66 @@
                         </VBox>
                         <AnchorPane prefHeight="901.0" prefWidth="1220.0">
                            <children>
-                              <HBox layoutX="35.0" layoutY="684.0" spacing="30.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="232.0">
+                              <VBox layoutX="128.0" layoutY="66.0" prefHeight="746.0" prefWidth="1051.0" AnchorPane.rightAnchor="41.0">
                                  <children>
-                                    <VBox layoutX="36.0" layoutY="704.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" spacing="30.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="35.0">
+                                    <VBox alignment="TOP_CENTER" layoutX="302.0" layoutY="67.0" prefHeight="406.0" prefWidth="1051.0" AnchorPane.leftAnchor="301.0" AnchorPane.rightAnchor="301.0" AnchorPane.topAnchor="66.0">
                                        <children>
-                                          <Label layoutX="63.0" layoutY="526.0" text="ROUTE:">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Text fx:id="tranRoute" layoutX="77.0" layoutY="636.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="390.0" />
-                                          <Label layoutX="10.0" layoutY="10.0" text="ETA:">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <HBox spacing="10.0">
+                                          <Label layoutX="460.0" layoutY="68.0" text="&lt;IMAGEM DO TRANSPORTE AQUI&gt;" textAlignment="CENTER" />
+                                          <Label text="&lt;Descrição do Transporte Aqui&gt;" />
+                                       </children>
+                                    </VBox>
+                                    <Separator prefWidth="200.0" />
+                                    <HBox alignment="CENTER" layoutX="35.0" layoutY="684.0" prefHeight="610.0" prefWidth="1051.0" spacing="60.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="232.0">
+                                       <children>
+                                          <VBox layoutX="36.0" layoutY="704.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" spacing="30.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="35.0">
                                              <children>
-                                                <ComboBox fx:id="adjacentRegions" layoutX="63.0" layoutY="648.0" prefWidth="150.0" />
-                                                <Button layoutX="228.0" layoutY="648.0" mnemonicParsing="false" onAction="#addRouteStop" prefHeight="28.0" prefWidth="170.0" text="Add New Stop" />
-                                                <Button mnemonicParsing="false" onAction="#removeRouteStop" prefHeight="28.0" prefWidth="172.0" text="Remove Last Stop" />
+                                                <Label layoutX="63.0" layoutY="526.0" text="ROUTE:">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="tranRoute" />
+                                                <Label layoutX="10.0" layoutY="10.0" text="ETA:">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <ComboBox fx:id="adjacentRegions" layoutX="63.0" layoutY="648.0" prefWidth="150.0" />
+                                                      <Button layoutX="228.0" layoutY="648.0" mnemonicParsing="false" onAction="#addRouteStop" prefHeight="28.0" prefWidth="170.0" text="Add New Stop" />
+                                                      <Button mnemonicParsing="false" onAction="#removeRouteStop" prefHeight="28.0" prefWidth="172.0" text="Remove Last Stop" />
+                                                   </children>
+                                                </HBox>
                                              </children>
-                                          </HBox>
+                                          </VBox>
+                                          <VBox layoutX="811.0" layoutY="657.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" spacing="45.0" AnchorPane.bottomAnchor="110.0" AnchorPane.rightAnchor="169.0">
+                                             <children>
+                                                <Label layoutX="700.0" layoutY="688.0" text="CARGO:">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="tranCargo" />
+                                                <Button mnemonicParsing="false" onAction="#editCargo" text="Edit Cargo" />
+                                             </children>
+                                          </VBox>
+                                          <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" spacing="45.0">
+                                             <children>
+                                                <Label layoutX="700.0" layoutY="688.0" text="REMOVE">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Button mnemonicParsing="false" text="SELL" />
+                                                <Button mnemonicParsing="false" text="DESTROY" />
+                                             </children>
+                                          </VBox>
                                        </children>
-                                    </VBox>
-                                    <VBox layoutX="811.0" layoutY="657.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" spacing="45.0" AnchorPane.bottomAnchor="110.0" AnchorPane.rightAnchor="169.0">
-                                       <children>
-                                          <Label layoutX="700.0" layoutY="688.0" text="CARGO:">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Text fx:id="tranCargo" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="201.13671875" />
-                                          <Button mnemonicParsing="false" text="Edit Cargo" />
-                                       </children>
-                                    </VBox>
-                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" spacing="45.0">
-                                       <children>
-                                          <Label layoutX="700.0" layoutY="688.0" text="REMOVE">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Button mnemonicParsing="false" text="SELL" />
-                                          <Button mnemonicParsing="false" text="DESTROY" />
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                              <VBox alignment="TOP_CENTER" layoutX="302.0" layoutY="67.0" prefHeight="148.0" prefWidth="618.0" AnchorPane.leftAnchor="301.0" AnchorPane.rightAnchor="301.0" AnchorPane.topAnchor="66.0">
-                                 <children>
-                                    <Label layoutX="460.0" layoutY="68.0" prefHeight="70.0" prefWidth="300.0" text="&lt;IMAGEM DO TRANSPORTE AQUI&gt;" textAlignment="CENTER" />
-                                    <Text layoutX="732.0" layoutY="735.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;DESCRIÇÃO DO TRANSPORTE AQUI&gt;" wrappingWidth="359.13671875" />
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
@@ -238,7 +246,7 @@
                   </HBox>
                </content>
             </Tab>
-            <Tab text="Agents">
+            <Tab onSelectionChanged="#updateAgentTab" text="Agents">
                <content>
                   <HBox>
                      <children>

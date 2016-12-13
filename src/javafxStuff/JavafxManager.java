@@ -39,7 +39,7 @@ public class JavafxManager {
             stage.showAndWait();
         } catch(Exception e) {
            e.printStackTrace();
-          }
+        }
             
     }
     
@@ -64,7 +64,24 @@ public class JavafxManager {
         }
     }
     
-    
+    public static void openPauseMenu (GameController gm) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(JavafxManager.class.getResource("PauseMenuFXML.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+
+            //Referencia o controlador do blackmarket para passar a região para inicializar a tabela e valores
+            PauseMenuFXMLController controller = fxmlLoader.<PauseMenuFXMLController>getController();
+            controller.initialize(gm);
+
+            stage.initModality(Modality.APPLICATION_MODAL);//Bloqueia outras janelas até fechar essa
+            stage.setScene(new Scene(root1));  
+            stage.initStyle(StageStyle.UTILITY);//Apenas botão de fechar mostra
+            stage.showAndWait();
+        } catch(Exception e) {
+           e.printStackTrace();
+        }
+    }
     
     
     public void openTransMarket(){

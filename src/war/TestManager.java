@@ -41,9 +41,10 @@ public class TestManager {
             else
                 return false;//Falha
         }
-        else
+        else {
             System.err.println("Atr fora de Range");
             return false;
+        }
     }
     
     /**
@@ -90,15 +91,27 @@ public class TestManager {
                 
             }
         }
-        else
+        else 
             System.err.println("Atr fora de Range");
-            return false;
+        
+        return false;
     }
     
     public static boolean prolongedTest(){
         return false;
     }
     
+    /**
+     * Joga um dado e retorna o resultado entre 1 e n.
+     * @param n Numéro de faces do dado
+     * @return resultado do dado. Entre 1 e n
+     */
+    public static int rollDie(int n){
+        //random.nextInt(max - min + 1) + min
+        Random diceRoll = new Random();
+        int result = diceRoll.nextInt(n) + 1;
+        return result;
+    }
     
     
     

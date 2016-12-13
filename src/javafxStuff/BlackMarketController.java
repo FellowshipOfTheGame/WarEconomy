@@ -364,17 +364,13 @@ public class BlackMarketController {
     public void initialize(GameController gc, Region region) {
         
         //Detecta o ESC e fecha a janela
-        wnd.addEventFilter(KeyEvent.KEY_PRESSED, 
-                    new EventHandler<KeyEvent>() {
-                        @Override
-                        public void handle(KeyEvent k){
-                            //close window
-                            if(k.getCode() == KeyCode.ESCAPE){
-                                Stage sb = (Stage)marketTable.getScene().getWindow();//use any one object
-                                sb.close();
-                            }
-                        };
-                    });
+        wnd.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent k) -> {
+            //close window
+            if(k.getCode() == KeyCode.ESCAPE){
+                Stage sb = (Stage)marketTable.getScene().getWindow();//use any one object
+                sb.close();
+            }
+        });
         
         
         this.region = region;

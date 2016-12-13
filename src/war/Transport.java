@@ -209,10 +209,12 @@ public class Transport implements Storable{
      * Se não há mais nada na rota, transforma rota em null
      */
     public void removeRouteStop() {
-        route.remove(route.size()-1);//Remove a ultima posição da rota
-        if (route.size() == 0){
-            route = null;
-            System.out.println("parada removida, rota = " + route);
+        if(!route.isEmpty()) {
+            route.remove(route.size()-1);//Remove a ultima posição da rota
+            if (route.isEmpty()){
+                route = null;
+                System.out.println("parada removida, rota = " + route);
+            }
         }
     }
     
@@ -227,7 +229,7 @@ public class Transport implements Storable{
         
         ObservableList<Region> obl = FXCollections.observableArrayList();
         if(route == null){//Transporte em standby
-            if(type == "land"){//Transporte terrestre
+            if("land".equals(type)){//Transporte terrestre
                 for(Connection connection : currentPos.getAdjacent()){
                     if(connection.isLand()){
                         obl.add(connection.getDestination());
@@ -238,7 +240,7 @@ public class Transport implements Storable{
                     }
                 }
             }
-            else if (type == "sea"){//Transporte marinh
+            else if ("sea".equals(type)){//Transporte marinh
                 for(Connection connection : currentPos.getAdjacent()){
                     if(!connection.isLand()){
                         obl.add(connection.getDestination());
@@ -254,14 +256,14 @@ public class Transport implements Storable{
         
         else{ //Transporte em rota
             Region destination = route.get(route.size()-1);//Ultima posição da rota
-            if(type == "land"){//Transporte terrestre
+            if("land".equals(type)){//Transporte terrestre
                 for(Connection connection : destination.getAdjacent()){
                     if(connection.isLand()){
                         obl.add(connection.getDestination());
                     }
                 }
             }
-            else if (type == "sea"){//Transporte marinho
+            else if ("sea".equals(type)){//Transporte marinho
                 for(Connection connection : destination.getAdjacent()){
                     if(!connection.isLand()){
                         obl.add(connection.getDestination());

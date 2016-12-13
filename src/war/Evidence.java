@@ -5,8 +5,7 @@
  */
 package war;
 
-import java.util.Random;
-import javafx.beans.property.SimpleStringProperty;
+import static war.TestManager.rollDie;
 import war.turn.*;
 
 /**
@@ -159,26 +158,28 @@ public class Evidence {
     }
     
     /**
-     * Método chamado para gerar ou não uma evidência.
+     * Método chamado para gerar uma evidência.
+     * Ele é chamado nas ações que podem acarretar a criação de uma evidência,
+     * como as de compra, venda, moveTransports(), etc.
+     * @param reg Região em que a evidência ficará
+     * @param cause A Ação que causou a evidência
      * @return 
      */
     public static boolean generateEvidence(Region reg, Action cause){
         
-        Random diceRoll = new Random();
 
-        int dificultyModifier = 0;//Modificador negativo ao teste de Intriga para encontra a evidência ou não.
-        int requiredHits = 0;
-        int timer = 0;
-        int heatInc = 0;
+        int dificultyModifier;//Modificador negativo ao teste de Intriga para encontra a evidência ou não.
+        int requiredHits;
+        int timer ;
+        int heatInc;
     
         
         //Calcular atributos da evidencia baseado nas informações da causa
         if (cause == null){//açao de movimento de transporte 
             dificultyModifier = 10;
-            //random.nextInt(max - min + 1) + min
-            timer = diceRoll.nextInt(6 - 1 + 1) + 1;
-            heatInc = diceRoll.nextInt(5 - 1 + 1) + 1;
-            requiredHits = diceRoll.nextInt(2 - 1 + 1) + 1; ;                
+            timer = rollDie(6);
+            heatInc = rollDie(5);
+            requiredHits = rollDie(2);           
         }
 
         else{//demais acoes
@@ -190,12 +191,12 @@ public class Evidence {
             else if(cause.getClass())*/
 
             dificultyModifier = 0;
-            //random.nextInt(max - min + 1) + min
-            timer = diceRoll.nextInt(6 - 1 + 1) + 1;
-            heatInc = diceRoll.nextInt(5 - 1 + 1) + 1;
-            requiredHits = diceRoll.nextInt(2 - 1 + 1) + 1; ;             
+            timer = rollDie(6);
+            heatInc = rollDie(5);
+            requiredHits = rollDie(2);          
         }
         
+        //--------
         
         //Não há uma evidencida do mesmo tipo na região.
         Evidence evi = reg.getEvidenceByCause(cause);
@@ -203,6 +204,7 @@ public class Evidence {
             evi = new Evidence(reg, cause, dificultyModifier, timer, heatInc, requiredHits);
             reg.addEvidence(evi);
         }
+        //Há uma evidência do mesmo tipo
         else {
             evi.setHeatInc(evi.getHeatInc() + heatInc);
             evi.setDificultyModifier(evi.getDificultyModifier() + dificultyModifier);
@@ -229,7 +231,7 @@ public class Evidence {
         else
             System.out.println("Nova Evidencia: REG " + reg.getName() + " CAUSE: Mov de transporte");
 
-        this.printEvidence();
+        printEvidence();
     }
     
     
