@@ -41,7 +41,7 @@ public class BlackMarketController {
     @FXML AnchorPane wnd;
     
     @FXML ImageView selectedWpnImg;
-    @FXML Text selectedWpnDescr;
+    @FXML Label selectedWpnDescr;
     @FXML TableView<MarketWeapon> marketTable;
     @FXML TableColumn<MarketWeapon, String> nameColumn;
     @FXML TableColumn<MarketWeapon, String> catColumn;
@@ -58,8 +58,7 @@ public class BlackMarketController {
     @FXML Label totalNotInc;
     @FXML Button buyButton;
     @FXML Button sellButton;
-    @FXML TextField qtyField; //Compra
-    @FXML TextField qtyField1; //Venda
+    @FXML TextField qtyField; 
     @FXML ComboBox<Storable> purchaseDestination;
     @FXML ComboBox<Storable> saleSource; //Armazém ou transportes que armazenam as armas    
     @FXML ComboBox<GameCharacter> agentBox; //Lista todos os agentes naquela região
@@ -133,9 +132,9 @@ public class BlackMarketController {
         
         if(dealer != null){
             if(selectedWeapon != null){
-                if(gc.qtyValidation(qtyField1)){ //Item, quantidade, fonte válidos
+                if(gc.qtyValidation(qtyField)){ //Item, quantidade, fonte válidos
                     if(source != null){
-                        int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser vendida
+                        int qty = Integer.parseInt(qtyField.getText());//quantidade a ser vendida
                         int availableQty = source.getWeaponQuantity(selectedWeapon.getWpnName());//Retorna -1 se a arma não existe. 
 
                         if(qty <= availableQty){//Quantidade a ser vendida é menor ou igual à quantidade disponível na fonte. Se a arma não existe, o -1 impede a entrada nesse if (qty é sempre >= 0)
@@ -152,7 +151,7 @@ public class BlackMarketController {
                                 *+++++++++   TESTE DE GERAÇÃO DE PISTA AQUI !!!     +++++++++
                                 */
 
-                                qtyField1.setText("");                            
+                                qtyField.setText("");                            
                                 saleSource.setValue(null);
 
                                 updateSellInfo();
@@ -242,10 +241,10 @@ public class BlackMarketController {
     //
     public void updateSellInfo(){
         
-        if(selectedWeapon != null && gc.qtyValidation(qtyField1)){
+        if(selectedWeapon != null && gc.qtyValidation(qtyField)){
             
             GameCharacter gamechar = agentBox.getValue(); 
-            int qty = Integer.parseInt(qtyField1.getText());//quantidade a ser comprada
+            int qty = Integer.parseInt(qtyField.getText());//quantidade a ser comprada
             
             int base = qty*selectedWeapon.getSellPrice();
             baseSellPrice.setText("Base Price: " + base);
@@ -267,7 +266,7 @@ public class BlackMarketController {
             
         }
         
-        if(saleSource.getValue() != null){
+        if(saleSource.getValue() != null && selectedWeapon != null){
             qtyStored.setText("Quantity Stored: " + saleSource.getValue().getWeaponQuantity(selectedWeapon.getWpnName()));
         }
         else{

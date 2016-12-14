@@ -12,6 +12,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -26,7 +29,8 @@ public class PauseMenuFXMLController {
     
     @FXML
     Button btn; //Usado para referenciar o controle
-    
+    @FXML
+    AnchorPane wnd;
     
     @FXML
     public void goToMainMenu(){
@@ -68,6 +72,15 @@ public class PauseMenuFXMLController {
      */
     public void initialize(GameController gm) {
         this.gm = gm;
+        
+        wnd.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent k) -> {
+            //close window
+            if(k.getCode() == KeyCode.ESCAPE){
+                Stage sb = (Stage)btn.getScene().getWindow();//use any one object
+                sb.close();
+            }
+        });
+        
     }    
     
 }

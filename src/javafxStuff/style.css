@@ -11,7 +11,7 @@
 .root{
 	  
 	
-	-fx-background-color: black;
+    -fx-background-color: black;
 	
 	/*highlighting/accenting objects.  For example: selected
      * text; selected items in menus, lists, trees, and tables; progress bars;
@@ -44,6 +44,12 @@
  *DEIXAR COR DE SELEÇÃO BRANCA
  *
 */
+
+.combo-box .label{
+        -fx-font-family: tandysoft;
+    	-fx-font-size: 12;
+	-fx-text-fill: #00FF00;    
+}
 
 .button{
         -fx-font-family: tandysoft;

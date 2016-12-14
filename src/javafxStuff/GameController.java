@@ -915,9 +915,13 @@ public class GameController{
      * Initializes the controller class.
      * Incializa o jogador e outras informações baseada na string que será passada do menu de new/load game. A string é o nome do arquivo de save
      *
-     * @param name nome do jogador
+     * @param name nome do personagem do jogador
+     * @param barter quantidade de pontos de barter
+     * @param intrigue quantidade de pontos de intrigue
+     * @param investigation quantidade de pontos de investigation
+     * @param funds  quantidade de fundos
      */
-    public void initialize(String name) {
+    public void initialize(String name, int barter, int intrigue, int investigation, int funds) {
        /* mapTabText = new Label();
         mapTabText.setText("MAP");
         mapTabText.setRotate(90);
@@ -926,6 +930,7 @@ public class GameController{
         stp.setPrefHeight(80);
         map.setGraphic(stp);*/
         
+        //Auxs:-----------------------------------------------------------------
         selectedWeapon = null;
         
         invSelectRight= null;
@@ -937,9 +942,12 @@ public class GameController{
         selectedCharacter = null;
         selectedAction = null;
         
+        //Componentes:----------------------------------------------------------
         world = new World();
-        player = new PlayerCharacter(name,this.world.getRegion(0));
         turn = new Turn ();
+                
+        player = new PlayerCharacter(name, world.getRegion(0), barter, intrigue, investigation , funds);
+
         
         currentTurn = 0;
         

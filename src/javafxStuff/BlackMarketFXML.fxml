@@ -32,10 +32,10 @@
       </VBox>
       <AnchorPane layoutX="486.0" minWidth="-Infinity" prefHeight="600.0" prefWidth="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="516.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox layoutX="37.0" layoutY="41.0" prefHeight="534.0" prefWidth="453.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="41.0">
+            <VBox alignment="TOP_CENTER" layoutX="37.0" layoutY="41.0" prefHeight="534.0" prefWidth="453.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="41.0">
                <children>
                   <ImageView fx:id="selectedWpnImg" fitHeight="170.0" fitWidth="628.0" layoutX="440.0" layoutY="26.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="30.0" />
-                  <Text fx:id="selectedWpnDescr" layoutX="411.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="630.13671875" />
+                  <Label fx:id="selectedWpnDescr" />
                   <Separator opacity="0.0" prefHeight="20.0" prefWidth="628.0" />
                   <VBox prefHeight="263.0" prefWidth="628.0">
                      <children>
@@ -44,10 +44,10 @@
                               <VBox layoutX="85.0" layoutY="725.0" prefHeight="174.0" prefWidth="232.0" spacing="5.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="85.0">
                                  <children>
                                     <Label fx:id="baseBuyPrice" text="Base Price:" />
-                                    <Label fx:id="ReqCargoSpace" text="Required Cargo Space:" />
+                                    <Label fx:id="ReqCargoSpace" prefHeight="55.0" prefWidth="176.0" text="Size" />
                                     <ComboBox fx:id="purchaseDestination" onAction="#updateBuyInfo" prefHeight="35.0" prefWidth="232.0" promptText="Purchase destination" />
-                                    <Label fx:id="usedCargoSpace" text="Used Cargo Space" />
-                                    <Label fx:id="totalBuyPrice" text="Total Price:" />
+                                    <Label fx:id="usedCargoSpace" prefHeight="44.0" prefWidth="141.0" text="Carg. Space" />
+                                    <Label fx:id="totalBuyPrice" prefHeight="49.0" prefWidth="97.0" text="Total Price:" />
                                     <Button fx:id="buyButton" mnemonicParsing="false" onMouseClicked="#buy" prefHeight="25.0" prefWidth="792.0" text="BUY" VBox.vgrow="ALWAYS" />
                                  </children>
                                  <padding>
@@ -65,11 +65,10 @@
                                  <children>
                                     <Label fx:id="baseSellPrice" text="Base Price:" />
                                     <ComboBox fx:id="saleSource" layoutX="10.0" layoutY="89.0" onAction="#updateSellInfo" prefHeight="38.0" prefWidth="232.0" promptText="Select Source" />
-                                    <Label fx:id="qtyStored" text="Quantity Stored:" />
-                                    <TextField fx:id="qtyField1" onKeyPressed="#updateSellInfo" onKeyReleased="#updateSellInfo" promptText="qty" />
-                                    <Label fx:id="totalSellPrice" text="Total Price:" />
+                                    <Label fx:id="qtyStored" prefHeight="45.0" prefWidth="188.0" text="QTY Stored:" />
+                                    <Label fx:id="totalSellPrice" prefHeight="21.0" prefWidth="202.0" text="Total Price:" />
                                     <ComboBox prefHeight="38.0" prefWidth="232.0" promptText="Select Faction" />
-                                    <Label fx:id="totalNotInc" alignment="CENTER" prefHeight="38.0" prefWidth="204.0" text="Notoriety Increase:" textAlignment="CENTER" />
+                                    <Label fx:id="totalNotInc" prefHeight="38.0" prefWidth="204.0" text="Notoriety Inc:" textAlignment="CENTER" />
                                     <Button fx:id="sellButton" mnemonicParsing="false" onMouseClicked="#sell" prefHeight="25.0" prefWidth="792.0" text="SELL" VBox.vgrow="ALWAYS" />
                                  </children>
                                  <padding>

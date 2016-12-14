@@ -276,12 +276,12 @@ public class PlayerCharacter extends GameCharacter{
     @param string para o nome
     @param Posicao de inicio do jogador
     */
-    public PlayerCharacter(String name, Region startingPos) {
-        this.funds = 500;
-        this.investigation = 2;
+    public PlayerCharacter(String name, Region startingPos, int barter, int intrigue, int investigation , int funds) {
+        this.funds = funds;
+        this.investigation = investigation;
         this.heat = 0;
-        this.intrigue = 30;
-        this.barter = 30;
+        this.intrigue = intrigue;
+        this.barter = barter;
         this.name = name;
         this.currentPos = startingPos;
         
