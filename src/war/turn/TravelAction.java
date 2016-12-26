@@ -20,7 +20,7 @@ public class TravelAction extends Action {
 	/**
 	 * Conexão da viagem
 	 */
-	Connection travel;
+	Connection connection;
         
         /**
          * Destino da viagem, usada na maneira alternativa de Travel, em que em um turno o actor viaja para qualquer lugar do mundo.
@@ -41,14 +41,14 @@ public class TravelAction extends Action {
 	 * @param actor Qual personagem que tá executando a ação
 	 * @param newPos Nova posição
 	 */
-	public TravelAction (PlayerCharacter player, GameCharacter actor, Connection travel) {
+	public TravelAction (PlayerCharacter player, GameCharacter actor, Connection connection) {
 		super (player, actor, false);
-		if (actor.getCurrentPos () != travel.getOrigin ()) {
+		if (actor.getCurrentPos () != connection.getOrigin ()) {
 			throw new IllegalArgumentException ("[TravelAction] Character \"" + actor.getName () + "\" não está na posição inicial da Connection");
 		}
-		this.travel = travel;
-		this.origin = travel.getOrigin();
-		this.destination = travel.getDestination();
+		this.connection = connection;
+		this.origin = connection.getOrigin();
+		this.destination = connection.getDestination();
 	}
         
         /***
@@ -68,8 +68,8 @@ public class TravelAction extends Action {
 	@Override
 	public void execute () {
             if(destination!=null){
-		if(travel != null){//Alternativa em que o personagem percorre as conexões
-			player.setFunds (false, travel.getWeight ());
+		if(connection != null){//Alternativa em que o personagem percorre as conexões
+			player.setFunds (false, connection.getWeight ());
 			actor.setCurrentPos (destination);
 			actor.setEndTurnAction(null);
 		}
