@@ -20,10 +20,10 @@ public class OverwatchAction extends Action{
     public void execute() {
         
         int origOp = this.actor.getCurrentPos().getOpRisk();
-        System.out.println("Overwatch: origOP = " + origOp);
+        System.out.println("Overwatch on " + actor.getCurrentPos().getName() + " : origOP = " + origOp);
         int newOp = origOp - this.actor.getIntrigue();
         this.actor.getCurrentPos().setOpRisk(newOp);
-        System.out.println("Overwatch: newOP = " + actor.getCurrentPos().getOpRisk());
+        System.out.println("Overwatch on " + actor.getCurrentPos().getName() + "newOP = " + actor.getCurrentPos().getOpRisk());
 
     }
 
@@ -32,7 +32,7 @@ public class OverwatchAction extends Action{
 		StringBuilder sb = new StringBuilder ();
 		sb.append ("Overwatch: \"");
 		sb.append (actor.getName ());
-		sb.append ("\" vigiando \"");
+		sb.append ("\" watching over \"");
 		sb.append (actor.getCurrentPos().getName ());
 		return sb.toString ();
     }
@@ -52,5 +52,9 @@ public class OverwatchAction extends Action{
      */
     public OverwatchAction(PlayerCharacter player, GameCharacter actor) {
         super(player, actor, true);
+    }
+
+    @Override
+    public void cancel() {
     }
 }

@@ -78,4 +78,10 @@ public abstract class Action {
 	 * @return Descrição curta da ação
 	 */
 	public abstract String getShortDesc();
+        
+        /**
+         * Método para realizar quaisquer ações necessárias para que a ação seja
+         * abortada / cancelada com sucesso. DEVE DEIXAR PLAYER COMO NULO.
+         */
+        public abstract void cancel();
 }

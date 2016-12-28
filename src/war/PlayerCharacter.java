@@ -89,7 +89,7 @@ public class PlayerCharacter extends GameCharacter{
             else{
                 this.funds = funds;
             }
-            System.out.println("New funds:" + this.funds);
+            //System.out.println("New funds:" + this.funds);
         }
     }
     
@@ -130,7 +130,7 @@ public class PlayerCharacter extends GameCharacter{
             int noto = this.getNotoriety() + value;
             //Aumenta a notoriedade apenas se ela for menor do que 100
             if(noto < 100){           
-                System.out.println("adding notorietiy: " + value);
+                //System.out.println("adding notoriety: " + value);
                 this.notoriety = noto;
             }
         }
@@ -140,7 +140,7 @@ public class PlayerCharacter extends GameCharacter{
                 this.notoriety = 0;
             }
             else{
-                System.out.println("subtracting notorietiy: " + value);
+                //System.out.println("subtracting notoriety: " + value);
                 this.notoriety = noto;
             }        
         }
@@ -184,7 +184,7 @@ public class PlayerCharacter extends GameCharacter{
      * Método utilizado na função "endTurn()" de GameController
      */
     public void moveTransports(){
-        transports.stream().forEach((transport) -> {
+        /*transports.stream().forEach((transport) -> {
             if(transport.getRoute()!=null){
                 boolean success = transport.move();
                 
@@ -195,7 +195,7 @@ public class PlayerCharacter extends GameCharacter{
                 }
             }
             
-        });
+        });*/
     }
     
     /***

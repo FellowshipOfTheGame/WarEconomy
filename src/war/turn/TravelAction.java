@@ -98,4 +98,8 @@ public class TravelAction extends Action {
     public String getShortDesc() {
         return("Travel Action");
     }
+    
+    @Override
+    public void cancel(){
+    }
 }

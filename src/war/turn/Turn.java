@@ -77,18 +77,20 @@ public class Turn {
 	 */
 	public Action scheduleAction (Action a) {
 		GameCharacter actor = a.getCharacter ();
-		actor.setEndTurnAction(a);
-		
-		for (int i = 0; i < endTurnActions.size (); i++) {
-			Action aux = endTurnActions.get (i);
-			if (actor == aux.getCharacter ()) {
-				endTurnActions.set (i, a);
-				// atualiza pra mostrar na tabela
-				updateAllActions ();
-				return aux;
-			}
-		}
-		
+                
+                if(actor != null){//MoveTransports não tem um Actor
+                    actor.setEndTurnAction(a);
+
+                    for (int i = 0; i < endTurnActions.size (); i++) {
+                            Action aux = endTurnActions.get (i);
+                            if (actor == aux.getCharacter ()) {
+                                    endTurnActions.set (i, a);
+                                    // atualiza pra mostrar na tabela
+                                    updateAllActions ();
+                                    return aux;
+                            }
+                    }
+                }
 		endTurnActions.add (a);
 		// atualiza pra mostrar na tabela
 		updateAllActions ();
@@ -101,6 +103,8 @@ public class Turn {
          * @param a Ação a ser removida. 
          */
         public void abortScheduleAction (Action a) {
+            
+            a.cancel();
             endTurnActions.remove(a);
             allActions.remove(a);
         }
@@ -130,7 +134,7 @@ public class Turn {
 		if (!isOver) {
 			// executa ações de fim de turno
 			for (Action act : endTurnActions) {
-				act.execute ();
+                            act.execute ();
 			}
 			isOver = true;
 		}
@@ -161,6 +165,13 @@ public class Turn {
                         allActions.remove(act);
                         act.actor.setEndTurnAction(null);
                         it.remove();
+                    }
+                    else if (act.player == null){
+                        allActions.remove(act);
+                        if(act.actor != null)
+                            act.actor.setEndTurnAction(null);
+                        it.remove();
+
                     }
                 }
                 

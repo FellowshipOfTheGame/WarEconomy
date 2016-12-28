@@ -71,5 +71,8 @@ public class SearchDestroyAction extends Action{
         super(player, actor, true);
         turn = 0;
     }
+    
+    @Override
+    public void cancel(){}
 
 }

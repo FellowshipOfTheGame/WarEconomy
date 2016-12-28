@@ -89,5 +89,10 @@ public class BuyAction extends Action {
     public String getShortDesc() {
         return ("Buy Action");
     }
+
+    @Override
+    public void cancel() {
+        
+    }
 }
 

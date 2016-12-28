@@ -417,13 +417,54 @@ public class GameController{
     }
     
     @FXML
+    public void updateTransportTab(){
+        tranRoute.setText("");
+        
+        tranSelectedTransport = transportsTable.getSelectionModel().getSelectedItem(); 
+        
+        if(tranSelectedTransport != null){
+            
+            adjacentRegions.setItems(tranSelectedTransport.getMovableAdjacent());
+            
+            if(tranSelectedTransport.getAction() == null){//Sem ordens de movimento
+                tranRoute.setText("Standing By");                
+                
+            }
+            else{//Com ordens de movimento
+                
+                tranRoute.setText(tranSelectedTransport.getAction().getRouteString());
+            
+            }
+            
+            tranCargo.setText(tranSelectedTransport.getWeaponsString());
+        }
+
+        transportsTable.getColumns().get(0).setVisible(false);
+        transportsTable.getColumns().get(0).setVisible(true);
+    }
+    
+    
+   
     /**
      * Seleção de uma nova parada para a rota do Transporte
      */
+    @FXML
     public void addRouteStop(){
         Region newStop = adjacentRegions.getValue();
+        
         if(newStop != null){
-            tranSelectedTransport.addRouteStop(newStop);
+            
+            if(tranSelectedTransport.getAction() == null){//Não havia ordens até então
+                
+                MoveAction ma = new MoveAction(player, tranSelectedTransport);
+                ma.addRouteStop(newStop);
+                turn.scheduleAction(ma);
+                tranSelectedTransport.setAction(ma);
+                
+            }
+            else{
+                tranSelectedTransport.getAction().addRouteStop(newStop);
+            }
 
             adjacentRegions.setValue(null);
             updateTransportTab();
@@ -432,31 +473,18 @@ public class GameController{
     
     @FXML
     public void removeRouteStop(){
-        tranSelectedTransport.removeRouteStop();
+        
+        if(tranSelectedTransport != null){
+            
+            if(tranSelectedTransport.getAction() != null){//Necessário uma ação para remover da rota
+                tranSelectedTransport.getAction().removeRouteStop();
+            }
+        }        
         adjacentRegions.setValue(null);
         updateTransportTab();        
     }
     
-    @FXML
-    public void updateTransportTab(){
     
-        tranSelectedTransport = transportsTable.getSelectionModel().getSelectedItem(); 
-        if(tranSelectedTransport != null){
-            ArrayList<Region> route = tranSelectedTransport.getRoute();
-            //Inicializa a combobox de regiões
-            adjacentRegions.setItems(tranSelectedTransport.getMovableAdjacent());
-            if(route == null){ //Standby, setar vizinhos da posição atual
-                tranRoute.setText("Standing By");
-            }
-            else{ //Inicializar a partir das regiões adjacentes ao destino
-                tranRoute.setText(tranSelectedTransport.getRouteString());
-            }
-            tranCargo.setText(tranSelectedTransport.getWeaponsString());
-        }
-
-        transportsTable.getColumns().get(0).setVisible(false);
-        transportsTable.getColumns().get(0).setVisible(true);
-    }
     /***
      * Abre a janela de mercado de transportes
      */
@@ -765,17 +793,16 @@ public class GameController{
         turnActionDesc.setText("");
         turnActionName.setText("");
         
+        // finaliza Turn, e o reseta pro próximo
+        turn.endTurn ();
+        turn.reset ();
+        
         //initializeAgentTab();
         updateAgentTab();
         updateTransportTab();
        
         //updateInventoryTab();
-        
-        // finaliza Turn, e o reseta pro próximo
-        turn.endTurn ();
-        turn.reset ();
-                
-        
+
         updateEssentialInfo();
     }
     

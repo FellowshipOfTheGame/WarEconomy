@@ -92,6 +92,9 @@ public class SellAction extends Action {
     public String getShortDesc() {
         return ("Sell Action");
     }
+    
+    @Override
+    public void cancel(){}
 }
 
 
