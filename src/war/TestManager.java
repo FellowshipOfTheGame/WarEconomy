@@ -138,7 +138,7 @@ public class TestManager {
             
             //Conexão passou no teste.
             if( successTest(atr, posMod - negMod) ){
-                System.out.println("Transporte Falhou teste de noise, pista pode ser gerada");
+                System.out.println(t.getName() + "Failed NOISE test");
                 return false;
             }
             else

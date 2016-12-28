@@ -7,7 +7,6 @@ package war;
 
 import war.turn.Action;
 
-import java.lang.IllegalArgumentException;
 
 /**
  * FXML Controller class
@@ -17,7 +16,7 @@ import java.lang.IllegalArgumentException;
  * @version 0.1
  * @phase I
  */
-public class GameCharacter {
+public abstract class GameCharacter {
     protected String name;
     protected int intrigue;
     protected int barter;

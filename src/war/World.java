@@ -14,8 +14,9 @@ import javafx.collections.ObservableList;
  * @author João
  */
 public final class World {
-    private ObservableList<Region> regions;
+    private final ObservableList<Region> regions;
     private WeaponDictionary weapons;
+    
     
     /*
     Metodo para criar conexao entre 2 regioes, A e B

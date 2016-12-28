@@ -37,6 +37,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import war.*;
 import static war.TestManager.rollDie;
+import war.law.LawManager;
 import war.turn.*;
 
 /**
@@ -50,7 +51,8 @@ import war.turn.*;
 
 public class GameController{
     
-/*ELEMENTOS DE FXML*/
+//==============================================================================
+    /*ELEMENTOS DE FXML*/
     //GERAIS
     @FXML TabPane pane;
     @FXML Tab map;
@@ -137,11 +139,12 @@ public class GameController{
     @FXML Button endTurnBtn;
     
 //==============================================================================    
-/*ATRIBUTOS*/
+/*VARIÁVEIS*/
     
     PlayerCharacter player;
     World world;
     Turn turn; /// Turno atual, que guardará as ações feitas
+    LawManager law;//Gerenciador para autoridades e investigadores
     
     MarketWeapon selectedWeapon;
     
@@ -756,7 +759,7 @@ public class GameController{
 
         //Autoridades:----------------------------------------------------------
         //Rodar ações das autoridades
-        
+        law.execute(player, world);
         
         //Turns:----------------------------------------------------------------
         turnActionDesc.setText("");
@@ -945,6 +948,7 @@ public class GameController{
         //Componentes:----------------------------------------------------------
         world = new World();
         turn = new Turn ();
+        law = new LawManager();
                 
         player = new PlayerCharacter(name, world.getRegion(0), barter, intrigue, investigation , funds);
 

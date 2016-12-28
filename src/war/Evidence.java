@@ -35,6 +35,7 @@ public class Evidence {
     }
     
     public Class getCauseType() {
+        System.out.println("CAUSEEE : " + cause.toString());
         return cause.getClass();
     }    
 
