@@ -770,11 +770,6 @@ public class GameController{
      * No início de cada turno, os fundos do jogador sofrem um decremento igual ao Upkeep de Agentes e Transportes, além disso Eventos podem ocorrer.
      */
     public void endTurn(){
-
-        //world:----------------------------------------------------------------
-        currentTurn ++;
-        world.updateMarkets();
-        world.updateRegions();
         
         //player:---------------------------------------------------------------
         player.setFunds(false, player.getAgentUpkeep() + 
@@ -792,6 +787,11 @@ public class GameController{
         //Turns:----------------------------------------------------------------
         turnActionDesc.setText("");
         turnActionName.setText("");
+        
+        //world:----------------------------------------------------------------
+        currentTurn ++;
+        world.updateMarkets();
+        world.updateRegions();        
         
         // finaliza Turn, e o reseta pro próximo
         turn.endTurn ();

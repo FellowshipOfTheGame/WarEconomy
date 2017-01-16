@@ -1,8 +1,11 @@
 
 package war.law;
 
-import war.GameCharacter;
+import java.util.Random;
+import war.Evidence;
+import war.PlayerCharacter;
 import war.Region;
+import war.TestManager;
 
 /**
  * Classe para os investigadores que vasculahrão o mundo buscando evidências.
@@ -16,8 +19,9 @@ public class Investigator{
     private final int investigation;//Stat utilizado nos testes de investigação dele
     private final int loyalty;//
     private Region currentRegion;
-
-    
+    //flag booleana usada para determinar se o investigador está investigando evidências
+    private Evidence currentInvestigation;
+    private int currentInvestigationHits;
     
     public String getName() {
         return name;
@@ -54,6 +58,40 @@ public class Investigator{
         return sb.toString ();
     }
 
+    public void move(){
+        if(currentInvestigation == null){
+            Random diceRoll = new Random();
+            int result = diceRoll.nextInt(currentRegion.getAdjacent().size());
+            this.currentRegion = currentRegion.getAdjacent().get(result).getDestination();
+            System.out.println("[INVESTIGATOR]: " + getName() + " moveu "  + currentRegion.getName());
+        }
+    }
+    
+    public void investigate (PlayerCharacter player){
+        if(currentInvestigation == null){//Não esta fazendo nenhuma investigação agora
+            
+            if(currentRegion.getEvidences().size() != 0){//Existe uma evidência na região
+                Random diceRoll = new Random();
+                int result = diceRoll.nextInt(currentRegion.getEvidences().size());                
+                currentInvestigation = currentRegion.getEvidences().get(result);
+                currentInvestigationHits = 0;
+            }
+        }
+        
+        else{//Está fazendo alguma investigação agora
+            if(TestManager.successTest(investigation, currentInvestigation.getDificultyModifier() ) ){
+                currentInvestigationHits++;
+                
+                if(currentInvestigationHits == currentInvestigation.getRequiredHits()){
+                    player.setHeat(true, currentInvestigation.getHeatInc());
+                    currentRegion.removeEvidence(currentInvestigation);
+                    currentInvestigation = null;
+                    currentInvestigationHits = 0;
+                }
+            }
+        }
+    }
+       
     /**
      * Ctor da classe de investigador.
      * @param name
@@ -69,7 +107,8 @@ public class Investigator{
         this.currentRegion = currentRegion;
         this.investigation = investigation;
         this.loyalty = loyalty;
-        
+        this.currentInvestigation = null;
+        this.currentInvestigationHits = 0;
         System.out.println("" + this.toString());
     }
 }

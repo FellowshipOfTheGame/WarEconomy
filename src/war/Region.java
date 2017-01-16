@@ -139,6 +139,17 @@ public class Region {
         this.evidences.add(e);
     }
 
+    
+    public void removeEvidence(Evidence e){
+        try{
+            this.evidences.remove(e);
+        }
+        catch(Exception ex){
+            System.out.println("Tentativa de remover " + e.toString() + " !EXISTE EM " + this.name);
+        }
+    }
+    
+    
     /*
         ter uma variável que armazena um valor "base" de OpRisk. Esse valor é determinado pelo estado geopolítico da região.
         OpRisk pode mudar temporariamente de acordo com certos buffs e debuffs, mas conforme a região é atualizada no update region, 
@@ -155,8 +166,8 @@ public class Region {
 
 
     /**
-     * Método utilizado para testar o encontro de uma evidência pelas autoridades.
-     * Método de teste apenas
+     * TEMPORÁRIO! Método utilizado para testar o encontro de uma evidência pelas autoridades.
+     * Método de teste apenas TEMPORÁRIO
      */
     public void testEvidenceInvestigation(){
         if(!evidences.isEmpty()){
@@ -185,7 +196,7 @@ public class Region {
         
         //-----------------------
         //teste
-        testEvidenceInvestigation();
+        //testEvidenceInvestigation();
         //-----------------------
         //reduz timer em todas as evidências.
         decrementEvidenceTimer();

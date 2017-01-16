@@ -317,7 +317,7 @@ public class BlackMarketController {
         
         //Up na tab
         if(pressed == KeyCode.W || pressed == KeyCode.KP_UP || pressed == KeyCode.UP){
-            System.out.println("UP");
+            //System.out.println("UP");
             if(selectedWeapon!=null){
                 //seta o novo index
                 int newIndex = marketTable.getSelectionModel().getSelectedIndex() - 1;

@@ -59,11 +59,14 @@ public class MoveAction extends Action{
      * Se não há mais nada na rota, transforma rota em null
      */
     public void removeRouteStop() {
-        if(!route.isEmpty()) {
-            route.remove(route.size()-1);//Remove a ultima posição da rota
-            if (route.isEmpty()){
-                route = null;
-                System.out.println("parada removida, rota = " + route);
+        if(route != null){
+            if(!route.isEmpty()) {
+                route.remove(route.size()-1);//Remove a ultima posição da rota
+                if (route.isEmpty()){ //Rota vazia, ação cancelada
+                    route = null;
+                    transport.setAction(null);
+                    System.out.println("parada removida, rota = " + route);
+                }
             }
         }
     }
@@ -73,11 +76,17 @@ public class MoveAction extends Action{
     }
     
     public String getRouteString(){
+            
             String routeString = "En route from: " + transport.getCurrentPos().getName();
-            for(Region region : route)
-                routeString = routeString + " -> " + region.getName() ;
+            if(route != null){
+                for(Region region : route){
+                    if(region != null)
+                        routeString = routeString + " -> " + region.getName() ;
+                }
+            }   
             System.out.println(routeString);
             return routeString;
+
     }
     
     

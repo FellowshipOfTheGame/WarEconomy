@@ -284,7 +284,7 @@ public class PlayerCharacter extends GameCharacter{
         this.barter = barter;
         this.name = name;
         this.currentPos = startingPos;
-        this.notoriety = 8;
+        this.notoriety = 55;
         
         this.warehouses = FXCollections.observableArrayList ();
         this.transports = FXCollections.observableArrayList ();
