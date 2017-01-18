@@ -33,7 +33,7 @@ public class LawManager {
             //random.nextInt(max - min + 1) + min
             int result = diceRoll.nextInt(100);            
             
-            String name = "Agent " + result;
+            String name = "Investigator " + result;
 
             String agency;
 

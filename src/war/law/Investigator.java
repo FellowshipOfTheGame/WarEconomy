@@ -71,10 +71,16 @@ public class Investigator{
         if(currentInvestigation == null){//Não esta fazendo nenhuma investigação agora
             
             if(currentRegion.getEvidences().size() != 0){//Existe uma evidência na região
-                Random diceRoll = new Random();
-                int result = diceRoll.nextInt(currentRegion.getEvidences().size());                
-                currentInvestigation = currentRegion.getEvidences().get(result);
-                currentInvestigationHits = 0;
+                System.out.println("[INVESTIGATOR]: " + getName() + " INVESTIGANDO EM "  + currentRegion.getName());
+                
+                for(Evidence evi : currentRegion.getEvidences()){
+                    if(evi.getInvestigator() == null){//primeira evidência disponível
+                        currentInvestigation = evi;
+                        evi.setInvestigator(this);
+                        currentInvestigationHits = 0;
+                    }
+                }
+ 
             }
         }
         

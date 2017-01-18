@@ -6,6 +6,7 @@
 package war;
 
 import static war.TestManager.rollDie;
+import war.law.Investigator;
 import war.turn.*;
 
 /**
@@ -23,6 +24,7 @@ public class Evidence {
     private Region reg; //A região aonde a evidência está localizada.
     private Action cause;//Ação que causou a geração da evidência.
     
+    private Investigator investigator;//Ponteiro para o investigador dessa evidência. Só 1 por evidência
     
     /*private SimpleStringProperty difficultyString;
     private SimpleStringProperty timerString;
@@ -137,6 +139,14 @@ public class Evidence {
         return str;
     }
     
+    public void setInvestigator(Investigator inv){
+        this.investigator = inv;
+    }
+    
+    public Investigator getInvestigator(){
+        return this.investigator;
+    }
+    
     public void printEvidence(){
         System.out.println("\tDificulty " + this.difficultyModifier 
                 + " Timer " + this.timer 
@@ -226,6 +236,7 @@ public class Evidence {
         this.timer = timer;
         this.heatInc = heatInc;
         this.requiredHits = requiredHits;
+        this.investigator = null;
         
         if(cause != null)
             System.out.println("Nova Evidencia: REG " + reg.getName() + " CAUSE: " + cause.getShortDesc());
